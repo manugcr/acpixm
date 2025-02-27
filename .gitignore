@@ -1,3 +1,7 @@
+# Do not track personal dumps
+./tables/
+./disassembled/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
