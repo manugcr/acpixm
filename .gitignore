@@ -1,6 +1,6 @@
-# Do not track personal dumps
-./tables/
-./disassembled/
+# Do not track personal files
+output/
+notes.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
