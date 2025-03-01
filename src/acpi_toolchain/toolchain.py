@@ -5,8 +5,10 @@ from typing import List
 BASE_DIR = Path(__file__).parent
 DUMP_DIR = BASE_DIR / "output"
 
+
 class ACPIDumper:
     """Handles the dumping of ACPI tables using acpidump."""
+
     def __init__(self, output_dir: Path = DUMP_DIR) -> None:
         self.output_dir = output_dir
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -18,8 +20,10 @@ class ACPIDumper:
         subprocess.run(command, check=True)
         return dump_path
 
+
 class ACPIExtractor:
     """Handles the extraction of ACPI tables from a dumped file."""
+
     def __init__(self, output_dir: Path = DUMP_DIR) -> None:
         self.output_dir = output_dir
 
@@ -29,8 +33,10 @@ class ACPIExtractor:
         subprocess.run(command, check=True, cwd=self.output_dir)
         return list(self.output_dir.glob("*.dat"))
 
+
 class ACPIDisassembler:
     """Handles the disassembly of ACPI tables into DSL files."""
+
     def __init__(self, output_dir: Path = DUMP_DIR) -> None:
         self.output_dir = output_dir
 
@@ -43,8 +49,10 @@ class ACPIDisassembler:
             dsl_files.append(self.output_dir / (table.stem + ".dsl"))
         return dsl_files
 
+
 class ACPIToolchain:
     """Orchestrates the ACPI dump, extraction, and disassembly processes."""
+
     def __init__(self, output_dir: Path = DUMP_DIR) -> None:
         self.dumper = ACPIDumper(output_dir)
         self.extractor = ACPIExtractor(output_dir)
@@ -56,7 +64,3 @@ class ACPIToolchain:
         table_files = self.extractor.extract_tables(dump_file)
         self.disassembler.disassemble_tables(table_files)
         print("\nACPI processing complete.")
-
-if __name__ == "__main__":
-    toolchain = ACPIToolchain()
-    toolchain.run()
