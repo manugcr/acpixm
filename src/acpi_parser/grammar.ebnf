@@ -1,0 +1,30 @@
+@@grammar::ASL
+
+start = {definition_block}+ ;
+
+definition_block = "DefinitionBlock" arglist block_body ;
+
+block_body = "{" {statement}+ "}" ;
+
+arglist = "(" {arg}+ ")" ;
+
+arg = /[\w\.\-\_\"]+\,?/ ;
+
+statement
+        = 
+        | external_decl
+        | method_decl
+        | return_decl
+        | name_decl
+        | operation_region_decl
+        ;
+
+external_decl = "External" arglist ;
+
+method_decl = "Method" arglist block_body ;
+
+return_decl = "Return" arglist ;
+
+name_decl = "Name" arglist ;
+
+operation_region_decl = "OperationRegion" arglist ;

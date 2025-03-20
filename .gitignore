@@ -1,6 +1,7 @@
 # Do not track personal files
 output/
 notes.md
+test/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
