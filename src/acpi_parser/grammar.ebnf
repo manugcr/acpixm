@@ -1,30 +1,35 @@
 @@grammar::ASL
+@@whitespace :: /(?:\s|\/\/.*|\/\*[\s\S]*?\*\/)*/
 
-start = {definition_block}+ ;
+start = {statement}+ ;
 
-definition_block = "DefinitionBlock" arglist block_body ;
-
-block_body = "{" {statement}+ "}" ;
-
-arglist = "(" {arg}+ ")" ;
-
-arg = /[\w\.\-\_\"]+\,?/ ;
+arglist = "(" {arg}* ")" ;
+arg = /[\w\\.\-\_\"]+\,?/ ;
+code_block = "{" {statement}* "}" ;
 
 statement
-        = 
-        | external_decl
-        | method_decl
-        | return_decl
-        | name_decl
-        | operation_region_decl
-        ;
+    = function_stmt
+    | function_call
+    ;
 
-external_decl = "External" arglist ;
+function_stmt
+    = function_name arglist code_block ;
 
-method_decl = "Method" arglist block_body ;
+function_call
+    = function_name arglist ;
 
-return_decl = "Return" arglist ;
-
-name_decl = "Name" arglist ;
-
-operation_region_decl = "OperationRegion" arglist ;
+function_name
+    = 
+    | "DefinitionBlock"
+    | "External" 
+    | "Name" 
+    | "Method" 
+    | "Return" 
+    | "OperationRegion"
+    | "Store"
+    | "Device"
+    | "Buffer"
+    | "Notify"
+    | "Field"
+    | "Scope"
+    ;
