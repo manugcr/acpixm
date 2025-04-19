@@ -4,4 +4,6 @@ version = "0.1.0"
 description = "Absolutely Critical Pattern Identifier for Malware"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "tatsu>=5.13.1",
+]
