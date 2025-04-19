@@ -1,14 +1,7 @@
-[tool.poetry]
+[project]
 name = "acpixm"
 version = "0.1.0"
-description = ""
-authors = ["manugcr <mgilcernich@gmail.com>"]
+description = "Absolutely Critical Pattern Identifier for Malware"
 readme = "README.md"
-
-[tool.poetry.dependencies]
-python = "^3.12"
-
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires-python = ">=3.10"
+dependencies = []
