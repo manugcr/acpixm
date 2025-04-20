@@ -4,51 +4,48 @@
 #   ASL Code only contains one DefinitionBlock per file              #
 ######################################################################
 start               = function ;
-function            = func_name func_args code_block ;
+function            = func_call code_block ;
 
 
 ######################################################################
-#   The basics of all the code are ( ... ) and { ... }               #
+#   The basics of all the code are func_callargs and code_blocks     #
+#   Every bit of code is inside ( ... ) and { ... }                  #
 ######################################################################
-func_call           = func_name func_args ;
-func_args           = O_PAREN arg {(COMMA arg)}* C_PAREN ;
+func_call           = identifier O_PAREN func_args C_PAREN ;
 code_block          = O_BRACE {statement}* C_BRACE ;
+func_args           = {arg {(COMMA arg)}*}* ;
 
-func_name           =
-                    'DefinitionBlock'
-                    | 'Scope'
-                    | 'Device'
-                    | 'Method'
-                    | 'Name'
-                    | 'Field'
-                    | 'Return'
-                    | 'OperationRegion'
-                    | 'EisaId'
-                    ;
-
-
-######################################################################
-#   Statements are just lines of code inside a code_block            #
-######################################################################
-statement   =
-            function
-            | func_call
-            ;
 
 ######################################################################
 #   function args can contain vars, fun calls, complete functions    #
 ######################################################################
-arg =
-    string
-    | number
-    | func_call
-    | function
-    | variable
-    ;
+arg                 =
+                    func_call
+                    | identifier
+                    | variable
+                    ;
 
-variable    = /[\\^]?([A-Za-z_][A-Za-z0-9_]*)((\.[A-Za-z0-9_]+)*)/ ;
-number      = /(0x[0-9A-Fa-f]+)|([0-9]+)/ ;
-string      = /"[^"]*"/ ;
+variable    = /"[^"]*"|[^\s(),]+/ ;
+identifier  = /[A-Za-z_][A-Za-z0-9_]*/ ; 
+
+
+######################################################################
+#   Statements are code inside the code_blocks                       #
+######################################################################
+statement       =
+                field_statement
+                | function 
+                | func_call
+                ;
+
+
+######################################################################
+#   Field entries for OperationRegion fields                         #
+######################################################################
+field_statement     = field_item {COMMA field_item}* ;
+field_item          = offset_statement | field_declaration ;
+offset_statement    = 'Offset' O_PAREN variable C_PAREN ;
+field_declaration   = identifier COMMA variable ;
 
 
 ######################################################################
