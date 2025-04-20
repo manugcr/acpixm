@@ -10,8 +10,9 @@ def main():
     
     # 2. Parse the ASL code with custom grammar.
     parser = ASLParser()
-    parsed_asl = parser.parse("./test_files/basic.dsl")
-    pprint(parsed_asl, width=120, sort_dicts=False)
+    parsed_asl = parser.parse("./test_files/test.dsl")
+    
+    pprint(parsed_asl, indent=2, width=20, sort_dicts=False)
 
 if __name__ == "__main__":
     main()

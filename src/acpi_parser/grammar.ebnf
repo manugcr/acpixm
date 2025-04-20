@@ -1,0 +1,61 @@
+@@grammar :: ASL
+
+######################################################################
+#   ASL Code only contains one DefinitionBlock per file              #
+######################################################################
+start               = function ;
+function            = func_name func_args code_block ;
+
+
+######################################################################
+#   The basics of all the code are ( ... ) and { ... }               #
+######################################################################
+func_call           = func_name func_args ;
+func_args           = O_PAREN arg {(COMMA arg)}* C_PAREN ;
+code_block          = O_BRACE {statement}* C_BRACE ;
+
+func_name           =
+                    'DefinitionBlock'
+                    | 'Scope'
+                    | 'Device'
+                    | 'Method'
+                    | 'Name'
+                    | 'Field'
+                    | 'Return'
+                    | 'OperationRegion'
+                    | 'EisaId'
+                    ;
+
+
+######################################################################
+#   Statements are just lines of code inside a code_block            #
+######################################################################
+statement   =
+            function
+            | func_call
+            ;
+
+######################################################################
+#   function args can contain vars, fun calls, complete functions    #
+######################################################################
+arg =
+    string
+    | number
+    | func_call
+    | function
+    | variable
+    ;
+
+variable    = /[\\^]?([A-Za-z_][A-Za-z0-9_]*)((\.[A-Za-z0-9_]+)*)/ ;
+number      = /(0x[0-9A-Fa-f]+)|([0-9]+)/ ;
+string      = /"[^"]*"/ ;
+
+
+######################################################################
+#   TOKENS                                                           #
+######################################################################
+O_PAREN = '(' ;
+C_PAREN = ')' ;
+O_BRACE = '{' ;
+C_BRACE = '}' ;
+COMMA   = ',' ;
