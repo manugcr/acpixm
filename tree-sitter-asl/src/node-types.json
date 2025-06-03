@@ -1,121 +1,5 @@
 [
   {
-    "type": "binary_expression",
-    "named": true,
-    "fields": {
-      "left": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "package_expression",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
-      },
-      "operator": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "!=",
-            "named": false
-          },
-          {
-            "type": "%",
-            "named": false
-          },
-          {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "<",
-            "named": false
-          },
-          {
-            "type": "<=",
-            "named": false
-          },
-          {
-            "type": "==",
-            "named": false
-          },
-          {
-            "type": ">",
-            "named": false
-          },
-          {
-            "type": ">=",
-            "named": false
-          }
-        ]
-      },
-      "right": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "package_expression",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
     "type": "block",
     "named": true,
     "fields": {},
@@ -142,12 +26,12 @@
     "type": "block_statement",
     "named": true,
     "fields": {
-      "block": {
+      "arguments": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "block",
+            "type": "parameters_list",
             "named": true
           }
         ]
@@ -161,49 +45,17 @@
             "named": true
           }
         ]
-      },
-      "parameters": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "package_expression",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
-          }
-        ]
       }
+    },
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "block",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -215,31 +67,11 @@
       "required": true,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "block",
           "named": true
         },
         {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_expression",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "parameters_list",
           "named": true
         }
       ]
@@ -254,18 +86,14 @@
       "required": false,
       "types": [
         {
-          "type": "field_entry",
-          "named": true
-        },
-        {
-          "type": "offset_statement",
+          "type": "field_element",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "field_entry",
+    "type": "field_element",
     "named": true,
     "fields": {},
     "children": {
@@ -273,7 +101,7 @@
       "required": true,
       "types": [
         {
-          "type": "identifier",
+          "type": "name_segs",
           "named": true
         },
         {
@@ -286,37 +114,34 @@
   {
     "type": "field_statement",
     "named": true,
-    "fields": {},
+    "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameters_list",
+            "named": true
+          }
+        ]
+      },
+      "keyword": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Field",
+            "named": false
+          }
+        ]
+      }
+    },
     "children": {
-      "multiple": true,
+      "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
           "type": "field_block",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_expression",
-          "named": true
-        },
-        {
-          "type": "string",
           "named": true
         }
       ]
@@ -331,100 +156,27 @@
       "required": true,
       "types": [
         {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
           "type": "identifier",
           "named": true
         },
         {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_expression",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "parameters_list",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "offset_statement",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_expression",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "package_expression",
+    "type": "parameters_list",
     "named": true,
     "fields": {
-      "package": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "parameters": {
+      "params": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
           {
             "type": ",",
             "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
           },
           {
             "type": "function_call",
@@ -435,11 +187,15 @@
             "named": true
           },
           {
+            "type": "name_segs",
+            "named": true
+          },
+          {
             "type": "number",
             "named": true
           },
           {
-            "type": "package_expression",
+            "type": "path_name",
             "named": true
           },
           {
@@ -448,90 +204,28 @@
           }
         ]
       }
-    },
-    "children": {
-      "multiple": true,
-      "required": false,
-      "types": [
-        {
-          "type": "binary_expression",
-          "named": true
-        },
-        {
-          "type": "function_call",
-          "named": true
-        },
-        {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_expression",
-          "named": true
-        },
-        {
-          "type": "string",
-          "named": true
-        }
-      ]
     }
   },
   {
     "type": "simple_statement",
     "named": true,
     "fields": {
+      "arguments": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "parameters_list",
+            "named": true
+          }
+        ]
+      },
       "keyword": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "identifier",
-            "named": true
-          }
-        ]
-      },
-      "parameters": {
-        "multiple": true,
-        "required": true,
-        "types": [
-          {
-            "type": "(",
-            "named": false
-          },
-          {
-            "type": ")",
-            "named": false
-          },
-          {
-            "type": ",",
-            "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "function_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "package_expression",
-            "named": true
-          },
-          {
-            "type": "string",
             "named": true
           }
         ]
@@ -555,14 +249,6 @@
     }
   },
   {
-    "type": "!=",
-    "named": false
-  },
-  {
-    "type": "%",
-    "named": false
-  },
-  {
     "type": "(",
     "named": false
   },
@@ -571,43 +257,7 @@
     "named": false
   },
   {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
-    "named": false
-  },
-  {
-    "type": "-",
-    "named": false
-  },
-  {
-    "type": "/",
-    "named": false
-  },
-  {
-    "type": "<",
-    "named": false
-  },
-  {
-    "type": "<=",
-    "named": false
-  },
-  {
-    "type": "==",
-    "named": false
-  },
-  {
-    "type": ">",
-    "named": false
-  },
-  {
-    "type": ">=",
     "named": false
   },
   {
@@ -623,16 +273,19 @@
     "named": false
   },
   {
-    "type": "comment",
-    "named": true,
-    "extra": true
-  },
-  {
     "type": "identifier",
     "named": true
   },
   {
+    "type": "name_segs",
+    "named": true
+  },
+  {
     "type": "number",
+    "named": true
+  },
+  {
+    "type": "path_name",
     "named": true
   },
   {

@@ -30,6 +30,7 @@ DefinitionBlock ("", "DSDT", 2, "", "", 0x0)
             Name (INT1, 0x1234)
             Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)
             Name (_UID, 0x00) // _UID: Unique ID
+            Name (PCIG, ToUUID ("e5c937d0-3553-4d7a-9117-ea4d19c3434d"))
             OperationRegion (MCHT, SystemMemory, 0xFED10000, 0x6000)
             Field (MCHT, ByteAcc, NoLock, Preserve)
             {

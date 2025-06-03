@@ -5,3 +5,6 @@ language: asl
 rule:
   kind: field_statement
   regex: Field
+  all:
+    - has:
+        regex: MCHT

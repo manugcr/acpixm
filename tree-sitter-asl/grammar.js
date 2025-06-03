@@ -91,6 +91,27 @@ module.exports = grammar({
       field("keyword", $.identifier),
       field("arguments", $.parameters_list)
     ),
+
+    // ------------------------------------------------
+    // Special Statements
+    // ------------------------------------------------
+    field_statement: $ => seq(
+      field("keyword", 'Field'),
+      field("arguments", $.parameters_list),
+      $.field_block
+    ),
+
+    field_block: $ => seq(
+      '{',
+      repeat($.field_element),
+      '}'
+    ),
+
+    field_element: $ => choice(
+      seq('Offset', '(', $.number, ')', ','),
+      seq($.name_segs, ',', $.number, optional(',')) // e.g., RP0C, 8,
+    ),
+
   }
 });
 
