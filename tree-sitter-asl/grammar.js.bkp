@@ -1,0 +1,153 @@
+module.exports = grammar({
+  name: 'asl',
+
+  extras: $ => [
+    /\s/,  // Skip whitespace
+    $.comment  // Skip comments
+  ],
+
+  rules: {
+    // ------------------------------------------------
+    // Code Structure
+    // ------------------------------------------------
+    source_file: $ => repeat($.definition_block),
+
+    definition_block: $ => seq(
+      'DefinitionBlock',
+      $._parameters_list,
+      $.block
+    ),
+
+    _parameters_list: $ => seq(
+      '(',
+      optional(sepBy(',', $._expression)),
+      ')'
+    ),
+
+    block: $ => seq(
+      '{',
+      repeat($._statement),
+      '}'
+    ),
+
+
+    // ------------------------------------------------
+    // Comment handling
+    // ------------------------------------------------
+
+    comment: $ => token(choice(
+      seq('//', /[^\n]*/),
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/'
+      )
+    )),
+
+    // ------------------------------------------------
+    // EXPRESSIONS
+    // ------------------------------------------------
+    _expression: $ => choice(
+      $.number,
+      $.identifier,
+      $.string,
+      $.function_call,
+      $.binary_expression,
+      $.package_expression
+    ),
+
+    number: $ => /0x[0-9A-Fa-f]+|\d+/,
+    identifier: $ => /[a-zA-Z_\\^][a-zA-Z0-9_\.\\^]*/,
+    string: $ => /"[^"]*"/,
+
+    function_call: $ => seq(
+      $.identifier,
+      $._parameters_list
+    ),
+
+    binary_expression: $ => prec.left(1, seq(
+      field('left', $._expression),
+      field('operator', choice(
+        '+',
+        '-',
+        '*',
+        '/',
+        '%',
+        '==',
+        '!=',
+        '<',
+        '>',
+        '<=',
+        '>='
+      )),
+      field('right', $._expression)
+    )),
+
+    package_expression: $ => seq(
+      field('package', $.identifier),
+      field('parameters', $._parameters_list),
+      '{',
+      optional(sepBy(',', $._expression)),
+      '}'
+    ),
+
+    // ------------------------------------------------
+    // STATEMENTS
+    // ------------------------------------------------
+    _statement: $ => choice(
+      $.block_statement,
+      $.simple_statement,
+      $.field_statement,
+    ),
+
+    block_statement: $ => seq(
+      field('keyword', $.identifier),
+      field('parameters', $._parameters_list),
+      field('block', $.block)
+    ),
+
+    simple_statement: $ => seq(
+      field('keyword', $.identifier),
+      field('parameters', $._parameters_list)
+    ),
+
+    // ------------------------------------------------
+    // FIELD STATEMENTS: Special case of statement
+    // ------------------------------------------------
+    field_statement: $ => seq(
+      'Field',
+      $._parameters_list,
+      $.field_block
+    ),
+
+    field_block: $ => seq(
+      '{',
+      repeat($._field_element),
+      '}'
+    ),
+
+    _field_element: $ => seq(
+      choice(
+        $.offset_statement,
+        $.field_entry
+      ),
+      optional(',')
+    ),
+
+    offset_statement: $ => seq(
+      'Offset',
+      $._parameters_list
+    ),
+
+    field_entry: $ => seq(
+      $.identifier,
+      ',',
+      $.number
+    ),
+
+  }
+});
+
+function sepBy(sep, rule) {
+  return optional(seq(rule, repeat(seq(sep, rule))));
+}

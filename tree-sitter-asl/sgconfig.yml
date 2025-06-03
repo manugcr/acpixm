@@ -1,0 +1,6 @@
+---
+ruleDirs: ["./rules"]
+customLanguages:
+    asl:
+        libraryPath: ./asl.so
+        extensions: [dsl, asl]

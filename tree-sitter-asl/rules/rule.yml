@@ -1,0 +1,7 @@
+---
+id: match-uid-zero
+severity: warning
+language: asl
+rule:
+  kind: field_statement
+  regex: Field

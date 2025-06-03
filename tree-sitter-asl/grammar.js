@@ -1,91 +1,99 @@
-/**
- * @file Grammar for ACPI (ASL) code
- * @author Manuel Gil Cernich
- * @license MIT
- */
-
-/// <reference types="tree-sitter-cli/dsl" />
-// @ts-check
-
 module.exports = grammar({
-  name: "asl",
+  name: 'asl',
+
+  extras: $ => [
+    /\s/,  // Skip whitespace
+    $._comment  // Skip comments
+  ],
 
   rules: {
-    source_file: $ => $.definition_block,
 
-    definition_block: $ => seq(
-      "DefinitionBlock",
-      $.parameter_list,
-      $.code_block
+    // ------------------------------------------------
+    // Start here
+    // ------------------------------------------------
+    source_file: $ => repeat($.definition_block),
+
+    // ------------------------------------------------
+    // Tokens
+    // ------------------------------------------------
+    number: $ => /0x[0-9A-Fa-f]+|\d+/,                      // 0x1234, 0xABCD, 1234
+    identifier: $ => /[A-Za-z]+/,                           // Any method name, object name, etc.
+    string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
+    name_segs: $ => /([A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,    // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
+    path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
+  
+    // ------------------------------------------------
+    // Comment handling
+    // ------------------------------------------------
+    _comment: $ => token(choice(
+      seq('//', /[^\n]*/),
+      seq(
+        '/*',
+        /[^*]*\*+([^/*][^*]*\*+)*/,
+        '/'
+      )
+    )),
+
+    // ------------------------------------------------
+    // Code Structure
+    // ------------------------------------------------
+    definition_block: $ => seq(                             // DefinitionBlock ("", "SSDT", 2, "Hack", "CpuPlug", 0x00000000)
+      'DefinitionBlock',
+      $.parameters_list,
+      $.block
     ),
 
-    parameter_list: $ => seq(
-      "(",
-      optional(commaSep($.expression)),
-      ")"
+    parameters_list: $ => seq(
+      '(',
+      field("params", optional(sepBy(',', $._expression))),
+      ')'
     ),
 
-    code_block: $ => seq(
-      "{",
-      repeat($.statement),
-      "}"
+    block: $ => seq(
+      '{',
+      repeat($._statement),
+      '}'
     ),
 
-    // Generic expression handling
-    expression: $ => choice(
-      $.arithmetic_expression,
-      $.number_literal,
-      $.string_literal,
+    // ------------------------------------------------
+    // Expressions
+    // ------------------------------------------------
+    _expression: $ => choice(
+      $.number,
+      $.string,
+      $.name_segs,
+      $.path_name,
       $.identifier,
       $.function_call
     ),
 
-    // General statement rule to handle any type of statement
-    statement: $ => choice(
-      $.named_object,
-      $.field_object
-    ),
-    
-    // Generic named object pattern (handles Device, Method, Name, etc.)
-    named_object: $ => seq(
-      $.identifier,  // Matches any ASL object type (Device, Method, Name, etc.)
-      $.parameter_list,
-      optional($.code_block)
-    ),
-
-    // Function calls (e.g., EisaId("PNP0A08"))
     function_call: $ => seq(
-      field('function', $.identifier),
-      $.parameter_list
+      $.identifier,
+      $.parameters_list
     ),
 
-    arithmetic_expression: $ => prec.left(seq(
-      $.expression,
-      choice("+", "-", "*", "/", "%"),
-      $.expression
-    )),
-
-    field_object: $ => seq(
-      "Field",
-      $.parameter_list,
-      "{",
-      commaSep($.field_element),
-      "}"
+    // ------------------------------------------------
+    // Basic Statements
+    // ------------------------------------------------
+    _statement: $ => choice(
+      $.block_statement,
+      $.simple_statement,
+      $.field_statement
     ),
 
-    field_element: $ => choice(
-      seq("Offset", $.parameter_list),
-      seq($.identifier, ",", $.number_literal),
+    block_statement: $ => seq(
+      field("keyword", $.identifier),
+      field("arguments", $.parameters_list),
+      $.block
     ),
 
-    // Basic tokens
-    identifier: $ => /[a-zA-Z_\\\^][a-zA-Z0-9_]*/,
-    string_literal: $ => /"([^"\\]|\\.)*"/,
-    number_literal: $ => /0x[0-9a-fA-F]+|[0-9]+/
+    simple_statement: $ => seq(
+      field("keyword", $.identifier),
+      field("arguments", $.parameters_list)
+    ),
   }
 });
 
-// Helper function for comma-separated lists
-function commaSep(rule) {
-  return optional(seq(rule, repeat(seq(",", rule))));
+function sepBy(sep, rule) {
+  return optional(seq(rule, repeat(seq(sep, rule))));
 }
