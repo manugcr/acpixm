@@ -1,10 +1,20 @@
 ---
-id: match-uid-zero
-severity: warning
+id: match-asl
 language: asl
+message: message
+severity: warning
+
+utils:
+  DEVICE_STMT:
+    kind: device_stmt
+    regex: PC00
+
 rule:
-  kind: field_statement
-  regex: Field
-  all:
-    - has:
-        regex: MCHT
+  kind: name_stmt
+  regex: _UID
+  inside:
+    stopBy: end
+    matches: DEVICE_STMT
+
+# `pattern`, `kind`, `regex`, `nthChild`, `range`, `inside`, `has`,
+# `precedes`, `follows`, `all`, `any`, `not`, `matches`

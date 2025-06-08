@@ -14,15 +14,6 @@ module.exports = grammar({
     source_file: $ => repeat($.definition_block),
 
     // ------------------------------------------------
-    // Tokens
-    // ------------------------------------------------
-    number: $ => /0x[0-9A-Fa-f]+|\d+/,                      // 0x1234, 0xABCD, 1234
-    identifier: $ => /[A-Za-z]+/,                           // Any method name, object name, etc.
-    string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
-    name_segs: $ => /([A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,    // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
-    path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
-  
-    // ------------------------------------------------
     // Comment handling
     // ------------------------------------------------
     _comment: $ => token(choice(
@@ -38,8 +29,8 @@ module.exports = grammar({
     // Code Structure
     // ------------------------------------------------
     definition_block: $ => seq(                             // DefinitionBlock ("", "SSDT", 2, "Hack", "CpuPlug", 0x00000000)
-      'DefinitionBlock',
-      $.parameters_list,
+      field("function", 'DefinitionBlock'),
+      field("parameters", $.parameters_list),
       $.block
     ),
 
@@ -56,6 +47,143 @@ module.exports = grammar({
     ),
 
     // ------------------------------------------------
+    // Statements
+    // ------------------------------------------------
+    _statement: $ => choice(
+      $.external_stmt,
+      $.scope_stmt,
+      $.device_stmt,
+      $.method_stmt,
+      $.return_stmt,
+      $.field_stmt,
+      $.name_stmt,
+      $.assignment_stmt,
+      $.generic_call,
+      $.if_stmt
+    ),
+
+    external_stmt: $ => seq(
+      field("function", 'External'),
+      field("parameters", $.parameters_list)
+    ),
+
+    scope_stmt: $ => seq(
+      field("function", 'Scope'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    device_stmt: $ => seq(
+      field("function", 'Device'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    return_stmt: $ => seq(
+      field("function", 'Return'),
+      field("parameters", $.parameters_list),
+    ),
+
+    method_stmt: $ => seq(
+      field("function", 'Method'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    // ------------------------------------------------
+    field_stmt: $ => seq(
+      'Field',
+      $.parameters_list,
+      '{',
+      repeat($.field_element),
+      '}'
+    ),
+
+    field_element: $ => seq(
+      choice(
+      $.field_offset,
+      $.field_named_entry
+      ),
+      optional(',')
+    ),
+
+    field_offset: $ => seq(
+      'Offset',
+      $.parameters_list
+    ),
+
+    field_named_entry: $ => seq(
+      field("name", $.name_segs),
+      ',',
+      field("size", $.number)
+    ),
+    // ------------------------------------------------
+
+    // ------------------------------------------------
+    name_stmt: $ => seq(
+      field("function", 'Name'),
+      field("parameters", $.name_parameters),
+    ),
+
+    name_parameters: $ => seq(
+      '(',
+      field("variable", $.name_segs),
+      ',',
+      field("expression", $._name_expression),
+      ')'
+    ),
+
+    _name_expression: $ => choice(
+      $._expression,
+      $.package_initializer,
+      $.buffer_initializer
+    ),
+
+    package_initializer: $ => seq(
+      field("function", 'Package'),
+      field("parameters", $.parameters_list),
+      $._comma_list_block
+    ),
+
+    buffer_initializer: $ => seq(
+      field("function", 'Buffer'),
+      field("parameters", $.parameters_list),
+      $._comma_list_block
+    ),
+
+    _comma_list_block: $ => seq(
+      '{',
+      sepBy(',', $._name_expression),
+      optional(','),
+      '}'
+    ),
+    // ------------------------------------------------
+
+    generic_call: $ => seq(
+      field("function", choice($.identifier, $.name_segs)),
+      field("arguments", $.parameters_list)
+    ),
+
+    assignment_stmt: $ => seq(
+      field("left", $.identifier),
+      '=',
+      field("right", $._expression)
+    ),
+    
+    if_stmt: $ => seq(
+      'If',
+      field("condition", $.parameters_list),
+      field("consequence", $.block),
+      optional(field("alternative", $.else_clause))
+    ),
+
+    else_clause: $ => seq(
+      'Else',
+      $.block
+    ),
+
+
+    // ------------------------------------------------
     // Expressions
     // ------------------------------------------------
     _expression: $ => choice(
@@ -64,54 +192,25 @@ module.exports = grammar({
       $.name_segs,
       $.path_name,
       $.identifier,
-      $.function_call
+      $.binary_expression,
+      $.generic_call,
     ),
 
-    function_call: $ => seq(
-      $.identifier,
-      $.parameters_list
-    ),
-
-    // ------------------------------------------------
-    // Basic Statements
-    // ------------------------------------------------
-    _statement: $ => choice(
-      $.block_statement,
-      $.simple_statement,
-      $.field_statement
-    ),
-
-    block_statement: $ => seq(
-      field("keyword", $.identifier),
-      field("arguments", $.parameters_list),
-      $.block
-    ),
-
-    simple_statement: $ => seq(
-      field("keyword", $.identifier),
-      field("arguments", $.parameters_list)
-    ),
+    binary_expression: $ => prec.left(1, seq(
+      field("left", $._expression),
+      field("operator", choice('+', '-', '*', '/', '<<', '>>', '==', '!=')),
+      field("right", $._expression)
+    )),
 
     // ------------------------------------------------
-    // Special Statements
+    // Tokens
     // ------------------------------------------------
-    field_statement: $ => seq(
-      field("keyword", 'Field'),
-      field("arguments", $.parameters_list),
-      $.field_block
-    ),
-
-    field_block: $ => seq(
-      '{',
-      repeat($.field_element),
-      '}'
-    ),
-
-    field_element: $ => choice(
-      seq('Offset', '(', $.number, ')', ','),
-      seq($.name_segs, ',', $.number, optional(',')) // e.g., RP0C, 8,
-    ),
-
+    number: $ => /0x[0-9A-Fa-f]+|\d+/,                      // 0x1234, 0xABCD, 1234
+    identifier: $ => /[A-Za-z]+/,                           // Any method name, object name, etc.
+    string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
+    name_segs: $ => /([\^A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,    // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
+    path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
+  
   }
 });
 
