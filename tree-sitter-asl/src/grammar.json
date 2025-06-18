@@ -188,10 +188,6 @@
         {
           "type": "SYMBOL",
           "name": "generic_call"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "if_stmt"
         }
       ]
     },
@@ -328,11 +324,29 @@
           "value": "{"
         },
         {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "field_element"
-          }
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "field_element"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "field_element"
+                  }
+                ]
+              }
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -341,34 +355,33 @@
       ]
     },
     "field_element": {
-      "type": "SEQ",
+      "type": "CHOICE",
       "members": [
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "field_offset"
-            },
-            {
-              "type": "SYMBOL",
-              "name": "field_named_entry"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "field_offset"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ","
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "SYMBOL",
+          "name": "field_named_entry"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "field_empty_entry"
         }
       ]
+    },
+    "field_offset_element": {
+      "type": "SYMBOL",
+      "name": "field_offset"
+    },
+    "field_named_element": {
+      "type": "SYMBOL",
+      "name": "field_named_entry"
+    },
+    "field_empty_element": {
+      "type": "SYMBOL",
+      "name": "field_empty_entry"
     },
     "field_offset": {
       "type": "SEQ",
@@ -394,6 +407,23 @@
             "name": "name_segs"
           }
         },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "size",
+          "content": {
+            "type": "SYMBOL",
+            "name": "number"
+          }
+        }
+      ]
+    },
+    "field_empty_entry": {
+      "type": "SEQ",
+      "members": [
         {
           "type": "STRING",
           "value": ","
@@ -642,60 +672,6 @@
         }
       ]
     },
-    "if_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "If"
-        },
-        {
-          "type": "FIELD",
-          "name": "condition",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "consequence",
-          "content": {
-            "type": "SYMBOL",
-            "name": "block"
-          }
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "FIELD",
-              "name": "alternative",
-              "content": {
-                "type": "SYMBOL",
-                "name": "else_clause"
-              }
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        }
-      ]
-    },
-    "else_clause": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "Else"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
     "_expression": {
       "type": "CHOICE",
       "members": [
@@ -826,7 +802,12 @@
       "name": "_comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "field_named_entry",
+      "field_named_entry"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],

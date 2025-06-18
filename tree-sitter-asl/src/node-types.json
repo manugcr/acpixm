@@ -190,10 +190,6 @@
           "named": true
         },
         {
-          "type": "if_stmt",
-          "named": true
-        },
-        {
           "type": "method_stmt",
           "named": true
         },
@@ -353,21 +349,6 @@
     }
   },
   {
-    "type": "else_clause",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
     "type": "external_stmt",
     "named": true,
     "fields": {
@@ -402,6 +383,10 @@
       "required": true,
       "types": [
         {
+          "type": "field_empty_entry",
+          "named": true
+        },
+        {
           "type": "field_named_entry",
           "named": true
         },
@@ -410,6 +395,22 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "field_empty_entry",
+    "named": true,
+    "fields": {
+      "size": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "number",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -496,42 +497,6 @@
           },
           {
             "type": "name_segs",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "if_stmt",
-    "named": true,
-    "fields": {
-      "alternative": {
-        "multiple": false,
-        "required": false,
-        "types": [
-          {
-            "type": "else_clause",
-            "named": true
-          }
-        ]
-      },
-      "condition": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "parameters_list",
-            "named": true
-          }
-        ]
-      },
-      "consequence": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "block",
             "named": true
           }
         ]
@@ -909,19 +874,11 @@
     "named": false
   },
   {
-    "type": "Else",
-    "named": false
-  },
-  {
     "type": "External",
     "named": false
   },
   {
     "type": "Field",
-    "named": false
-  },
-  {
-    "type": "If",
     "named": false
   },
   {

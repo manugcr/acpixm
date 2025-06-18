@@ -6,6 +6,10 @@ module.exports = grammar({
     $._comment  // Skip comments
   ],
 
+  conflicts: $ => [
+    [$.field_named_entry, $.field_named_entry]
+  ],
+
   rules: {
 
     // ------------------------------------------------
@@ -28,7 +32,7 @@ module.exports = grammar({
     // ------------------------------------------------
     // Code Structure
     // ------------------------------------------------
-    definition_block: $ => seq(                             // DefinitionBlock ("", "SSDT", 2, "Hack", "CpuPlug", 0x00000000)
+    definition_block: $ => seq(
       field("function", 'DefinitionBlock'),
       field("parameters", $.parameters_list),
       $.block
@@ -58,8 +62,7 @@ module.exports = grammar({
       $.field_stmt,
       $.name_stmt,
       $.assignment_stmt,
-      $.generic_call,
-      $.if_stmt
+      $.generic_call
     ),
 
     external_stmt: $ => seq(
@@ -95,17 +98,19 @@ module.exports = grammar({
       'Field',
       $.parameters_list,
       '{',
-      repeat($.field_element),
+      sepBy2($.field_element),
       '}'
     ),
 
-    field_element: $ => seq(
-      choice(
+    field_element: $ => choice(
       $.field_offset,
-      $.field_named_entry
-      ),
-      optional(',')
+      $.field_named_entry,
+      $.field_empty_entry,
     ),
+
+    field_offset_element: $ => $.field_offset,
+    field_named_element: $ => $.field_named_entry,
+    field_empty_element: $ => $.field_empty_entry,
 
     field_offset: $ => seq(
       'Offset',
@@ -114,6 +119,11 @@ module.exports = grammar({
 
     field_named_entry: $ => seq(
       field("name", $.name_segs),
+      ',',
+      field("size", $.number)
+    ),
+
+    field_empty_entry: $ => seq(
       ',',
       field("size", $.number)
     ),
@@ -169,19 +179,6 @@ module.exports = grammar({
       '=',
       field("right", $._expression)
     ),
-    
-    if_stmt: $ => seq(
-      'If',
-      field("condition", $.parameters_list),
-      field("consequence", $.block),
-      optional(field("alternative", $.else_clause))
-    ),
-
-    else_clause: $ => seq(
-      'Else',
-      $.block
-    ),
-
 
     // ------------------------------------------------
     // Expressions
@@ -208,12 +205,16 @@ module.exports = grammar({
     number: $ => /0x[0-9A-Fa-f]+|\d+/,                      // 0x1234, 0xABCD, 1234
     identifier: $ => /[A-Za-z]+/,                           // Any method name, object name, etc.
     string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
-    name_segs: $ => /([\^A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,    // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
+    name_segs: $ => /([\^A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
     path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
-  
+    // ------------------------------------------------
   }
 });
 
 function sepBy(sep, rule) {
   return optional(seq(rule, repeat(seq(sep, rule))));
+}
+
+function sepBy2(rule) {
+  return seq(rule, repeat(seq(',', rule)));
 }

@@ -5314,6 +5314,81 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
             }
 
             Name (_UID, Zero)  // _UID: Unique ID
+
+            Device (MC)
+            {
+                Name (_ADR, Zero)  // _ADR: Address
+                OperationRegion (HBUS, PCI_Config, Zero, 0x0100)
+                Field (HBUS, DWordAcc, NoLock, Preserve)
+                {
+                    Offset (0x40), 
+                    EPEN,   1, 
+                        ,   11, 
+                    EPBR,   20, 
+                    Offset (0x48), 
+                    MHEN,   1, 
+                        ,   14, 
+                    MHBR,   17, 
+                    Offset (0x50), 
+                    GCLK,   1, 
+                    Offset (0x54), 
+                    D0EN,   1, 
+                    D1F2,   1, 
+                    D1F1,   1, 
+                    D1F0,   1, 
+                        ,   9, 
+                    D6F0,   1, 
+                    Offset (0x60), 
+                    PXEN,   1, 
+                    PXSZ,   3, 
+                        ,   22, 
+                    PXBR,   6, 
+                    Offset (0x68), 
+                    DIEN,   1, 
+                        ,   11, 
+                    DIBR,   20, 
+                    Offset (0x70), 
+                        ,   20, 
+                    MEBR,   12, 
+                    Offset (0x80), 
+                        ,   4, 
+                    PM0H,   2, 
+                    Offset (0x81), 
+                    PM1L,   2, 
+                        ,   2, 
+                    PM1H,   2, 
+                    Offset (0x82), 
+                    PM2L,   2, 
+                        ,   2, 
+                    PM2H,   2, 
+                    Offset (0x83), 
+                    PM3L,   2, 
+                        ,   2, 
+                    PM3H,   2, 
+                    Offset (0x84), 
+                    PM4L,   2, 
+                        ,   2, 
+                    PM4H,   2, 
+                    Offset (0x85), 
+                    PM5L,   2, 
+                        ,   2, 
+                    PM5H,   2, 
+                    Offset (0x86), 
+                    PM6L,   2, 
+                        ,   2, 
+                    PM6H,   2, 
+                    Offset (0x87), 
+                    Offset (0xA8), 
+                        ,   20, 
+                    TUUD,   19, 
+                    Offset (0xBC), 
+                        ,   20, 
+                    TLUD,   12, 
+                    Offset (0xC8), 
+                        ,   7, 
+                    HTSE,   1
+                }
+            }
         }
     }
 }
