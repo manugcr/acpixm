@@ -802,12 +802,7 @@
       "name": "_comment"
     }
   ],
-  "conflicts": [
-    [
-      "field_named_entry",
-      "field_named_entry"
-    ]
-  ],
+  "conflicts": [],
   "precedences": [],
   "externals": [],
   "inline": [],

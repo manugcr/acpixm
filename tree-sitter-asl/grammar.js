@@ -6,10 +6,6 @@ module.exports = grammar({
     $._comment  // Skip comments
   ],
 
-  conflicts: $ => [
-    [$.field_named_entry, $.field_named_entry]
-  ],
-
   rules: {
 
     // ------------------------------------------------
