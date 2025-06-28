@@ -1,0 +1,145 @@
+==================
+Name Integer
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (OBJ0, 0x1234)
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (number))
+      )
+    )
+  )
+)
+
+==================
+Name String
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (OBJ0, "Hello World")
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (string))))))
+
+==================
+Name Buffer
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (BUF1, Buffer (){0x00, 0x01, 0x02})
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (buffer_initializer
+            parameters: (parameters_list)
+            (number)
+            (number)
+            (number)))))))
+
+==================
+Name Package
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (BUF1, Package (){0x00, 0x01, 0x02})
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (package_initializer
+            parameters: (parameters_list)
+            (number)
+            (number)
+            (number)))))))
+
+==================
+Name Package
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (BUF1, Package (){0x00, 0x01, 0x02})
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (package_initializer
+            parameters: (parameters_list)
+            (number)
+            (number)
+            (number)))))))
