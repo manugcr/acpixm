@@ -1,0 +1,137 @@
+==================
+Basic Example
+==================
+
+DefinitionBlock ("", "DSDT", 2, "", "", 0x0)
+{
+    Scope (\_SB)
+    {
+        Device (PCI0)
+        {
+            Name (INT1, 0x1234)
+            Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)
+            Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)
+            Method (BN00, 0, NotSerialized)
+            {
+                Return (0x12 + INT1)
+            }
+            Method (_BBN, 0, NotSerialized)
+            {
+                Return (BN00 ())
+            }
+            Name (_UID, 0x00) // _UID: Unique ID
+            OperationRegion (MCHT, SystemMemory, 0xFED10000, 0x6000)
+            Field (MCHT, ByteAcc, NoLock, Preserve)
+            {
+                Offset (0x5994),
+                RPSL, 8,
+                Offset (0x5998),
+                RP0C, 8,
+                RP1C, 8,
+                RPNC, 8
+            }
+        }
+    }
+}
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (scope_stmt
+        parameters: (parameters_list
+          params: (path_name))
+        (block
+          (device_stmt
+            parameters: (parameters_list
+              params: (name_segs))
+            (block
+              (name_stmt
+                parameters: (name_parameters
+                  variable: (name_segs)
+                  expression: (number)))
+              (name_stmt
+                parameters: (name_parameters
+                  variable: (name_segs)
+                  expression: (generic_call
+                    function: (identifier)
+                    arguments: (parameters_list
+                      params: (string)))))
+              (name_stmt
+                parameters: (name_parameters
+                  variable: (name_segs)
+                  expression: (generic_call
+                    function: (identifier)
+                    arguments: (parameters_list
+                      params: (string)))))
+              (method_stmt
+                parameters: (parameters_list
+                  params: (name_segs)
+                  params: (number)
+                  params: (identifier))
+                (block
+                  (return_stmt
+                    parameters: (parameters_list
+                      params: (binary_expression
+                        left: (number)
+                        right: (name_segs))))))
+              (method_stmt
+                parameters: (parameters_list
+                  params: (name_segs)
+                  params: (number)
+                  params: (identifier))
+                (block
+                  (return_stmt
+                    parameters: (parameters_list
+                      params: (generic_call
+                        function: (name_segs)
+                        arguments: (parameters_list))))))
+              (name_stmt
+                parameters: (name_parameters
+                  variable: (name_segs)
+                  expression: (number)))
+              (generic_call
+                function: (identifier)
+                arguments: (parameters_list
+                  params: (identifier)
+                  params: (identifier)
+                  params: (number)
+                  params: (number)))
+              (field_stmt
+                parameters: (parameters_list
+                  params: (identifier)
+                  params: (identifier)
+                  params: (identifier)
+                  params: (identifier))
+                (field_element
+                  (field_offset
+                    parameters: (parameters_list
+                      params: (number))))
+                (field_element
+                  (field_named_entry
+                    name: (name_segs)
+                    size: (number)))
+                (field_element
+                  (field_offset
+                    parameters: (parameters_list
+                      params: (number))))
+                (field_element
+                  (field_named_entry
+                    name: (name_segs)
+                    size: (number)))
+                (field_element
+                  (field_named_entry
+                    name: (name_segs)
+                    size: (number)))
+                (field_element
+                  (field_named_entry
+                    name: (name_segs)
+                    size: (number)))))))))))

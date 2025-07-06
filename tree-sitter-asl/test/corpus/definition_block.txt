@@ -20,31 +20,6 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
       params: (number))
     (block)))
 
-
-==================
-DefinitionBlock Empty (Error)
-:error
-==================
-
-DefinitionBlock ("", "", , "", "", )
-{
-   
-} 
-
----
-
-(source_file
-  (definition_block
-    parameters: (parameters_list
-      params: (string)
-      params: (string)
-      params: (number)
-      params: (string)
-      params: (string)
-      params: (number))
-    (block)))
-
-
 ==================
 DefinitionBlock with comment
 ==================

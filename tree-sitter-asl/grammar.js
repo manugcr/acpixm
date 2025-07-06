@@ -2,7 +2,7 @@ module.exports = grammar({
   name: 'asl',
 
   extras: $ => [
-    /\s/,  // Skip whitespace
+    /\s/,       // Skip whitespace
     $._comment  // Skip comments
   ],
 
@@ -14,7 +14,7 @@ module.exports = grammar({
     source_file: $ => repeat($.definition_block),
 
     // ------------------------------------------------
-    // Comment handling
+    // Comment handling (make them private to skip them in the tree)
     // ------------------------------------------------
     _comment: $ => token(choice(
       seq('//', /[^\n]*/),
@@ -36,7 +36,7 @@ module.exports = grammar({
 
     parameters_list: $ => seq(
       '(',
-      field("params", optional(sepBy(',', $._expression))),
+      field("params", sepByAllowingEmpty(',', $._expression)),
       ')'
     ),
 
@@ -58,7 +58,8 @@ module.exports = grammar({
       $.field_stmt,
       $.name_stmt,
       $.assignment_stmt,
-      $.generic_call
+      $.if_stmt,
+      $.generic_call        // fall-back mechanism for any other statements
     ),
 
     external_stmt: $ => seq(
@@ -89,10 +90,10 @@ module.exports = grammar({
       $.block
     ),
 
-    // ------------------------------------------------
+    // ------------------------FIELD------------------------
     field_stmt: $ => seq(
-      'Field',
-      $.parameters_list,
+      field("function", 'Field'),
+      field("parameters", $.parameters_list),
       '{',
       sepBy2($.field_element),
       '}'
@@ -109,8 +110,8 @@ module.exports = grammar({
     field_empty_element: $ => $.field_empty_entry,
 
     field_offset: $ => seq(
-      'Offset',
-      $.parameters_list
+      field("function", 'Offset'),
+      field("parameters", $.parameters_list)
     ),
 
     field_named_entry: $ => seq(
@@ -123,9 +124,9 @@ module.exports = grammar({
       ',',
       field("size", $.number)
     ),
-    // ------------------------------------------------
+    // ------------------------END FIELD------------------------
 
-    // ------------------------------------------------
+    // ------------------------NAME------------------------
     name_stmt: $ => seq(
       field("function", 'Name'),
       field("parameters", $.name_parameters),
@@ -142,7 +143,8 @@ module.exports = grammar({
     _name_expression: $ => choice(
       $._expression,
       $.package_initializer,
-      $.buffer_initializer
+      $.buffer_initializer,
+      $.resource_initializer,
     ),
 
     package_initializer: $ => seq(
@@ -157,13 +159,25 @@ module.exports = grammar({
       $._comma_list_block
     ),
 
+    resource_initializer: $ => seq(
+      field("function", 'ResourceTemplate'),
+      field("parameters", $.parameters_list),
+      $.resource_template_block
+    ),
+
+    resource_template_block: $ => seq(
+      '{',
+      repeat($.generic_call),
+      '}'
+    ),
+
     _comma_list_block: $ => seq(
       '{',
       sepBy(',', $._name_expression),
       optional(','),
       '}'
     ),
-    // ------------------------------------------------
+    // ------------------------END NAME------------------------
 
     generic_call: $ => seq(
       field("function", choice($.identifier, $.name_segs)),
@@ -171,9 +185,21 @@ module.exports = grammar({
     ),
 
     assignment_stmt: $ => seq(
-      field("left", $.identifier),
-      '=',
+      field("left", $.name_segs),
+      field("operator", choice('=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '&=', '^=', '|=')),
       field("right", $._expression)
+    ),
+
+    if_stmt: $ => seq(
+      field("function", choice('If', 'ElseIf')),
+      field("condition", $.parameters_list),
+      field("consequence", $.block),
+      optional(field("alternative", $.else_clause))
+    ),
+
+    else_clause: $ => seq(
+      field("function", 'Else'),
+      $.block
     ),
 
     // ------------------------------------------------
@@ -187,12 +213,48 @@ module.exports = grammar({
       $.identifier,
       $.binary_expression,
       $.generic_call,
+      $._paren_expr
     ),
 
-    binary_expression: $ => prec.left(1, seq(
-      field("left", $._expression),
-      field("operator", choice('+', '-', '*', '/', '<<', '>>', '==', '!=')),
-      field("right", $._expression)
+    binary_expression: $ => choice(
+      // Logical (highest-level precedence)
+      prec.left(1, seq(
+        field("left", $._expression),
+        field("operator", choice('&&', '||')),
+        field("right", $._expression)
+      )),
+      // Bitwise
+      prec.left(2, seq(
+        field("left", $._expression),
+        field("operator", choice('&', '|', '^')),
+        field("right", $._expression)
+      )),
+      // Comparison
+      prec.left(3, seq(
+        field("left", $._expression),
+        field("operator", choice('==', '!=', '<', '<=', '>', '>=')),
+        field("right", $._expression)
+      )),
+      // Arithmetic
+      prec.left(4, seq(
+        field("left", $._expression),
+        field("operator", choice('+', '-')),
+        field("right", $._expression)
+      )),
+      prec.left(5, seq(
+        field("left", $._expression),
+        field("operator", choice('*', '/', '<<', '>>', '%')),
+        field("right", $._expression)
+      )),
+    ),
+
+    _paren_expr: $ => prec(1, seq(
+      '(',
+      choice(
+        $._paren_expr, // allow nesting
+        $._expression
+      ),
+      ')'
     )),
 
     // ------------------------------------------------
@@ -203,7 +265,6 @@ module.exports = grammar({
     string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
     name_segs: $ => /([\^A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
     path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
-    // ------------------------------------------------
   }
 });
 
@@ -214,3 +275,11 @@ function sepBy(sep, rule) {
 function sepBy2(rule) {
   return seq(rule, repeat(seq(',', rule)));
 }
+
+function sepByAllowingEmpty(sep, rule) {
+  return optional(seq(
+    optional(rule),
+    repeat(seq(sep, optional(rule)))
+  ));
+}
+

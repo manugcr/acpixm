@@ -26,14 +26,14 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
       params: (number))
     (block
       (field_stmt
-        (parameters_list
+        parameters: (parameters_list
           params: (identifier)
           params: (identifier)
           params: (identifier)
           params: (identifier))
         (field_element
           (field_offset 
-            (parameters_list
+            parameters: (parameters_list
               params: (number))))
         (field_element
           (field_named_entry
@@ -41,7 +41,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
             size: (number)))
         (field_element
           (field_offset
-            (parameters_list
+            parameters: (parameters_list
               params: (number))))
         (field_element
           (field_named_entry
@@ -79,14 +79,14 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
       params: (number))
     (block
       (field_stmt
-        (parameters_list
+        parameters: (parameters_list
           params: (identifier)
           params: (identifier)
           params: (identifier)
           params: (identifier))
         (field_element
           (field_offset
-            (parameters_list
+            parameters: (parameters_list
               params: (number))))
         (field_element
           (field_named_entry
@@ -101,7 +101,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
             size: (number)))
         (field_element
           (field_offset
-            (parameters_list
+            parameters: (parameters_list
               params: (number))))
         (field_element
           (field_empty_entry
