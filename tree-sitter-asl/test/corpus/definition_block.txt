@@ -18,7 +18,8 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
       params: (string)
       params: (string)
       params: (number))
-    (block)))
+    body: (block)))
+
 
 ==================
 DefinitionBlock with comment
@@ -40,4 +41,4 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002) /* Comment Her
       params: (string)
       params: (string)
       params: (number))
-    (block)))
+    body: (block)))

@@ -3,11 +3,113 @@
   "name": "asl",
   "rules": {
     "source_file": {
-      "type": "REPEAT",
-      "content": {
-        "type": "SYMBOL",
-        "name": "definition_block"
-      }
+      "type": "SYMBOL",
+      "name": "DefinitionBlockTerm"
+    },
+    "DefinitionBlockTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "DefinitionBlock"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "AMLFileName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TableSignature",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ComplianceRevision",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "OEMID",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TableID",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "OEMRevision",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
     },
     "_comment": {
       "type": "TOKEN",
@@ -47,76 +149,3591 @@
         ]
       }
     },
-    "definition_block": {
+    "NameSeg": {
+      "type": "PATTERN",
+      "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
+    },
+    "NameString": {
       "type": "SEQ",
       "members": [
         {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "DefinitionBlock"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": "\\"
+                },
+                {
+                  "type": "REPEAT1",
+                  "content": {
+                    "type": "STRING",
+                    "value": "^"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "NameSeg"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": "."
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "NameSeg"
+                  }
+                ]
+              }
+            }
+          ]
         }
       ]
     },
-    "parameters_list": {
+    "IntegerLiteral": {
+      "type": "TOKEN",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "PATTERN",
+            "value": "0[xX][0-9a-fA-F]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "[0-9]+"
+          },
+          {
+            "type": "PATTERN",
+            "value": "Zero"
+          },
+          {
+            "type": "PATTERN",
+            "value": "One"
+          },
+          {
+            "type": "PATTERN",
+            "value": "True"
+          },
+          {
+            "type": "PATTERN",
+            "value": "False"
+          }
+        ]
+      }
+    },
+    "StringLiteral": {
       "type": "SEQ",
       "members": [
+        {
+          "type": "STRING",
+          "value": "\""
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "PATTERN",
+            "value": "[^\"\\\\]|\\\\."
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "\""
+        }
+      ]
+    },
+    "SuperName": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "NameString"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ArgTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "LocalTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "DebugTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ReferenceTypeOpcode"
+        }
+      ]
+    },
+    "Target": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "SuperName"
+        }
+      ]
+    },
+    "TermArg": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ExpressionOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "DataObject"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ArgTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "LocalTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NameString"
+        }
+      ]
+    },
+    "MethodInvocationTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "ArgList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "ArgList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ArgList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "TermArg"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "TermArg"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "TermList": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SYMBOL",
+        "name": "Term"
+      }
+    },
+    "Term": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "Object"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "StatementOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ExpressionOpcode"
+        }
+      ]
+    },
+    "Object": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "CompilerDirective"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NamedObject"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NameSpaceModifier"
+        }
+      ]
+    },
+    "ByteList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "IntegerLiteral"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "PackageList": {
+      "type": "REPEAT1",
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "PackageElement"
+          },
+          {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "PackageElement": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "DataObject"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NameString"
+        }
+      ]
+    },
+    "FieldUnitEntry": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "NameSeg"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IntegerLiteral"
+        }
+      ]
+    },
+    "FieldUnit": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "FieldUnitEntry"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "OffsetTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "AccessAsTerm"
+        }
+      ]
+    },
+    "FieldUnitList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "FieldUnit"
+            },
+            {
+              "type": "REPEAT",
+              "content": {
+                "type": "SEQ",
+                "members": [
+                  {
+                    "type": "STRING",
+                    "value": ","
+                  },
+                  {
+                    "type": "SYMBOL",
+                    "name": "FieldUnit"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "ParameterTypePackage": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ObjectTypeKeyword"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "{"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "ParameterTypePackageList"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": "}"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ParameterTypePackageList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ObjectTypeKeyword"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ObjectTypeKeyword"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "ParameterTypesPackage": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ObjectTypeKeyword"
+          },
+          {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": "{"
+              },
+              {
+                "type": "CHOICE",
+                "members": [
+                  {
+                    "type": "SYMBOL",
+                    "name": "ParameterTypesPackageList"
+                  },
+                  {
+                    "type": "BLANK"
+                  }
+                ]
+              },
+              {
+                "type": "STRING",
+                "value": "}"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "ParameterTypesPackageList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "ParameterTypePackage"
+        },
+        {
+          "type": "REPEAT",
+          "content": {
+            "type": "SEQ",
+            "members": [
+              {
+                "type": "STRING",
+                "value": ","
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ParameterTypePackage"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "IfElseTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "IfTerm"
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "ElseTerm"
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
+    },
+    "BufferData": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "BufferTypeOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "BufferTerm"
+        }
+      ]
+    },
+    "ComputationalData": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "BufferData"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IntegerData"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "StringData"
+        }
+      ]
+    },
+    "DataObject": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "IntegerLiteral"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "StringLiteral"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "BufferData"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PackageData"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "EISAIDTerm"
+        }
+      ]
+    },
+    "DataRefObject": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "DataObject"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IntegerLiteral"
+        }
+      ]
+    },
+    "IntegerData": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "IntegerTypeOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IntegerLiteral"
+        }
+      ]
+    },
+    "PackageData": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "PackageTerm"
+        }
+      ]
+    },
+    "StringData": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "StringTypeOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "StringLiteral"
+        }
+      ]
+    },
+    "CompilerDirective": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "IncludeTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ExternalTerm"
+        }
+      ]
+    },
+    "NamedObject": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "CreateBitFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "CreateByteFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "CreateDWordFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "CreateFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "CreateQWordFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "CreateWordFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "DataRegionTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "DeviceTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "EventTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "FieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IndexFieldTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "MethodTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "MutexTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "OpRegionTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "PowerResTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ProcessorTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ThermalZoneTerm"
+        }
+      ]
+    },
+    "NameSpaceModifier": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "AliasTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NameTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ScopeTerm"
+        }
+      ]
+    },
+    "StatementOpcode": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "BreakTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "BreakPointTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ContinueTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "FatalTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ForTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "IfElseTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NoOpTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "NotifyTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ReleaseTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ResetTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ReturnTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "SignalTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "SleepTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "StallTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "UnloadTerm"
+        }
+      ]
+    },
+    "ExpressionOpcode": {
+      "type": "PREC",
+      "value": 1,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "AcquireTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "AddTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "AndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ConcatTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ConcatResTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "CondRefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "CopyObjectTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DecTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DerefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DivideTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FindSetLeftBitTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FindSetRightBitTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FromBCDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "IncTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "IndexTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LAndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LGreaterTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LGreaterEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LLessTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LLessEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LNotTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LNotEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LOrTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MatchTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MidTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ModTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MultiplyTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NAndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NOrTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NotTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ObjectTypeTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "OrTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "RefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ShiftLeftTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ShiftRightTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "SizeOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "StoreTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "SubtractTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "TimerTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToBCDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToBufferTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToDecimalStringTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToHexStringTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToIntegerTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToStringTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "WaitTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MethodInvocationTerm"
+          }
+        ]
+      }
+    },
+    "IntegerTypeOpcode": {
+      "type": "PREC",
+      "value": 2,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "AddTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "AndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DecTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DerefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DivideTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "EISAIDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FindSetLeftBitTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FindSetRightBitTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "FromBCDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "IncTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LAndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LGreaterTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LGreaterEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LLessTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LLessEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LNotTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "LNotEqualTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MatchTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ModTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MultiplyTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NAndTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NOrTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "NotTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "OrTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ShiftLeftTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ShiftRightTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "SubtractTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToBCDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToIntegerTerm"
+          }
+        ]
+      }
+    },
+    "StringTypeOpcode": {
+      "type": "PREC",
+      "value": 3,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ConcatTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DerefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MidTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToDecimalStringTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToHexStringTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToStringTerm"
+          }
+        ]
+      }
+    },
+    "BufferTypeOpcode": {
+      "type": "PREC",
+      "value": 4,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "ConcatTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ConcatResTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DerefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "MidTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToBufferTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "ToUUIDTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "UnicodeTerm"
+          }
+        ]
+      }
+    },
+    "ReferenceTypeOpcode": {
+      "type": "PREC",
+      "value": 5,
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "RefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "DerefOfTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "IndexTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "IndexSymbolicTerm"
+          }
+        ]
+      }
+    },
+    "ElseIfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ElseIf"
+          }
+        },
         {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "FIELD",
-          "name": "params",
+          "name": "Predicate",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        },
+        {
+          "type": "FIELD",
+          "name": "ElseTerm",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ElseTerm"
+          }
+        }
+      ]
+    },
+    "ElseTerm": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "SEQ",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "Term",
+              "content": {
+                "type": "STRING",
+                "value": "Else"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "{"
+            },
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "TermList"
+              }
+            },
+            {
+              "type": "STRING",
+              "value": "}"
+            }
+          ]
+        },
+        {
+          "type": "SYMBOL",
+          "name": "ElseIfTerm"
+        }
+      ]
+    },
+    "IfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "If"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Predicate",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "ForTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "For"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Initialize",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Predicate",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Update",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "StoreTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Store"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Destination",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "SizeOfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "SizeOf"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "DataObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "EISAIDTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "EisaId"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "EisaIdString",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "WaitTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Wait"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TimeoutValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "XOrTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "XOr"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToIntegerTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToInteger"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Data",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "SubtractTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Subtract"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Minuend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Subtrahend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "TimerTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Timer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "=>"
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        }
+      ]
+    },
+    "ToBCDTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToBCD"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Value",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ShiftLeftTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ShiftLeft"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ShiftCount",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ShiftRightTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ShiftRight"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ShiftCount",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "OrTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Or"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "NotTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Not"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ObjectTypeTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ObjectType"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Object",
           "content": {
             "type": "CHOICE",
             "members": [
               {
-                "type": "CHOICE",
-                "members": [
-                  {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "SYMBOL",
-                        "name": "_expression"
-                      },
-                      {
-                        "type": "REPEAT",
-                        "content": {
-                          "type": "SEQ",
-                          "members": [
-                            {
-                              "type": "STRING",
-                              "value": ","
-                            },
-                            {
-                              "type": "SYMBOL",
-                              "name": "_expression"
-                            }
-                          ]
-                        }
-                      }
-                    ]
-                  },
-                  {
-                    "type": "BLANK"
-                  }
-                ]
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ArgTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "LocalTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "DebugTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "RefOfTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "DerefOfTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "IndexTerm"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "NAndTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "NAnd"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "NOrTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "NOr"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "MultiplyTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Multiply"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Multiplicand",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Multiplier",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ModTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Mod"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Dividend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Divisor",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "MatchTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Match"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SearchPackage",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Op1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MatchOpKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MatchObject1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Op2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MatchOpKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MatchObject2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "StartIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LOrTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LOr"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LNotEqualTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LNotEqual"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LNotTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LNot"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LLessTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LLess"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LGreaterEqualTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LGreaterEqual"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LGreaterTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LGreater"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LLessEqualTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LLessEqual"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LAndTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LAnd"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "LEqualTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "LEqual"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ComputationalData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToDecimalStringTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToDecimalString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Data",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToHexStringTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToHexString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Data",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToStringTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "IncTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Increment"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Addend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "FromBCDTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "FromBCD"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "BCDValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "FindSetLeftBitTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "FindSetLeftBit"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "FindSetRightBitTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "FindSetRightBit"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "DivideTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Divide"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Dividend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Divisor",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Remainder",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "AndTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "And"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "AddTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Add"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Addend1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Addend2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CopyObjectTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CopyObject"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "LocalTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ArgTerm"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "DecTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Decrement"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Minuend",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "UnloadTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Unload"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "DDBHandle",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "SleepTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Sleep"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "MilliSeconds",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "StallTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Stall"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "MicroSeconds",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "SignalTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Signal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ResetTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Reset"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ReleaseTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Release"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "NotifyTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Notify"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "NotificationValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "FatalTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Fatal"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Type",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Code",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Arg",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "AcquireTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Acquire"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TimeoutValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ReturnTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Return"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Arg",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TermArg"
               },
               {
                 "type": "BLANK"
@@ -130,348 +3747,27 @@
         }
       ]
     },
-    "block": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "REPEAT",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_statement"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
-    },
-    "_statement": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "external_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "scope_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "device_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "method_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "return_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "field_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "name_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "assignment_stmt"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generic_call"
-        }
-      ]
-    },
-    "external_stmt": {
+    "AccessAsTerm": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "function",
+          "name": "Term",
           "content": {
             "type": "STRING",
-            "value": "External"
+            "value": "AccessAs"
           }
         },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        }
-      ]
-    },
-    "scope_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Scope"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
-    "device_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Device"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
-    "return_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Return"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        }
-      ]
-    },
-    "method_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Method"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "block"
-        }
-      ]
-    },
-    "field_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "Field"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parameters_list"
-        },
-        {
-          "type": "STRING",
-          "value": "{"
-        },
-        {
-          "type": "SEQ",
-          "members": [
-            {
-              "type": "SYMBOL",
-              "name": "field_element"
-            },
-            {
-              "type": "REPEAT",
-              "content": {
-                "type": "SEQ",
-                "members": [
-                  {
-                    "type": "STRING",
-                    "value": ","
-                  },
-                  {
-                    "type": "SYMBOL",
-                    "name": "field_element"
-                  }
-                ]
-              }
-            }
-          ]
-        },
-        {
-          "type": "STRING",
-          "value": "}"
-        }
-      ]
-    },
-    "field_element": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "field_offset"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "field_named_entry"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "field_empty_entry"
-        }
-      ]
-    },
-    "field_offset_element": {
-      "type": "SYMBOL",
-      "name": "field_offset"
-    },
-    "field_named_element": {
-      "type": "SYMBOL",
-      "name": "field_named_entry"
-    },
-    "field_empty_element": {
-      "type": "SYMBOL",
-      "name": "field_empty_entry"
-    },
-    "field_offset": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": "Offset"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "parameters_list"
-        }
-      ]
-    },
-    "field_named_entry": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "name",
-          "content": {
-            "type": "SYMBOL",
-            "name": "name_segs"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "size",
-          "content": {
-            "type": "SYMBOL",
-            "name": "number"
-          }
-        }
-      ]
-    },
-    "field_empty_entry": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "size",
-          "content": {
-            "type": "SYMBOL",
-            "name": "number"
-          }
-        }
-      ]
-    },
-    "name_stmt": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Name"
-          }
-        },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "name_parameters"
-          }
-        }
-      ]
-    },
-    "name_parameters": {
-      "type": "SEQ",
-      "members": [
         {
           "type": "STRING",
           "value": "("
         },
         {
           "type": "FIELD",
-          "name": "variable",
+          "name": "AccessType",
           "content": {
             "type": "SYMBOL",
-            "name": "name_segs"
+            "name": "AccessTypeKeyword"
           }
         },
         {
@@ -480,10 +3776,19 @@
         },
         {
           "type": "FIELD",
-          "name": "expression",
+          "name": "AccessAttribute",
           "content": {
-            "type": "SYMBOL",
-            "name": "_name_expression"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "AccessAttribKeyword"
+              }
+            ]
           }
         },
         {
@@ -492,124 +3797,73 @@
         }
       ]
     },
-    "_name_expression": {
-      "type": "CHOICE",
-      "members": [
-        {
-          "type": "SYMBOL",
-          "name": "_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "package_initializer"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "buffer_initializer"
-        }
-      ]
-    },
-    "package_initializer": {
+    "OffsetTerm": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "function",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Offset"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteOffset",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "PackageTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
           "content": {
             "type": "STRING",
             "value": "Package"
           }
         },
         {
+          "type": "STRING",
+          "value": "("
+        },
+        {
           "type": "FIELD",
-          "name": "parameters",
+          "name": "NumElements",
           "content": {
             "type": "SYMBOL",
-            "name": "parameters_list"
+            "name": "IntegerLiteral"
           }
         },
         {
-          "type": "SYMBOL",
-          "name": "_comma_list_block"
-        }
-      ]
-    },
-    "buffer_initializer": {
-      "type": "SEQ",
-      "members": [
-        {
-          "type": "FIELD",
-          "name": "function",
-          "content": {
-            "type": "STRING",
-            "value": "Buffer"
-          }
+          "type": "STRING",
+          "value": ")"
         },
-        {
-          "type": "FIELD",
-          "name": "parameters",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        },
-        {
-          "type": "SYMBOL",
-          "name": "_comma_list_block"
-        }
-      ]
-    },
-    "_comma_list_block": {
-      "type": "SEQ",
-      "members": [
         {
           "type": "STRING",
           "value": "{"
         },
         {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "SEQ",
-              "members": [
-                {
-                  "type": "SYMBOL",
-                  "name": "_name_expression"
-                },
-                {
-                  "type": "REPEAT",
-                  "content": {
-                    "type": "SEQ",
-                    "members": [
-                      {
-                        "type": "STRING",
-                        "value": ","
-                      },
-                      {
-                        "type": "SYMBOL",
-                        "name": "_name_expression"
-                      }
-                    ]
-                  }
-                }
-              ]
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
-        },
-        {
-          "type": "CHOICE",
-          "members": [
-            {
-              "type": "STRING",
-              "value": ","
-            },
-            {
-              "type": "BLANK"
-            }
-          ]
+          "type": "FIELD",
+          "name": "Body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PackageList"
+          }
         },
         {
           "type": "STRING",
@@ -617,179 +3871,2796 @@
         }
       ]
     },
-    "generic_call": {
+    "BufferTerm": {
       "type": "SEQ",
       "members": [
         {
           "type": "FIELD",
-          "name": "function",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Buffer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "BuffSize",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "identifier"
+                "name": "TermArg"
               },
               {
-                "type": "SYMBOL",
-                "name": "name_segs"
+                "type": "BLANK"
               }
             ]
           }
         },
         {
-          "type": "FIELD",
-          "name": "arguments",
-          "content": {
-            "type": "SYMBOL",
-            "name": "parameters_list"
-          }
-        }
-      ]
-    },
-    "assignment_stmt": {
-      "type": "SEQ",
-      "members": [
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
         {
           "type": "FIELD",
-          "name": "left",
+          "name": "Body",
           "content": {
-            "type": "SYMBOL",
-            "name": "identifier"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringLiteral"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ByteList"
+              }
+            ]
           }
         },
         {
           "type": "STRING",
-          "value": "="
-        },
-        {
-          "type": "FIELD",
-          "name": "right",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_expression"
-          }
+          "value": "}"
         }
       ]
     },
-    "_expression": {
+    "UnicodeTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Unicode"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "String",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToUUIDTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToUUID"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "String",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToBufferTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToBuffer"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Data",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "MidTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Mid"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Index",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Length",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "IndexSymbolicTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "["
+        },
+        {
+          "type": "FIELD",
+          "name": "Index",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "]"
+        }
+      ]
+    },
+    "IndexTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Index"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Index",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Destination",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CondRefOfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CondRefOf"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ArgTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "LocalTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "DerefOfTerm"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Destination",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "RefOfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "RefOf"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ArgTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "LocalTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "DerefOfTerm"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "DerefOfTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "DerefOf"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "ArgTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "LocalTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "RefOfTerm"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "CondRefOfTerm"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ConcatResTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ConcatenateResTemplate"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ConcatTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Concatenate"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Source1",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Source2",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "Target"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "IncludeTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Include"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "FilePathName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ExternalTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "External"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ObjName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ObjType",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ObjectTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CreateBitFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateBitField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "BitIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "BitFieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "MethodTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Method"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "MethodName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "num_args",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "serialize_rule",
+          "content": {
+            "type": "SYMBOL",
+            "name": "SerializeRuleKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "body",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "CreateByteFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateByteField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteFieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CreateDWordFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateDWordField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DWordFieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CreateFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "BitIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "NumBits",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "FieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CreateQWordFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateQWordField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "QWordFieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "CreateWordFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "CreateWordField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceBuffer",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameSeg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ByteIndex",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "WordFieldName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "DataRegionTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "DataTableRegion"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "RegionName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "SignatureString",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "OemIDString",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "OemTableIDString",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "DeviceTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Device"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "DeviceName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "EventTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Event"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "EventName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "FieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Field"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "RegionName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AccessType",
+          "content": {
+            "type": "SYMBOL",
+            "name": "AccessTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "LockRule",
+          "content": {
+            "type": "SYMBOL",
+            "name": "LockRuleKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "UpdateRule",
+          "content": {
+            "type": "SYMBOL",
+            "name": "UpdateRuleKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "FieldUnitList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "FieldUnitList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "IndexFieldTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "IndexField"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "IndexName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DataName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AccessType",
+          "content": {
+            "type": "SYMBOL",
+            "name": "AccessTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "LockRule",
+          "content": {
+            "type": "SYMBOL",
+            "name": "LockRuleKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "UpdateRule",
+          "content": {
+            "type": "SYMBOL",
+            "name": "UpdateRuleKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "FieldUnitList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "FieldUnitList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "MutexTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Mutex"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "MutexName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "SyncLevel",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "OpRegionTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "OperationRegion"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "RegionName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RegionSpace",
+          "content": {
+            "type": "SYMBOL",
+            "name": "RegionSpaceKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Offset",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Length",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermArg"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "PowerResTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "PowerResource"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "SystemLevel",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceOrder",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "ProcessorTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Processor"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ProcessorName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ProcessorID",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PBlockAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PblockLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "ThermalZoneTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ThermalZone"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ThermalZoneName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "AliasTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Alias"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "SourceObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AliasObject",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "NameTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Name"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "ObjectName",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "DataObject"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ScopeTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Scope"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Location",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "TermList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "TermList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
+        }
+      ]
+    },
+    "DebugTerm": {
+      "type": "STRING",
+      "value": "Debug"
+    },
+    "AccessAttribKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "AttribQuick"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribSendReceive"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribByte"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribWord"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribBlock"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribProcessCall"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribBlockProcessCall"
+        }
+      ]
+    },
+    "AccessTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "AnyAcc"
+        },
+        {
+          "type": "STRING",
+          "value": "ByteAcc"
+        },
+        {
+          "type": "STRING",
+          "value": "WordAcc"
+        },
+        {
+          "type": "STRING",
+          "value": "DWordAcc"
+        },
+        {
+          "type": "STRING",
+          "value": "QWordAcc"
+        },
+        {
+          "type": "STRING",
+          "value": "BufferAcc"
+        }
+      ]
+    },
+    "AddressKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "AddressRangeMemory"
+        },
+        {
+          "type": "STRING",
+          "value": "AddressRangeReserved"
+        },
+        {
+          "type": "STRING",
+          "value": "AddressRangeNVS"
+        },
+        {
+          "type": "STRING",
+          "value": "AddressRangeACPI"
+        }
+      ]
+    },
+    "AddressSpaceKeyword": {
       "type": "CHOICE",
       "members": [
         {
           "type": "SYMBOL",
-          "name": "number"
+          "name": "RegionSpaceKeyword"
         },
         {
-          "type": "SYMBOL",
-          "name": "string"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "name_segs"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "path_name"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "identifier"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "binary_expression"
-        },
-        {
-          "type": "SYMBOL",
-          "name": "generic_call"
+          "type": "STRING",
+          "value": "FFixedHW"
         }
       ]
     },
-    "binary_expression": {
-      "type": "PREC_LEFT",
-      "value": 1,
-      "content": {
-        "type": "SEQ",
-        "members": [
-          {
-            "type": "FIELD",
-            "name": "left",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "operator",
-            "content": {
-              "type": "CHOICE",
-              "members": [
-                {
-                  "type": "STRING",
-                  "value": "+"
-                },
-                {
-                  "type": "STRING",
-                  "value": "-"
-                },
-                {
-                  "type": "STRING",
-                  "value": "*"
-                },
-                {
-                  "type": "STRING",
-                  "value": "/"
-                },
-                {
-                  "type": "STRING",
-                  "value": "<<"
-                },
-                {
-                  "type": "STRING",
-                  "value": ">>"
-                },
-                {
-                  "type": "STRING",
-                  "value": "=="
-                },
-                {
-                  "type": "STRING",
-                  "value": "!="
-                }
-              ]
-            }
-          },
-          {
-            "type": "FIELD",
-            "name": "right",
-            "content": {
-              "type": "SYMBOL",
-              "name": "_expression"
-            }
-          }
-        ]
-      }
+    "AddressingModeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "AddressingMode7Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "AddressingMode10Bit"
+        }
+      ]
     },
-    "number": {
-      "type": "PATTERN",
-      "value": "0x[0-9A-Fa-f]+|\\d+"
+    "ByteLengthKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "DataBitsFive"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsSix"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsSeven"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsEight"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsNine"
+        }
+      ]
     },
-    "identifier": {
-      "type": "PATTERN",
-      "value": "[A-Za-z]+"
+    "BusMasterKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "BusMaster"
+        },
+        {
+          "type": "STRING",
+          "value": "NotBusMaster"
+        }
+      ]
     },
-    "string": {
-      "type": "PATTERN",
-      "value": "\"[^\"]*\""
+    "ClockPhaseKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ClockPhaseFirst"
+        },
+        {
+          "type": "STRING",
+          "value": "ClockPhaseSecond"
+        }
+      ]
     },
-    "name_segs": {
-      "type": "PATTERN",
-      "value": "([\\^A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*)"
+    "ClockPolarityKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ClockPolarityLow"
+        },
+        {
+          "type": "STRING",
+          "value": "ClockPolarityHigh"
+        }
+      ]
     },
-    "path_name": {
-      "type": "PATTERN",
-      "value": "(\\\\[A-Za-z0-9_]+(\\.[A-Za-z0-9_]+)*)"
+    "DecodeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "SubDecode"
+        },
+        {
+          "type": "STRING",
+          "value": "PosDecode"
+        }
+      ]
+    },
+    "EndianKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "BigEndianing"
+        },
+        {
+          "type": "STRING",
+          "value": "LittleEndian"
+        }
+      ]
+    },
+    "ExtendedAccessAttribKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "AttribBytes"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribRawBytes"
+        },
+        {
+          "type": "STRING",
+          "value": "AttribRawProcessBytes"
+        }
+      ]
+    },
+    "FlowControlKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "FlowControlNone"
+        },
+        {
+          "type": "STRING",
+          "value": "FlowControlXon"
+        },
+        {
+          "type": "STRING",
+          "value": "FlowControlHardware"
+        }
+      ]
+    },
+    "InterruptTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Edge"
+        },
+        {
+          "type": "STRING",
+          "value": "Level"
+        }
+      ]
+    },
+    "InterruptLevel": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ActiveHigh"
+        },
+        {
+          "type": "STRING",
+          "value": "ActiveLow"
+        }
+      ]
+    },
+    "InterruptLevelKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ActiveHigh"
+        },
+        {
+          "type": "STRING",
+          "value": "ActiveLow"
+        },
+        {
+          "type": "STRING",
+          "value": "ActiveBoth"
+        }
+      ]
+    },
+    "IODecodeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Decode16"
+        },
+        {
+          "type": "STRING",
+          "value": "Decode10"
+        }
+      ]
+    },
+    "IoRestrictionKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "IoRestrictionNone"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionInputOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionOutputOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionNoneAndPreserve"
+        }
+      ]
+    },
+    "LockRuleKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Lock"
+        },
+        {
+          "type": "STRING",
+          "value": "NoLock"
+        }
+      ]
+    },
+    "MatchOpKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "MTR"
+        },
+        {
+          "type": "STRING",
+          "value": "MEQ"
+        },
+        {
+          "type": "STRING",
+          "value": "MLE"
+        },
+        {
+          "type": "STRING",
+          "value": "MLT"
+        },
+        {
+          "type": "STRING",
+          "value": "MGE"
+        },
+        {
+          "type": "STRING",
+          "value": "MGT"
+        }
+      ]
+    },
+    "MaxKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "MaxFixed"
+        },
+        {
+          "type": "STRING",
+          "value": "MaxNotFixed"
+        }
+      ]
+    },
+    "MemTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Cacheable"
+        },
+        {
+          "type": "STRING",
+          "value": "WriteCombining"
+        },
+        {
+          "type": "STRING",
+          "value": "Prefetchable"
+        },
+        {
+          "type": "STRING",
+          "value": "NonCacheable"
+        }
+      ]
+    },
+    "MinKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "MinFixed"
+        },
+        {
+          "type": "STRING",
+          "value": "MinNotFixed"
+        }
+      ]
+    },
+    "ObjectTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "UnknownObj"
+        },
+        {
+          "type": "STRING",
+          "value": "IntObj"
+        },
+        {
+          "type": "STRING",
+          "value": "StrObj"
+        },
+        {
+          "type": "STRING",
+          "value": "BuffObj"
+        },
+        {
+          "type": "STRING",
+          "value": "PkgObj"
+        },
+        {
+          "type": "STRING",
+          "value": "FieldUnitObj"
+        },
+        {
+          "type": "STRING",
+          "value": "DeviceObj"
+        },
+        {
+          "type": "STRING",
+          "value": "EventObj"
+        },
+        {
+          "type": "STRING",
+          "value": "MethodObj"
+        },
+        {
+          "type": "STRING",
+          "value": "MutexObj"
+        },
+        {
+          "type": "STRING",
+          "value": "OpRegionObj"
+        },
+        {
+          "type": "STRING",
+          "value": "PowerResObj"
+        },
+        {
+          "type": "STRING",
+          "value": "ThermalZoneObj"
+        },
+        {
+          "type": "STRING",
+          "value": "BuffFieldObj"
+        }
+      ]
+    },
+    "ParityKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ParityTypeNone"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeSpace"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeMark"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeOdd"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeEven"
+        }
+      ]
+    },
+    "PinConfigKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "PullDefault"
+        },
+        {
+          "type": "STRING",
+          "value": "PullUp"
+        },
+        {
+          "type": "STRING",
+          "value": "PullDown"
+        },
+        {
+          "type": "STRING",
+          "value": "PullNone"
+        }
+      ]
+    },
+    "PolarityKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "PolarityHigh"
+        },
+        {
+          "type": "STRING",
+          "value": "PolarityLow"
+        }
+      ]
+    },
+    "RangeTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ISAOnlyRanges"
+        },
+        {
+          "type": "STRING",
+          "value": "NonISAOnlyRanges"
+        },
+        {
+          "type": "STRING",
+          "value": "EntireRange"
+        }
+      ]
+    },
+    "ReadWriteKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ReadWrite"
+        },
+        {
+          "type": "STRING",
+          "value": "ReadOnly"
+        }
+      ]
+    },
+    "RegionSpaceKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "SystemIO"
+        },
+        {
+          "type": "STRING",
+          "value": "SystemMemory"
+        },
+        {
+          "type": "STRING",
+          "value": "PCI_Config"
+        },
+        {
+          "type": "STRING",
+          "value": "EmbeddedControl"
+        },
+        {
+          "type": "STRING",
+          "value": "SMBus"
+        },
+        {
+          "type": "STRING",
+          "value": "SystemCMOS"
+        },
+        {
+          "type": "STRING",
+          "value": "PciBarTarget"
+        },
+        {
+          "type": "STRING",
+          "value": "IPMI"
+        },
+        {
+          "type": "STRING",
+          "value": "GeneralPurposeIO"
+        },
+        {
+          "type": "STRING",
+          "value": "GenericSerialBus"
+        },
+        {
+          "type": "STRING",
+          "value": "PCC"
+        }
+      ]
+    },
+    "ResourceTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ResourceConsumer"
+        },
+        {
+          "type": "STRING",
+          "value": "ResourceProducer"
+        }
+      ]
+    },
+    "SerializeRuleKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Serialized"
+        },
+        {
+          "type": "STRING",
+          "value": "NotSerialized"
+        }
+      ]
+    },
+    "ShareTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Shared"
+        },
+        {
+          "type": "STRING",
+          "value": "Exclusive"
+        },
+        {
+          "type": "STRING",
+          "value": "SharedAndWake"
+        },
+        {
+          "type": "STRING",
+          "value": "ExclusiveAndWake"
+        }
+      ]
+    },
+    "SlaveModeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ControllerInitiated"
+        },
+        {
+          "type": "STRING",
+          "value": "DeviceInitiated"
+        }
+      ]
+    },
+    "StopBitsKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "StopBitsZero"
+        },
+        {
+          "type": "STRING",
+          "value": "StopBitsOne"
+        },
+        {
+          "type": "STRING",
+          "value": "StopBitsOnePlusHalf"
+        },
+        {
+          "type": "STRING",
+          "value": "StopBitsTwo"
+        }
+      ]
+    },
+    "TransferWidthKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Width8Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "Width16Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "Width32Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "Width64Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "Width128Bit"
+        },
+        {
+          "type": "STRING",
+          "value": "Width256Bit"
+        }
+      ]
+    },
+    "TranslationKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "SparseTranslation"
+        },
+        {
+          "type": "STRING",
+          "value": "DenseTranslation"
+        }
+      ]
+    },
+    "TypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "TypeTranslation"
+        },
+        {
+          "type": "STRING",
+          "value": "TypeStatic"
+        }
+      ]
+    },
+    "UpdateRuleKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Preserve"
+        },
+        {
+          "type": "STRING",
+          "value": "WriteAsOnes"
+        },
+        {
+          "type": "STRING",
+          "value": "WriteAsZeros"
+        }
+      ]
+    },
+    "XferTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Transfer8"
+        },
+        {
+          "type": "STRING",
+          "value": "Transfer16"
+        },
+        {
+          "type": "STRING",
+          "value": "Transfer8_16"
+        }
+      ]
+    },
+    "WireModeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ThreeWireMode"
+        },
+        {
+          "type": "STRING",
+          "value": "FourWireMode"
+        }
+      ]
+    },
+    "LocalTerm": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Local0"
+        },
+        {
+          "type": "STRING",
+          "value": "Local1"
+        },
+        {
+          "type": "STRING",
+          "value": "Local2"
+        },
+        {
+          "type": "STRING",
+          "value": "Local3"
+        },
+        {
+          "type": "STRING",
+          "value": "Local4"
+        },
+        {
+          "type": "STRING",
+          "value": "Local5"
+        },
+        {
+          "type": "STRING",
+          "value": "Local6"
+        },
+        {
+          "type": "STRING",
+          "value": "Local7"
+        }
+      ]
+    },
+    "ArgTerm": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "Arg0"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg1"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg2"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg3"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg4"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg5"
+        },
+        {
+          "type": "STRING",
+          "value": "Arg6"
+        }
+      ]
+    },
+    "Operators": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "+"
+        },
+        {
+          "type": "STRING",
+          "value": "-"
+        },
+        {
+          "type": "STRING",
+          "value": "*"
+        },
+        {
+          "type": "STRING",
+          "value": "/"
+        },
+        {
+          "type": "STRING",
+          "value": "%"
+        },
+        {
+          "type": "STRING",
+          "value": "&"
+        },
+        {
+          "type": "STRING",
+          "value": "|"
+        },
+        {
+          "type": "STRING",
+          "value": "^"
+        },
+        {
+          "type": "STRING",
+          "value": "~"
+        },
+        {
+          "type": "STRING",
+          "value": "<"
+        },
+        {
+          "type": "STRING",
+          "value": ">"
+        },
+        {
+          "type": "STRING",
+          "value": "!"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        }
+      ]
+    },
+    "CompoundOperators": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "<<"
+        },
+        {
+          "type": "STRING",
+          "value": ">>"
+        },
+        {
+          "type": "STRING",
+          "value": "++"
+        },
+        {
+          "type": "STRING",
+          "value": "--"
+        },
+        {
+          "type": "STRING",
+          "value": "=="
+        },
+        {
+          "type": "STRING",
+          "value": "!="
+        },
+        {
+          "type": "STRING",
+          "value": "<="
+        },
+        {
+          "type": "STRING",
+          "value": ">="
+        },
+        {
+          "type": "STRING",
+          "value": "&&"
+        },
+        {
+          "type": "STRING",
+          "value": "||"
+        },
+        {
+          "type": "STRING",
+          "value": "+="
+        },
+        {
+          "type": "STRING",
+          "value": "-="
+        },
+        {
+          "type": "STRING",
+          "value": "*="
+        },
+        {
+          "type": "STRING",
+          "value": "/="
+        },
+        {
+          "type": "STRING",
+          "value": "%="
+        },
+        {
+          "type": "STRING",
+          "value": "<<="
+        },
+        {
+          "type": "STRING",
+          "value": ">>="
+        },
+        {
+          "type": "STRING",
+          "value": "&="
+        },
+        {
+          "type": "STRING",
+          "value": "|="
+        },
+        {
+          "type": "STRING",
+          "value": "^="
+        }
+      ]
+    },
+    "BreakPointTerm": {
+      "type": "STRING",
+      "value": "BreakPoint"
+    },
+    "BreakTerm": {
+      "type": "STRING",
+      "value": "Break"
+    },
+    "ContinueTerm": {
+      "type": "STRING",
+      "value": "Continue"
+    },
+    "NoOpTerm": {
+      "type": "STRING",
+      "value": "NoOp"
     }
   },
   "extras": [

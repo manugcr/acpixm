@@ -1615,7 +1615,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
         EEC2,   8, 
         EEC3,   8
     }
-
+    
     Name (SS1, Zero)
     Name (SS2, Zero)
     Name (SS3, Zero)
@@ -5314,6 +5314,15 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
             }
 
             Name (_UID, Zero)  // _UID: Unique ID
+            Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
+            {
+                If (PICM)
+                {
+                    Return (AR00 ())
+                }
+
+                Return (PD00 ())
+            }
 
             Device (MC)
             {
@@ -5389,6 +5398,22 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
                     HTSE,   1
                 }
             }
+            Name (EP_B, Zero)
+            Name (MH_B, Zero)
+            Name (PC_B, Zero)
+            Name (PC_L, Zero)
+            Name (DM_B, Zero)
+
+            Method (GMHB, 0, Serialized)
+            {
+                If (MH_B == Zero)
+                {
+                    Return (MH_B) /* \_SB_.PC00.MH_B */
+                }
+
+                Return (MH_B) /* \_SB_.PC00.MH_B */
+            }
         }
     }
+
 }

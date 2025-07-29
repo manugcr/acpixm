@@ -1,48 +1,84 @@
 [
   {
-    "type": "assignment_stmt",
+    "type": "AccessAsTerm",
     "named": true,
     "fields": {
-      "left": {
+      "AccessAttribute": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "AccessAttribKeyword",
+            "named": true
+          },
+          {
+            "type": "IntegerLiteral",
             "named": true
           }
         ]
       },
-      "right": {
+      "AccessType": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "binary_expression",
+            "type": "AccessTypeKeyword",
             "named": true
-          },
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "generic_call",
+            "type": "AccessAs",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "AccessAttribKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "AccessTypeKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "AcquireTerm",
+    "named": true,
+    "fields": {
+      "SyncObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
             "named": true
-          },
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "identifier",
-            "named": true
-          },
+            "type": "Acquire",
+            "named": false
+          }
+        ]
+      },
+      "TimeoutValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "name_segs",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "path_name",
-            "named": true
-          },
-          {
-            "type": "string",
+            "type": "IntegerLiteral",
             "named": true
           }
         ]
@@ -50,169 +86,201 @@
     }
   },
   {
-    "type": "binary_expression",
+    "type": "AddTerm",
     "named": true,
     "fields": {
-      "left": {
+      "Addend1": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "generic_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "name_segs",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "path_name",
-            "named": true
-          },
-          {
-            "type": "string",
+            "type": "TermArg",
             "named": true
           }
         ]
       },
-      "operator": {
+      "Addend2": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "!=",
-            "named": false
-          },
-          {
-            "type": "*",
-            "named": false
-          },
-          {
-            "type": "+",
-            "named": false
-          },
-          {
-            "type": "-",
-            "named": false
-          },
-          {
-            "type": "/",
-            "named": false
-          },
-          {
-            "type": "<<",
-            "named": false
-          },
-          {
-            "type": "==",
-            "named": false
-          },
-          {
-            "type": ">>",
-            "named": false
+            "type": "TermArg",
+            "named": true
           }
         ]
       },
-      "right": {
+      "Result": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "binary_expression",
+            "type": "Target",
             "named": true
-          },
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "generic_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "name_segs",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "path_name",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
+            "type": "Add",
+            "named": false
           }
         ]
       }
     }
   },
   {
-    "type": "block",
+    "type": "AliasTerm",
+    "named": true,
+    "fields": {
+      "AliasObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "SourceObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Alias",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "AndTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "And",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ArgList",
     "named": true,
     "fields": {},
     "children": {
       "multiple": true,
-      "required": false,
+      "required": true,
       "types": [
         {
-          "type": "assignment_stmt",
-          "named": true
-        },
-        {
-          "type": "device_stmt",
-          "named": true
-        },
-        {
-          "type": "external_stmt",
-          "named": true
-        },
-        {
-          "type": "field_stmt",
-          "named": true
-        },
-        {
-          "type": "generic_call",
-          "named": true
-        },
-        {
-          "type": "method_stmt",
-          "named": true
-        },
-        {
-          "type": "name_stmt",
-          "named": true
-        },
-        {
-          "type": "return_stmt",
-          "named": true
-        },
-        {
-          "type": "scope_stmt",
+          "type": "TermArg",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "buffer_initializer",
+    "type": "ArgTerm",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "BufferData",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "BufferTerm",
+          "named": true
+        },
+        {
+          "type": "BufferTypeOpcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "BufferTerm",
     "named": true,
     "fields": {
-      "function": {
+      "Body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ByteList",
+            "named": true
+          },
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "BuffSize": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -221,66 +289,753 @@
             "named": false
           }
         ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "parameters_list",
-            "named": true
-          }
-        ]
       }
-    },
+    }
+  },
+  {
+    "type": "BufferTypeOpcode",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "binary_expression",
+          "type": "ConcatResTerm",
           "named": true
         },
         {
-          "type": "buffer_initializer",
+          "type": "ConcatTerm",
           "named": true
         },
         {
-          "type": "generic_call",
+          "type": "DerefOfTerm",
           "named": true
         },
         {
-          "type": "identifier",
+          "type": "MidTerm",
           "named": true
         },
         {
-          "type": "name_segs",
+          "type": "ToBufferTerm",
           "named": true
         },
         {
-          "type": "number",
+          "type": "ToUUIDTerm",
           "named": true
         },
         {
-          "type": "package_initializer",
-          "named": true
-        },
-        {
-          "type": "path_name",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "UnicodeTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "definition_block",
+    "type": "ByteList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IntegerLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "CompilerDirective",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ExternalTerm",
+          "named": true
+        },
+        {
+          "type": "IncludeTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ComputationalData",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "BufferData",
+          "named": true
+        },
+        {
+          "type": "IntegerData",
+          "named": true
+        },
+        {
+          "type": "StringData",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ConcatResTerm",
     "named": true,
     "fields": {
-      "function": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ConcatenateResTemplate",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ConcatTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Concatenate",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CondRefOfTerm",
+    "named": true,
+    "fields": {
+      "Destination": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CondRefOf",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CopyObjectTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CopyObject",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateBitFieldTerm",
+    "named": true,
+    "fields": {
+      "BitFieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "BitIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateBitField",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateByteFieldTerm",
+    "named": true,
+    "fields": {
+      "ByteFieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "ByteIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateByteField",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateDWordFieldTerm",
+    "named": true,
+    "fields": {
+      "ByteIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DWordFieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateDWordField",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateFieldTerm",
+    "named": true,
+    "fields": {
+      "BitIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "FieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "NumBits": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateField",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateQWordFieldTerm",
+    "named": true,
+    "fields": {
+      "ByteIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "QWordFieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateQWordField",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "CreateWordFieldTerm",
+    "named": true,
+    "fields": {
+      "ByteIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SourceBuffer": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameSeg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "CreateWordField",
+            "named": false
+          }
+        ]
+      },
+      "WordFieldName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DataObject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "BufferData",
+          "named": true
+        },
+        {
+          "type": "EISAIDTerm",
+          "named": true
+        },
+        {
+          "type": "IntegerLiteral",
+          "named": true
+        },
+        {
+          "type": "PackageData",
+          "named": true
+        },
+        {
+          "type": "StringLiteral",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "DataRegionTerm",
+    "named": true,
+    "fields": {
+      "OemIDString": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "OemTableIDString": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "RegionName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "SignatureString": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "DataTableRegion",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DecTerm",
+    "named": true,
+    "fields": {
+      "Minuend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Decrement",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DefinitionBlockTerm",
+    "named": true,
+    "fields": {
+      "AMLFileName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ComplianceRevision": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "OEMID": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "OEMRevision": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "TableID": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "TableSignature": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -290,33 +1045,75 @@
           }
         ]
       },
-      "parameters": {
+      "TermList": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "TermList",
             "named": true
           }
         ]
       }
-    },
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "block",
-          "named": true
-        }
-      ]
     }
   },
   {
-    "type": "device_stmt",
+    "type": "DerefOfTerm",
     "named": true,
     "fields": {
-      "function": {
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "CondRefOfTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "DerefOf",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DeviceTerm",
+    "named": true,
+    "fields": {
+      "DeviceName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -326,12 +1123,166 @@
           }
         ]
       },
-      "parameters": {
+      "TermList": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "DivideTerm",
+    "named": true,
+    "fields": {
+      "Dividend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Divisor": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Remainder": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Divide",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "EISAIDTerm",
+    "named": true,
+    "fields": {
+      "EisaIdString": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "EisaId",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ElseIfTerm",
+    "named": true,
+    "fields": {
+      "ElseTerm": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ElseTerm",
+            "named": true
+          }
+        ]
+      },
+      "Predicate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ElseIf",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ElseTerm",
+    "named": true,
+    "fields": {
+      "Term": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "Else",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TermList",
             "named": true
           }
         ]
@@ -339,20 +1290,269 @@
     },
     "children": {
       "multiple": false,
-      "required": true,
+      "required": false,
       "types": [
         {
-          "type": "block",
+          "type": "ElseIfTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "external_stmt",
+    "type": "EventTerm",
     "named": true,
     "fields": {
-      "function": {
+      "EventName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Event",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ExpressionOpcode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "AcquireTerm",
+          "named": true
+        },
+        {
+          "type": "AddTerm",
+          "named": true
+        },
+        {
+          "type": "AndTerm",
+          "named": true
+        },
+        {
+          "type": "ConcatResTerm",
+          "named": true
+        },
+        {
+          "type": "ConcatTerm",
+          "named": true
+        },
+        {
+          "type": "CondRefOfTerm",
+          "named": true
+        },
+        {
+          "type": "CopyObjectTerm",
+          "named": true
+        },
+        {
+          "type": "DecTerm",
+          "named": true
+        },
+        {
+          "type": "DerefOfTerm",
+          "named": true
+        },
+        {
+          "type": "DivideTerm",
+          "named": true
+        },
+        {
+          "type": "FindSetLeftBitTerm",
+          "named": true
+        },
+        {
+          "type": "FindSetRightBitTerm",
+          "named": true
+        },
+        {
+          "type": "FromBCDTerm",
+          "named": true
+        },
+        {
+          "type": "IncTerm",
+          "named": true
+        },
+        {
+          "type": "IndexTerm",
+          "named": true
+        },
+        {
+          "type": "LAndTerm",
+          "named": true
+        },
+        {
+          "type": "LEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LGreaterEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LGreaterTerm",
+          "named": true
+        },
+        {
+          "type": "LLessEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LLessTerm",
+          "named": true
+        },
+        {
+          "type": "LNotEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LNotTerm",
+          "named": true
+        },
+        {
+          "type": "LOrTerm",
+          "named": true
+        },
+        {
+          "type": "MatchTerm",
+          "named": true
+        },
+        {
+          "type": "MethodInvocationTerm",
+          "named": true
+        },
+        {
+          "type": "MidTerm",
+          "named": true
+        },
+        {
+          "type": "ModTerm",
+          "named": true
+        },
+        {
+          "type": "MultiplyTerm",
+          "named": true
+        },
+        {
+          "type": "NAndTerm",
+          "named": true
+        },
+        {
+          "type": "NOrTerm",
+          "named": true
+        },
+        {
+          "type": "NotTerm",
+          "named": true
+        },
+        {
+          "type": "ObjectTypeTerm",
+          "named": true
+        },
+        {
+          "type": "OrTerm",
+          "named": true
+        },
+        {
+          "type": "RefOfTerm",
+          "named": true
+        },
+        {
+          "type": "ShiftLeftTerm",
+          "named": true
+        },
+        {
+          "type": "ShiftRightTerm",
+          "named": true
+        },
+        {
+          "type": "SizeOfTerm",
+          "named": true
+        },
+        {
+          "type": "StoreTerm",
+          "named": true
+        },
+        {
+          "type": "SubtractTerm",
+          "named": true
+        },
+        {
+          "type": "TimerTerm",
+          "named": true
+        },
+        {
+          "type": "ToBCDTerm",
+          "named": true
+        },
+        {
+          "type": "ToBufferTerm",
+          "named": true
+        },
+        {
+          "type": "ToDecimalStringTerm",
+          "named": true
+        },
+        {
+          "type": "ToHexStringTerm",
+          "named": true
+        },
+        {
+          "type": "ToIntegerTerm",
+          "named": true
+        },
+        {
+          "type": "ToStringTerm",
+          "named": true
+        },
+        {
+          "type": "WaitTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ExternalTerm",
+    "named": true,
+    "fields": {
+      "ObjName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "ObjType": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ObjectTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -361,13 +1561,49 @@
             "named": false
           }
         ]
-      },
-      "parameters": {
+      }
+    }
+  },
+  {
+    "type": "FatalTerm",
+    "named": true,
+    "fields": {
+      "Arg": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Code": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Fatal",
+            "named": false
+          }
+        ]
+      },
+      "Type": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
             "named": true
           }
         ]
@@ -375,7 +1611,73 @@
     }
   },
   {
-    "type": "field_element",
+    "type": "FieldTerm",
+    "named": true,
+    "fields": {
+      "AccessType": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "AccessTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "FieldUnitList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "FieldUnitList",
+            "named": true
+          }
+        ]
+      },
+      "LockRule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LockRuleKeyword",
+            "named": true
+          }
+        ]
+      },
+      "RegionName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Field",
+            "named": false
+          }
+        ]
+      },
+      "UpdateRule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "UpdateRuleKeyword",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "FieldUnit",
     "named": true,
     "fields": {},
     "children": {
@@ -383,79 +1685,22 @@
       "required": true,
       "types": [
         {
-          "type": "field_empty_entry",
+          "type": "AccessAsTerm",
           "named": true
         },
         {
-          "type": "field_named_entry",
+          "type": "FieldUnitEntry",
           "named": true
         },
         {
-          "type": "field_offset",
+          "type": "OffsetTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "field_empty_entry",
-    "named": true,
-    "fields": {
-      "size": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "number",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "field_named_entry",
-    "named": true,
-    "fields": {
-      "name": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "name_segs",
-            "named": true
-          }
-        ]
-      },
-      "size": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "number",
-            "named": true
-          }
-        ]
-      }
-    }
-  },
-  {
-    "type": "field_offset",
-    "named": true,
-    "fields": {},
-    "children": {
-      "multiple": false,
-      "required": true,
-      "types": [
-        {
-          "type": "parameters_list",
-          "named": true
-        }
-      ]
-    }
-  },
-  {
-    "type": "field_stmt",
+    "type": "FieldUnitEntry",
     "named": true,
     "fields": {},
     "children": {
@@ -463,40 +1708,153 @@
       "required": true,
       "types": [
         {
-          "type": "field_element",
+          "type": "IntegerLiteral",
           "named": true
         },
         {
-          "type": "parameters_list",
+          "type": "NameSeg",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "generic_call",
+    "type": "FieldUnitList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "FieldUnit",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "FindSetLeftBitTerm",
     "named": true,
     "fields": {
-      "arguments": {
+      "Result": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "Target",
             "named": true
           }
         ]
       },
-      "function": {
+      "Source": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "identifier",
+            "type": "TermArg",
             "named": true
-          },
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
           {
-            "type": "name_segs",
+            "type": "FindSetLeftBit",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "FindSetRightBitTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "FindSetRightBit",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ForTerm",
+    "named": true,
+    "fields": {
+      "Initialize": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Predicate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "For",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      },
+      "Update": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
             "named": true
           }
         ]
@@ -504,10 +1862,892 @@
     }
   },
   {
-    "type": "method_stmt",
+    "type": "FromBCDTerm",
     "named": true,
     "fields": {
-      "function": {
+      "BCDValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "FromBCD",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IfElseTerm",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "ElseTerm",
+          "named": true
+        },
+        {
+          "type": "IfTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IfTerm",
+    "named": true,
+    "fields": {
+      "Predicate": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "If",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IncTerm",
+    "named": true,
+    "fields": {
+      "Addend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Increment",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IncludeTerm",
+    "named": true,
+    "fields": {
+      "FilePathName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Include",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IndexFieldTerm",
+    "named": true,
+    "fields": {
+      "AccessType": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "AccessTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DataName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "FieldUnitList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "FieldUnitList",
+            "named": true
+          }
+        ]
+      },
+      "IndexName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "LockRule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LockRuleKeyword",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IndexField",
+            "named": false
+          }
+        ]
+      },
+      "UpdateRule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "UpdateRuleKeyword",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IndexSymbolicTerm",
+    "named": true,
+    "fields": {
+      "Index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IndexTerm",
+    "named": true,
+    "fields": {
+      "Destination": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Index",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "IntegerData",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "IntegerLiteral",
+          "named": true
+        },
+        {
+          "type": "IntegerTypeOpcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "IntegerTypeOpcode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "AddTerm",
+          "named": true
+        },
+        {
+          "type": "AndTerm",
+          "named": true
+        },
+        {
+          "type": "DecTerm",
+          "named": true
+        },
+        {
+          "type": "DerefOfTerm",
+          "named": true
+        },
+        {
+          "type": "DivideTerm",
+          "named": true
+        },
+        {
+          "type": "EISAIDTerm",
+          "named": true
+        },
+        {
+          "type": "FindSetLeftBitTerm",
+          "named": true
+        },
+        {
+          "type": "FindSetRightBitTerm",
+          "named": true
+        },
+        {
+          "type": "FromBCDTerm",
+          "named": true
+        },
+        {
+          "type": "IncTerm",
+          "named": true
+        },
+        {
+          "type": "LAndTerm",
+          "named": true
+        },
+        {
+          "type": "LEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LGreaterEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LGreaterTerm",
+          "named": true
+        },
+        {
+          "type": "LLessEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LLessTerm",
+          "named": true
+        },
+        {
+          "type": "LNotEqualTerm",
+          "named": true
+        },
+        {
+          "type": "LNotTerm",
+          "named": true
+        },
+        {
+          "type": "MatchTerm",
+          "named": true
+        },
+        {
+          "type": "ModTerm",
+          "named": true
+        },
+        {
+          "type": "MultiplyTerm",
+          "named": true
+        },
+        {
+          "type": "NAndTerm",
+          "named": true
+        },
+        {
+          "type": "NOrTerm",
+          "named": true
+        },
+        {
+          "type": "NotTerm",
+          "named": true
+        },
+        {
+          "type": "OrTerm",
+          "named": true
+        },
+        {
+          "type": "ShiftLeftTerm",
+          "named": true
+        },
+        {
+          "type": "ShiftRightTerm",
+          "named": true
+        },
+        {
+          "type": "SubtractTerm",
+          "named": true
+        },
+        {
+          "type": "ToBCDTerm",
+          "named": true
+        },
+        {
+          "type": "ToIntegerTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "LAndTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LAnd",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LEqualTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LEqual",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LGreaterEqualTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LGreaterEqual",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LGreaterTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LGreater",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LLessEqualTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LLessEqual",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LLessTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LLess",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LNotEqualTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LNotEqual",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LNotTerm",
+    "named": true,
+    "fields": {
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LNot",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LOrTerm",
+    "named": true,
+    "fields": {
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "LOr",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LocalTerm",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "LockRuleKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "MatchOpKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "MatchTerm",
+    "named": true,
+    "fields": {
+      "MatchObject1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "MatchObject2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Op1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "MatchOpKeyword",
+            "named": true
+          }
+        ]
+      },
+      "Op2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "MatchOpKeyword",
+            "named": true
+          }
+        ]
+      },
+      "SearchPackage": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "StartIndex": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Match",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "MethodInvocationTerm",
+    "named": true,
+    "fields": {
+      "ArgList": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ArgList",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "MethodTerm",
+    "named": true,
+    "fields": {
+      "MethodName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -517,91 +2757,377 @@
           }
         ]
       },
-      "parameters": {
+      "body": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      },
+      "num_args": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "serialize_rule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SerializeRuleKeyword",
             "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "MidTerm",
+    "named": true,
+    "fields": {
+      "Index": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Length": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Mid",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ModTerm",
+    "named": true,
+    "fields": {
+      "Dividend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Divisor": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Mod",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "MultiplyTerm",
+    "named": true,
+    "fields": {
+      "Multiplicand": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Multiplier": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Multiply",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "MutexTerm",
+    "named": true,
+    "fields": {
+      "MutexName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "SyncLevel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Mutex",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "NAndTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NAnd",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "NOrTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NOr",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "NameSpaceModifier",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "AliasTerm",
+          "named": true
+        },
+        {
+          "type": "NameTerm",
+          "named": true
+        },
+        {
+          "type": "ScopeTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "name_parameters",
+    "type": "NameString",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "NameSeg",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NameTerm",
     "named": true,
     "fields": {
-      "expression": {
+      "Object": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "buffer_initializer",
-            "named": true
-          },
-          {
-            "type": "generic_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "name_segs",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "package_initializer",
-            "named": true
-          },
-          {
-            "type": "path_name",
-            "named": true
-          },
-          {
-            "type": "string",
+            "type": "DataObject",
             "named": true
           }
         ]
       },
-      "variable": {
+      "ObjectName": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "name_segs",
+            "type": "NameString",
             "named": true
           }
         ]
-      }
-    }
-  },
-  {
-    "type": "name_stmt",
-    "named": true,
-    "fields": {
-      "function": {
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -610,24 +3136,440 @@
             "named": false
           }
         ]
-      },
-      "parameters": {
+      }
+    }
+  },
+  {
+    "type": "NamedObject",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "CreateBitFieldTerm",
+          "named": true
+        },
+        {
+          "type": "CreateByteFieldTerm",
+          "named": true
+        },
+        {
+          "type": "CreateDWordFieldTerm",
+          "named": true
+        },
+        {
+          "type": "CreateFieldTerm",
+          "named": true
+        },
+        {
+          "type": "CreateQWordFieldTerm",
+          "named": true
+        },
+        {
+          "type": "CreateWordFieldTerm",
+          "named": true
+        },
+        {
+          "type": "DataRegionTerm",
+          "named": true
+        },
+        {
+          "type": "DeviceTerm",
+          "named": true
+        },
+        {
+          "type": "EventTerm",
+          "named": true
+        },
+        {
+          "type": "FieldTerm",
+          "named": true
+        },
+        {
+          "type": "IndexFieldTerm",
+          "named": true
+        },
+        {
+          "type": "MethodTerm",
+          "named": true
+        },
+        {
+          "type": "MutexTerm",
+          "named": true
+        },
+        {
+          "type": "OpRegionTerm",
+          "named": true
+        },
+        {
+          "type": "PowerResTerm",
+          "named": true
+        },
+        {
+          "type": "ProcessorTerm",
+          "named": true
+        },
+        {
+          "type": "ThermalZoneTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "NotTerm",
+    "named": true,
+    "fields": {
+      "Result": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "name_parameters",
+            "type": "Target",
             "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Not",
+            "named": false
           }
         ]
       }
     }
   },
   {
-    "type": "package_initializer",
+    "type": "NotifyTerm",
     "named": true,
     "fields": {
-      "function": {
+      "NotificationValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Notify",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "Object",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "CompilerDirective",
+          "named": true
+        },
+        {
+          "type": "NameSpaceModifier",
+          "named": true
+        },
+        {
+          "type": "NamedObject",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ObjectTypeKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ObjectTypeTerm",
+    "named": true,
+    "fields": {
+      "Object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DebugTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ObjectType",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "OffsetTerm",
+    "named": true,
+    "fields": {
+      "ByteOffset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Offset",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "OpRegionTerm",
+    "named": true,
+    "fields": {
+      "Length": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Offset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "RegionName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "RegionSpace": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "RegionSpaceKeyword",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "OperationRegion",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "OrTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Or",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "PackageData",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "PackageTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PackageElement",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "DataObject",
+          "named": true
+        },
+        {
+          "type": "NameString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PackageList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "PackageElement",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "PackageTerm",
+    "named": true,
+    "fields": {
+      "Body": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PackageList",
+            "named": true
+          }
+        ]
+      },
+      "NumElements": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -636,110 +3578,268 @@
             "named": false
           }
         ]
-      },
-      "parameters": {
+      }
+    }
+  },
+  {
+    "type": "PowerResTerm",
+    "named": true,
+    "fields": {
+      "ResourceName": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "ResourceOrder": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SystemLevel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PowerResource",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
             "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "ProcessorTerm",
+    "named": true,
+    "fields": {
+      "PBlockAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "PblockLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ProcessorID": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ProcessorName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Processor",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "RefOfTerm",
+    "named": true,
+    "fields": {
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "RefOf",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ReferenceTypeOpcode",
+    "named": true,
+    "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "binary_expression",
+          "type": "DerefOfTerm",
           "named": true
         },
         {
-          "type": "buffer_initializer",
+          "type": "IndexSymbolicTerm",
           "named": true
         },
         {
-          "type": "generic_call",
+          "type": "IndexTerm",
           "named": true
         },
         {
-          "type": "identifier",
-          "named": true
-        },
-        {
-          "type": "name_segs",
-          "named": true
-        },
-        {
-          "type": "number",
-          "named": true
-        },
-        {
-          "type": "package_initializer",
-          "named": true
-        },
-        {
-          "type": "path_name",
-          "named": true
-        },
-        {
-          "type": "string",
+          "type": "RefOfTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "parameters_list",
+    "type": "RegionSpaceKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ReleaseTerm",
     "named": true,
     "fields": {
-      "params": {
-        "multiple": true,
-        "required": false,
+      "SyncObject": {
+        "multiple": false,
+        "required": true,
         "types": [
           {
-            "type": ",",
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Release",
             "named": false
-          },
-          {
-            "type": "binary_expression",
-            "named": true
-          },
-          {
-            "type": "generic_call",
-            "named": true
-          },
-          {
-            "type": "identifier",
-            "named": true
-          },
-          {
-            "type": "name_segs",
-            "named": true
-          },
-          {
-            "type": "number",
-            "named": true
-          },
-          {
-            "type": "path_name",
-            "named": true
-          },
-          {
-            "type": "string",
-            "named": true
           }
         ]
       }
     }
   },
   {
-    "type": "return_stmt",
+    "type": "ResetTerm",
     "named": true,
     "fields": {
-      "function": {
+      "SyncObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Reset",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ReturnTerm",
+    "named": true,
+    "fields": {
+      "Arg": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -748,24 +3848,24 @@
             "named": false
           }
         ]
-      },
-      "parameters": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "parameters_list",
-            "named": true
-          }
-        ]
       }
     }
   },
   {
-    "type": "scope_stmt",
+    "type": "ScopeTerm",
     "named": true,
     "fields": {
-      "function": {
+      "Location": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
         "multiple": false,
         "required": true,
         "types": [
@@ -775,26 +3875,941 @@
           }
         ]
       },
-      "parameters": {
+      "TermList": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "parameters_list",
+            "type": "TermList",
             "named": true
           }
         ]
       }
-    },
+    }
+  },
+  {
+    "type": "SerializeRuleKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ShiftLeftTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "ShiftCount": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ShiftLeft",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ShiftRightTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "ShiftCount": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ShiftRight",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "SignalTerm",
+    "named": true,
+    "fields": {
+      "SyncObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Signal",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "SizeOfTerm",
+    "named": true,
+    "fields": {
+      "DataObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SizeOf",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "SleepTerm",
+    "named": true,
+    "fields": {
+      "MilliSeconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Sleep",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "StallTerm",
+    "named": true,
+    "fields": {
+      "MicroSeconds": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Stall",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "StatementOpcode",
+    "named": true,
+    "fields": {},
     "children": {
       "multiple": false,
       "required": true,
       "types": [
         {
-          "type": "block",
+          "type": "BreakPointTerm",
+          "named": true
+        },
+        {
+          "type": "BreakTerm",
+          "named": true
+        },
+        {
+          "type": "ContinueTerm",
+          "named": true
+        },
+        {
+          "type": "FatalTerm",
+          "named": true
+        },
+        {
+          "type": "ForTerm",
+          "named": true
+        },
+        {
+          "type": "IfElseTerm",
+          "named": true
+        },
+        {
+          "type": "NoOpTerm",
+          "named": true
+        },
+        {
+          "type": "NotifyTerm",
+          "named": true
+        },
+        {
+          "type": "ReleaseTerm",
+          "named": true
+        },
+        {
+          "type": "ResetTerm",
+          "named": true
+        },
+        {
+          "type": "ReturnTerm",
+          "named": true
+        },
+        {
+          "type": "SignalTerm",
+          "named": true
+        },
+        {
+          "type": "SleepTerm",
+          "named": true
+        },
+        {
+          "type": "StallTerm",
+          "named": true
+        },
+        {
+          "type": "UnloadTerm",
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "StoreTerm",
+    "named": true,
+    "fields": {
+      "Destination": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Store",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "StringData",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "StringLiteral",
+          "named": true
+        },
+        {
+          "type": "StringTypeOpcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "StringLiteral",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "StringTypeOpcode",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ConcatTerm",
+          "named": true
+        },
+        {
+          "type": "DerefOfTerm",
+          "named": true
+        },
+        {
+          "type": "MidTerm",
+          "named": true
+        },
+        {
+          "type": "ToDecimalStringTerm",
+          "named": true
+        },
+        {
+          "type": "ToHexStringTerm",
+          "named": true
+        },
+        {
+          "type": "ToStringTerm",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "SubtractTerm",
+    "named": true,
+    "fields": {
+      "Minuend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Subtrahend": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Subtract",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "SuperName",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ArgTerm",
+          "named": true
+        },
+        {
+          "type": "DebugTerm",
+          "named": true
+        },
+        {
+          "type": "LocalTerm",
+          "named": true
+        },
+        {
+          "type": "NameString",
+          "named": true
+        },
+        {
+          "type": "ReferenceTypeOpcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Target",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "SuperName",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "Term",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ExpressionOpcode",
+          "named": true
+        },
+        {
+          "type": "Object",
+          "named": true
+        },
+        {
+          "type": "StatementOpcode",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TermArg",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": false,
+      "required": true,
+      "types": [
+        {
+          "type": "ArgTerm",
+          "named": true
+        },
+        {
+          "type": "DataObject",
+          "named": true
+        },
+        {
+          "type": "ExpressionOpcode",
+          "named": true
+        },
+        {
+          "type": "LocalTerm",
+          "named": true
+        },
+        {
+          "type": "NameString",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "TermList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "Term",
+          "named": true
+        }
+      ]
+    }
+  },
+  {
+    "type": "ThermalZoneTerm",
+    "named": true,
+    "fields": {
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ThermalZone",
+            "named": false
+          }
+        ]
+      },
+      "TermList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermList",
+            "named": true
+          }
+        ]
+      },
+      "ThermalZoneName": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "TimerTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Timer",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToBCDTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToBCD",
+            "named": false
+          }
+        ]
+      },
+      "Value": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToBufferTerm",
+    "named": true,
+    "fields": {
+      "Data": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToBuffer",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToDecimalStringTerm",
+    "named": true,
+    "fields": {
+      "Data": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToDecimalString",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToHexStringTerm",
+    "named": true,
+    "fields": {
+      "Data": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToHexString",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToIntegerTerm",
+    "named": true,
+    "fields": {
+      "Data": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ComputationalData",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToInteger",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToStringTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Target",
+            "named": true
+          }
+        ]
+      },
+      "Source": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToString",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "ToUUIDTerm",
+    "named": true,
+    "fields": {
+      "String": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToUUID",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "UnicodeTerm",
+    "named": true,
+    "fields": {
+      "String": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Unicode",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "UnloadTerm",
+    "named": true,
+    "fields": {
+      "DDBHandle": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Unload",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "UpdateRuleKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "WaitTerm",
+    "named": true,
+    "fields": {
+      "SyncObject": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Wait",
+            "named": false
+          }
+        ]
+      },
+      "TimeoutValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "TermArg",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -803,18 +4818,18 @@
     "root": true,
     "fields": {},
     "children": {
-      "multiple": true,
-      "required": false,
+      "multiple": false,
+      "required": true,
       "types": [
         {
-          "type": "definition_block",
+          "type": "DefinitionBlockTerm",
           "named": true
         }
       ]
     }
   },
   {
-    "type": "!=",
+    "type": "\"",
     "named": false
   },
   {
@@ -826,39 +4841,111 @@
     "named": false
   },
   {
-    "type": "*",
-    "named": false
-  },
-  {
-    "type": "+",
-    "named": false
-  },
-  {
     "type": ",",
     "named": false
   },
   {
-    "type": "-",
+    "type": ".",
     "named": false
   },
   {
-    "type": "/",
+    "type": "=>",
     "named": false
   },
   {
-    "type": "<<",
+    "type": "AccessAs",
     "named": false
   },
   {
-    "type": "=",
+    "type": "Acquire",
     "named": false
   },
   {
-    "type": "==",
+    "type": "Add",
     "named": false
   },
   {
-    "type": ">>",
+    "type": "Alias",
+    "named": false
+  },
+  {
+    "type": "And",
+    "named": false
+  },
+  {
+    "type": "AnyAcc",
+    "named": false
+  },
+  {
+    "type": "Arg0",
+    "named": false
+  },
+  {
+    "type": "Arg1",
+    "named": false
+  },
+  {
+    "type": "Arg2",
+    "named": false
+  },
+  {
+    "type": "Arg3",
+    "named": false
+  },
+  {
+    "type": "Arg4",
+    "named": false
+  },
+  {
+    "type": "Arg5",
+    "named": false
+  },
+  {
+    "type": "Arg6",
+    "named": false
+  },
+  {
+    "type": "AttribBlock",
+    "named": false
+  },
+  {
+    "type": "AttribBlockProcessCall",
+    "named": false
+  },
+  {
+    "type": "AttribByte",
+    "named": false
+  },
+  {
+    "type": "AttribProcessCall",
+    "named": false
+  },
+  {
+    "type": "AttribQuick",
+    "named": false
+  },
+  {
+    "type": "AttribSendReceive",
+    "named": false
+  },
+  {
+    "type": "AttribWord",
+    "named": false
+  },
+  {
+    "type": "BreakPointTerm",
+    "named": true
+  },
+  {
+    "type": "BreakTerm",
+    "named": true
+  },
+  {
+    "type": "BuffFieldObj",
+    "named": false
+  },
+  {
+    "type": "BuffObj",
     "named": false
   },
   {
@@ -866,7 +4953,79 @@
     "named": false
   },
   {
+    "type": "BufferAcc",
+    "named": false
+  },
+  {
+    "type": "ByteAcc",
+    "named": false
+  },
+  {
+    "type": "Concatenate",
+    "named": false
+  },
+  {
+    "type": "ConcatenateResTemplate",
+    "named": false
+  },
+  {
+    "type": "CondRefOf",
+    "named": false
+  },
+  {
+    "type": "ContinueTerm",
+    "named": true
+  },
+  {
+    "type": "CopyObject",
+    "named": false
+  },
+  {
+    "type": "CreateBitField",
+    "named": false
+  },
+  {
+    "type": "CreateByteField",
+    "named": false
+  },
+  {
+    "type": "CreateDWordField",
+    "named": false
+  },
+  {
+    "type": "CreateField",
+    "named": false
+  },
+  {
+    "type": "CreateQWordField",
+    "named": false
+  },
+  {
+    "type": "CreateWordField",
+    "named": false
+  },
+  {
+    "type": "DWordAcc",
+    "named": false
+  },
+  {
+    "type": "DataTableRegion",
+    "named": false
+  },
+  {
+    "type": "DebugTerm",
+    "named": true
+  },
+  {
+    "type": "Decrement",
+    "named": false
+  },
+  {
     "type": "DefinitionBlock",
+    "named": false
+  },
+  {
+    "type": "DerefOf",
     "named": false
   },
   {
@@ -874,7 +5033,43 @@
     "named": false
   },
   {
+    "type": "DeviceObj",
+    "named": false
+  },
+  {
+    "type": "Divide",
+    "named": false
+  },
+  {
+    "type": "EisaId",
+    "named": false
+  },
+  {
+    "type": "Else",
+    "named": false
+  },
+  {
+    "type": "ElseIf",
+    "named": false
+  },
+  {
+    "type": "EmbeddedControl",
+    "named": false
+  },
+  {
+    "type": "Event",
+    "named": false
+  },
+  {
+    "type": "EventObj",
+    "named": false
+  },
+  {
     "type": "External",
+    "named": false
+  },
+  {
+    "type": "Fatal",
     "named": false
   },
   {
@@ -882,7 +5077,199 @@
     "named": false
   },
   {
+    "type": "FieldUnitObj",
+    "named": false
+  },
+  {
+    "type": "FindSetLeftBit",
+    "named": false
+  },
+  {
+    "type": "FindSetRightBit",
+    "named": false
+  },
+  {
+    "type": "For",
+    "named": false
+  },
+  {
+    "type": "FromBCD",
+    "named": false
+  },
+  {
+    "type": "GeneralPurposeIO",
+    "named": false
+  },
+  {
+    "type": "GenericSerialBus",
+    "named": false
+  },
+  {
+    "type": "IPMI",
+    "named": false
+  },
+  {
+    "type": "If",
+    "named": false
+  },
+  {
+    "type": "Include",
+    "named": false
+  },
+  {
+    "type": "Increment",
+    "named": false
+  },
+  {
+    "type": "Index",
+    "named": false
+  },
+  {
+    "type": "IndexField",
+    "named": false
+  },
+  {
+    "type": "IntObj",
+    "named": false
+  },
+  {
+    "type": "IntegerLiteral",
+    "named": true
+  },
+  {
+    "type": "LAnd",
+    "named": false
+  },
+  {
+    "type": "LEqual",
+    "named": false
+  },
+  {
+    "type": "LGreater",
+    "named": false
+  },
+  {
+    "type": "LGreaterEqual",
+    "named": false
+  },
+  {
+    "type": "LLess",
+    "named": false
+  },
+  {
+    "type": "LLessEqual",
+    "named": false
+  },
+  {
+    "type": "LNot",
+    "named": false
+  },
+  {
+    "type": "LNotEqual",
+    "named": false
+  },
+  {
+    "type": "LOr",
+    "named": false
+  },
+  {
+    "type": "Local0",
+    "named": false
+  },
+  {
+    "type": "Local1",
+    "named": false
+  },
+  {
+    "type": "Local2",
+    "named": false
+  },
+  {
+    "type": "Local3",
+    "named": false
+  },
+  {
+    "type": "Local4",
+    "named": false
+  },
+  {
+    "type": "Local5",
+    "named": false
+  },
+  {
+    "type": "Local6",
+    "named": false
+  },
+  {
+    "type": "Local7",
+    "named": false
+  },
+  {
+    "type": "Lock",
+    "named": false
+  },
+  {
+    "type": "MEQ",
+    "named": false
+  },
+  {
+    "type": "MGE",
+    "named": false
+  },
+  {
+    "type": "MGT",
+    "named": false
+  },
+  {
+    "type": "MLE",
+    "named": false
+  },
+  {
+    "type": "MLT",
+    "named": false
+  },
+  {
+    "type": "MTR",
+    "named": false
+  },
+  {
+    "type": "Match",
+    "named": false
+  },
+  {
     "type": "Method",
+    "named": false
+  },
+  {
+    "type": "MethodObj",
+    "named": false
+  },
+  {
+    "type": "Mid",
+    "named": false
+  },
+  {
+    "type": "Mod",
+    "named": false
+  },
+  {
+    "type": "Multiply",
+    "named": false
+  },
+  {
+    "type": "Mutex",
+    "named": false
+  },
+  {
+    "type": "MutexObj",
+    "named": false
+  },
+  {
+    "type": "NAnd",
+    "named": false
+  },
+  {
+    "type": "NOr",
     "named": false
   },
   {
@@ -890,7 +5277,55 @@
     "named": false
   },
   {
+    "type": "NameSeg",
+    "named": true
+  },
+  {
+    "type": "NoLock",
+    "named": false
+  },
+  {
+    "type": "NoOpTerm",
+    "named": true
+  },
+  {
+    "type": "Not",
+    "named": false
+  },
+  {
+    "type": "NotSerialized",
+    "named": false
+  },
+  {
+    "type": "Notify",
+    "named": false
+  },
+  {
+    "type": "ObjectType",
+    "named": false
+  },
+  {
     "type": "Offset",
+    "named": false
+  },
+  {
+    "type": "OpRegionObj",
+    "named": false
+  },
+  {
+    "type": "OperationRegion",
+    "named": false
+  },
+  {
+    "type": "Or",
+    "named": false
+  },
+  {
+    "type": "PCC",
+    "named": false
+  },
+  {
+    "type": "PCI_Config",
     "named": false
   },
   {
@@ -898,7 +5333,51 @@
     "named": false
   },
   {
+    "type": "PciBarTarget",
+    "named": false
+  },
+  {
+    "type": "PkgObj",
+    "named": false
+  },
+  {
+    "type": "PowerResObj",
+    "named": false
+  },
+  {
+    "type": "PowerResource",
+    "named": false
+  },
+  {
+    "type": "Preserve",
+    "named": false
+  },
+  {
+    "type": "Processor",
+    "named": false
+  },
+  {
+    "type": "QWordAcc",
+    "named": false
+  },
+  {
+    "type": "RefOf",
+    "named": false
+  },
+  {
+    "type": "Release",
+    "named": false
+  },
+  {
+    "type": "Reset",
+    "named": false
+  },
+  {
     "type": "Return",
+    "named": false
+  },
+  {
+    "type": "SMBus",
     "named": false
   },
   {
@@ -906,24 +5385,140 @@
     "named": false
   },
   {
-    "type": "identifier",
-    "named": true
+    "type": "Serialized",
+    "named": false
   },
   {
-    "type": "name_segs",
-    "named": true
+    "type": "ShiftLeft",
+    "named": false
   },
   {
-    "type": "number",
-    "named": true
+    "type": "ShiftRight",
+    "named": false
   },
   {
-    "type": "path_name",
-    "named": true
+    "type": "Signal",
+    "named": false
   },
   {
-    "type": "string",
-    "named": true
+    "type": "SizeOf",
+    "named": false
+  },
+  {
+    "type": "Sleep",
+    "named": false
+  },
+  {
+    "type": "Stall",
+    "named": false
+  },
+  {
+    "type": "Store",
+    "named": false
+  },
+  {
+    "type": "StrObj",
+    "named": false
+  },
+  {
+    "type": "Subtract",
+    "named": false
+  },
+  {
+    "type": "SystemCMOS",
+    "named": false
+  },
+  {
+    "type": "SystemIO",
+    "named": false
+  },
+  {
+    "type": "SystemMemory",
+    "named": false
+  },
+  {
+    "type": "ThermalZone",
+    "named": false
+  },
+  {
+    "type": "ThermalZoneObj",
+    "named": false
+  },
+  {
+    "type": "Timer",
+    "named": false
+  },
+  {
+    "type": "ToBCD",
+    "named": false
+  },
+  {
+    "type": "ToBuffer",
+    "named": false
+  },
+  {
+    "type": "ToDecimalString",
+    "named": false
+  },
+  {
+    "type": "ToHexString",
+    "named": false
+  },
+  {
+    "type": "ToInteger",
+    "named": false
+  },
+  {
+    "type": "ToString",
+    "named": false
+  },
+  {
+    "type": "ToUUID",
+    "named": false
+  },
+  {
+    "type": "Unicode",
+    "named": false
+  },
+  {
+    "type": "UnknownObj",
+    "named": false
+  },
+  {
+    "type": "Unload",
+    "named": false
+  },
+  {
+    "type": "Wait",
+    "named": false
+  },
+  {
+    "type": "WordAcc",
+    "named": false
+  },
+  {
+    "type": "WriteAsOnes",
+    "named": false
+  },
+  {
+    "type": "WriteAsZeros",
+    "named": false
+  },
+  {
+    "type": "[",
+    "named": false
+  },
+  {
+    "type": "\\",
+    "named": false
+  },
+  {
+    "type": "]",
+    "named": false
+  },
+  {
+    "type": "^",
+    "named": false
   },
   {
     "type": "{",

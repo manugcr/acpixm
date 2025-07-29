@@ -2,40 +2,21 @@ module.exports = grammar({
   name: 'asl',
 
   extras: $ => [
-    /\s/,  // Skip whitespace
-    $.comment  // Skip comments
+    /\s/,       // Skip whitespace
+    $._comment  // Skip comments
   ],
 
   rules: {
+
     // ------------------------------------------------
-    // Code Structure
+    // Start here
     // ------------------------------------------------
     source_file: $ => repeat($.definition_block),
 
-    definition_block: $ => seq(
-      'DefinitionBlock',
-      $._parameters_list,
-      $.block
-    ),
-
-    _parameters_list: $ => seq(
-      '(',
-      optional(sepBy(',', $._expression)),
-      ')'
-    ),
-
-    block: $ => seq(
-      '{',
-      repeat($._statement),
-      '}'
-    ),
-
-
     // ------------------------------------------------
-    // Comment handling
+    // Comment handling (make them private to skip them in the tree)
     // ------------------------------------------------
-
-    comment: $ => token(choice(
+    _comment: $ => token(choice(
       seq('//', /[^\n]*/),
       seq(
         '/*',
@@ -45,109 +26,263 @@ module.exports = grammar({
     )),
 
     // ------------------------------------------------
-    // EXPRESSIONS
+    // Code Structure
+    // ------------------------------------------------
+    definition_block: $ => seq(
+      field("function", 'DefinitionBlock'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    parameters_list: $ => seq(
+      '(',
+      field("params", sepByAllowingEmpty(',', $._expression)),
+      ')'
+    ),
+
+    block: $ => seq(
+      '{',
+      repeat($._statement),
+      '}'
+    ),
+
+    // ------------------------------------------------
+    // Statements
+    // ------------------------------------------------
+    _statement: $ => choice(
+      $.external_stmt,
+      $.scope_stmt,
+      $.device_stmt,
+      $.method_stmt,
+      $.name_stmt,
+      $.return_stmt,
+      $.field_stmt,
+      $.op_region_stmt,
+      $.eisaid_stmt,
+      $.assignment_stmt,
+      $.if_stmt
+    ),
+
+    external_stmt: $ => seq(
+      field("function", 'External'),
+      field("parameters", $.parameters_list)
+    ),
+
+    scope_stmt: $ => seq(
+      field("function", 'Scope'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    device_stmt: $ => seq(
+      field("function", 'Device'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    return_stmt: $ => seq(
+      field("function", 'Return'),
+      field("parameters", $.parameters_list),
+    ),
+
+    method_stmt: $ => seq(
+      field("function", 'Method'),
+      field("parameters", $.parameters_list),
+      $.block
+    ),
+
+    op_region_stmt: $ => seq(
+      field("function", 'OperationRegion'),
+      field("parameters", $.parameters_list),
+    ),
+
+    eisaid_stmt: $ => seq(
+      field("function", 'EisaId'),
+      field("parameters", $.parameters_list),
+    ),
+    
+    // ------------------------FIELD------------------------
+    field_stmt: $ => seq(
+      field("function", 'Field'),
+      field("parameters", $.parameters_list),
+      '{',
+      sepBy2($.field_element),
+      '}'
+    ),
+
+    field_element: $ => choice(
+      $.field_offset,
+      $.field_named_entry,
+      $.field_empty_entry,
+    ),
+
+    field_offset_element: $ => $.field_offset,
+    field_named_element: $ => $.field_named_entry,
+    field_empty_element: $ => $.field_empty_entry,
+
+    field_offset: $ => seq(
+      field("function", 'Offset'),
+      field("parameters", $.parameters_list)
+    ),
+
+    field_named_entry: $ => seq(
+      field("name", $.name_segs),
+      ',',
+      field("size", $.number)
+    ),
+
+    field_empty_entry: $ => seq(
+      ',',
+      field("size", $.number)
+    ),
+    // ------------------------END FIELD------------------------
+
+    // ------------------------NAME------------------------
+    name_stmt: $ => seq(
+      field("function", 'Name'),
+      field("parameters", $.name_parameters),
+    ),
+
+    name_parameters: $ => seq(
+      '(',
+      field("variable", $.name_segs),
+      ',',
+      field("expression", $._name_expression),
+      ')'
+    ),
+
+    _name_expression: $ => choice(
+      $._expression,
+      $.package_initializer,
+      $.buffer_initializer,
+      $.resource_initializer,
+    ),
+
+    package_initializer: $ => seq(
+      field("function", 'Package'),
+      field("parameters", $.parameters_list),
+      $._comma_list_block
+    ),
+
+    buffer_initializer: $ => seq(
+      field("function", 'Buffer'),
+      field("parameters", $.parameters_list),
+      $._comma_list_block
+    ),
+
+    resource_initializer: $ => seq(
+      field("function", 'ResourceTemplate'),
+      field("parameters", $.parameters_list),
+      // $.resource_template_block
+    ),
+
+    // resource_template_block: $ => seq(
+    //   '{',
+    //   repeat($.generic_call),
+    //   '}'
+    // ),
+
+    _comma_list_block: $ => seq(
+      '{',
+      sepBy(',', $._name_expression),
+      optional(','),
+      '}'
+    ),
+    // ------------------------END NAME------------------------
+
+    assignment_stmt: $ => seq(
+      field("left", $.name_segs),
+      field("operator", choice('=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '&=', '^=', '|=')),
+      field("right", $._expression)
+    ),
+
+    if_stmt: $ => seq(
+      field("function", choice('If', 'ElseIf')),
+      field("condition", $.parameters_list),
+      field("consequence", $.block),
+      optional(field("alternative", $.else_clause))
+    ),
+
+    else_clause: $ => seq(
+      field("function", 'Else'),
+      $.block
+    ),
+
+    // ------------------------------------------------
+    // Expressions
     // ------------------------------------------------
     _expression: $ => choice(
       $.number,
-      $.identifier,
       $.string,
-      $.function_call,
+      $.name_segs,
+      $.path_name,
       $.binary_expression,
-      $.package_expression
+      $._paren_expr
     ),
 
-    number: $ => /0x[0-9A-Fa-f]+|\d+/,
-    identifier: $ => /[a-zA-Z_\\^][a-zA-Z0-9_\.\\^]*/,
-    string: $ => /"[^"]*"/,
-
-    function_call: $ => seq(
-      $.identifier,
-      $._parameters_list
-    ),
-
-    binary_expression: $ => prec.left(1, seq(
-      field('left', $._expression),
-      field('operator', choice(
-        '+',
-        '-',
-        '*',
-        '/',
-        '%',
-        '==',
-        '!=',
-        '<',
-        '>',
-        '<=',
-        '>='
+    binary_expression: $ => choice(
+      // Logical (highest-level precedence)
+      prec.left(1, seq(
+        field("left", $._expression),
+        field("operator", choice('&&', '||')),
+        field("right", $._expression)
       )),
-      field('right', $._expression)
+      // Bitwise
+      prec.left(2, seq(
+        field("left", $._expression),
+        field("operator", choice('&', '|', '^')),
+        field("right", $._expression)
+      )),
+      // Comparison
+      prec.left(3, seq(
+        field("left", $._expression),
+        field("operator", choice('==', '!=', '<', '<=', '>', '>=')),
+        field("right", $._expression)
+      )),
+      // Arithmetic
+      prec.left(4, seq(
+        field("left", $._expression),
+        field("operator", choice('+', '-')),
+        field("right", $._expression)
+      )),
+      prec.left(5, seq(
+        field("left", $._expression),
+        field("operator", choice('*', '/', '<<', '>>', '%')),
+        field("right", $._expression)
+      )),
+    ),
+
+    _paren_expr: $ => prec(1, seq(
+      '(',
+      choice(
+        $._paren_expr, // allow nesting
+        $._expression
+      ),
+      ')'
     )),
 
-    package_expression: $ => seq(
-      field('package', $.identifier),
-      field('parameters', $._parameters_list),
-      '{',
-      optional(sepBy(',', $._expression)),
-      '}'
-    ),
-
     // ------------------------------------------------
-    // STATEMENTS
+    // Tokens
     // ------------------------------------------------
-    _statement: $ => choice(
-      $.block_statement,
-      $.simple_statement,
-      $.field_statement,
-    ),
-
-    block_statement: $ => seq(
-      field('keyword', $.identifier),
-      field('parameters', $._parameters_list),
-      field('block', $.block)
-    ),
-
-    simple_statement: $ => seq(
-      field('keyword', $.identifier),
-      field('parameters', $._parameters_list)
-    ),
-
-    // ------------------------------------------------
-    // FIELD STATEMENTS: Special case of statement
-    // ------------------------------------------------
-    field_statement: $ => seq(
-      'Field',
-      $._parameters_list,
-      $.field_block
-    ),
-
-    field_block: $ => seq(
-      '{',
-      repeat($._field_element),
-      '}'
-    ),
-
-    _field_element: $ => seq(
-      choice(
-        $.offset_statement,
-        $.field_entry
-      ),
-      optional(',')
-    ),
-
-    offset_statement: $ => seq(
-      'Offset',
-      $._parameters_list
-    ),
-
-    field_entry: $ => seq(
-      $.identifier,
-      ',',
-      $.number
-    ),
-
+    number: $ => /0x[0-9A-Fa-f]+|\d+/,                      // 0x1234, 0xABCD, 1234
+    string: $ => /"[^"]*"/,                                 // "Hello, World!"                   
+    name_segs: $ => /([\^A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // _ABC, _A12, _A12.ABC, _SB.PCI0.LPCB.EC0
+    path_name: $ => /(\\[A-Za-z0-9_]+(\.[A-Za-z0-9_]+)*)/,  // \_SB, \_TZ.TZ00, \_SB.PCI0.LPCB.EC0
   }
 });
 
 function sepBy(sep, rule) {
   return optional(seq(rule, repeat(seq(sep, rule))));
 }
+
+function sepBy2(rule) {
+  return seq(rule, repeat(seq(',', rule)));
+}
+
+function sepByAllowingEmpty(sep, rule) {
+  return optional(seq(
+    optional(rule),
+    repeat(seq(sep, optional(rule)))
+  ));
+}
+

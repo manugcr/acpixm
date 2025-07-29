@@ -24,29 +24,31 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
       params: (string)
       params: (string)
       params: (number))
-    (block
+    body: (block
       (field_stmt
         parameters: (parameters_list
-          params: (identifier)
-          params: (identifier)
-          params: (identifier)
-          params: (identifier))
-        (field_element
-          (field_offset 
-            parameters: (parameters_list
-              params: (number))))
-        (field_element
-          (field_named_entry
-            name: (name_segs)
-            size: (number)))
-        (field_element
-          (field_offset
-            parameters: (parameters_list
-              params: (number))))
-        (field_element
-          (field_named_entry
-            name: (name_segs)
-            size: (number)))))))
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs))
+        body: (field_block
+          (field_element
+            (field_offset
+              parameters: (parameters_list
+                params: (number))))
+          (field_element
+            (field_named_entry
+              name: (name_segs)
+              size: (number)))
+          (field_element
+            (field_offset
+              parameters: (parameters_list
+                params: (number))))
+          (field_element
+            (field_named_entry
+              name: (name_segs)
+              size: (number))))))))
+
 
 ==================
 Field Blank Spaces
@@ -80,10 +82,10 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
     (block
       (field_stmt
         parameters: (parameters_list
-          params: (identifier)
-          params: (identifier)
-          params: (identifier)
-          params: (identifier))
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs))
         (field_element
           (field_offset
             parameters: (parameters_list

@@ -18,64 +18,5607 @@
  *     Compiler ID      "    "
  *     Compiler Version 0x01000013 (16777235)
  */
-DefinitionBlock ("", "DSDT", 2, "", "", 0x0)
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
 {
+    /*
+     * iASL Warning: There was 1 external control method found during
+     * disassembly, but only 513 were resolved (4294966784 unresolved). Additional
+     * ACPI tables may be required to properly disassemble the code. This
+     * resulting disassembler output file may not compile because the
+     * disassembler did not know how many arguments to assign to the
+     * unresolved methods. Note: SSDTs can be dynamically loaded at
+     * runtime and may or may not be available via the host OS.
+     *
+     * To specify the tables needed to resolve external control method
+     * references, the -e option can be used to specify the filenames.
+     * Example iASL invocations:
+     *     iasl -e ssdt1.aml ssdt2.aml ssdt3.aml -d dsdt.aml
+     *     iasl -e dsdt.aml ssdt2.aml -d ssdt1.aml
+     *     iasl -e ssdt*.aml -d dsdt.aml
+     *
+     * In addition, the -fe option can be used to specify a file containing
+     * control method external declarations with the associated method
+     * argument counts. Each line of the file must be of the form:
+     *     External (<method pathname>, MethodObj, <argument count>)
+     * Invocation:
+     *     iasl -fe refs.txt -d dsdt.aml
+     *
+     * The following methods were unresolved and many not compile properly
+     * because the disassembler had to guess at the number of arguments
+     * required for each:
+     */
+    External (_GPE.AL6F, MethodObj)    // 0 Arguments
+    External (_GPE.DTIN, MethodObj)    // 0 Arguments
+    External (_GPE.SL61, MethodObj)    // 0 Arguments
+    External (_GPE.SL66, MethodObj)    // 0 Arguments
+    External (_GPE.SL69, MethodObj)    // 0 Arguments
+    External (_GPE.SL6D, MethodObj)    // 0 Arguments
+    External (_GPE.SL6F, MethodObj)    // 0 Arguments
+    External (_SB_.AMW0.BCLR, MethodObj)    // 1 Arguments
+    External (_SB_.AMW0.BDWR, MethodObj)    // 3 Arguments
+    External (_SB_.AMW0.WMBU, UnknownObj)
+    External (_SB_.AWAC, DeviceObj)
+    External (_SB_.AWAC.WAST, IntObj)
+    External (_SB_.BGIA, UnknownObj)
+    External (_SB_.BGMA, UnknownObj)
+    External (_SB_.BGMS, UnknownObj)
+    External (_SB_.BTRK, MethodObj)    // 1 Arguments
+    External (_SB_.CPID, UnknownObj)
+    External (_SB_.CPPC, IntObj)
+    External (_SB_.ECG4, MethodObj)    // 0 Arguments
+    External (_SB_.ECGC, MethodObj)    // 0 Arguments
+    External (_SB_.GBTR, MethodObj)    // 0 Arguments
+    External (_SB_.GGOV, MethodObj)    // 1 Arguments
+    External (_SB_.HIDD, DeviceObj)
+    External (_SB_.IETM, DeviceObj)
+    External (_SB_.NPCF, DeviceObj)
+    External (_SB_.NVDR._DSM, MethodObj)    // 4 Arguments
+    External (_SB_.NVDR.NVD1._DSM, MethodObj)    // 4 Arguments
+    External (_SB_.NVDR.NVD1._LSI, MethodObj)    // 0 Arguments
+    External (_SB_.NVDR.NVD1._LSR, MethodObj)    // 2 Arguments
+    External (_SB_.NVDR.NVD1._LSW, MethodObj)    // 3 Arguments
     External (_SB_.PC00, DeviceObj)
-    External (_SB_.PC00.CNIP, MethodObj) // Comment Here
-    External (_SB_.PC00.CNVW.BOFC, UnknownObj) /* Comment Here */   
-    Scope (\_SB)
+    External (_SB_.PC00.CNIP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.CNVW.BOFC, UnknownObj)
+    External (_SB_.PC00.CNVW.CRFI, UnknownObj)
+    External (_SB_.PC00.CNVW.DPRS, UnknownObj)
+    External (_SB_.PC00.CNVW.FLRC, UnknownObj)
+    External (_SB_.PC00.CNVW.PRRS, UnknownObj)
+    External (_SB_.PC00.CNVW.RSTT, UnknownObj)
+    External (_SB_.PC00.CNVW.RSTY, UnknownObj)
+    External (_SB_.PC00.DPOF, UnknownObj)
+    External (_SB_.PC00.GFX0.ALSI, UnknownObj)
+    External (_SB_.PC00.GFX0.CBLV, UnknownObj)
+    External (_SB_.PC00.GFX0.CDCK, UnknownObj)
+    External (_SB_.PC00.GFX0.CLID, UnknownObj)
+    External (_SB_.PC00.GFX0.DD1F, DeviceObj)
+    External (_SB_.PC00.GFX0.DD2F, DeviceObj)
+    External (_SB_.PC00.GFX0.ECGB, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.GFX0.GDCK, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.GFX0.GLID, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.GFX0.GSSE, UnknownObj)
+    External (_SB_.PC00.GFX0.IPCO, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.GFX0.IPTP, FieldUnitObj)
+    External (_SB_.PC00.GFX0.IUEH, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.GFX0.LCD_.BBRD, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.GFX0.LCD_.BRTL, FieldUnitObj)
+    External (_SB_.PC00.GFX0.LCD_.OIDE, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.GFX0.STAT, UnknownObj)
+    External (_SB_.PC00.GFX0.TCHE, UnknownObj)
+    External (_SB_.PC00.HDAS.PPMS, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.HDAS.PS0X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.HDAS.PS3X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.HIDW, MethodObj)    // 4 Arguments
+    External (_SB_.PC00.HIWC, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.ITSP, UnknownObj)
+    External (_SB_.PC00.LPCB.ECDV.ACOS, DeviceObj)
+    External (_SB_.PC00.LPCB.ECDV.ACSE, DeviceObj)
+    External (_SB_.PC00.LPCB.ECDV.CMFC.DLPN, UnknownObj)
+    External (_SB_.PC00.LPCB.ECDV.CMFC.IDMN, UnknownObj)
+    External (_SB_.PC00.LPCB.ECDV.CMFC.IDPC, UnknownObj)
+    External (_SB_.PC00.LPCB.ECDV.DPNT, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.LPCB.ECDV.ECS2, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.LPCB.ECDV.ECS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.LPCB.ECDV.ECS6, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.LPCB.ECDV.NEVT, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.LPCB.ECDV.VGBS, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.M32B, UnknownObj)
+    External (_SB_.PC00.M32L, UnknownObj)
+    External (_SB_.PC00.M64B, UnknownObj)
+    External (_SB_.PC00.M64L, UnknownObj)
+    External (_SB_.PC00.PAUD.PUAM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PC2M, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.PEG0, DeviceObj)
+    External (_SB_.PC00.PEG0.CPRA, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.BCCX, UnknownObj)
+    External (_SB_.PC00.PEG0.PEGP.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.PIXX, UnknownObj)
+    External (_SB_.PC00.PEG0.PEGP.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.SCCX, UnknownObj)
+    External (_SB_.PC00.PEG0.PEGP.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PEGP.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG0.PRMV, IntObj)
+    External (_SB_.PC00.PEG0.PRTP, IntObj)
+    External (_SB_.PC00.PEG0.RD3C, IntObj)
+    External (_SB_.PC00.PEG0.SLOT, IntObj)
+    External (_SB_.PC00.PEG1, DeviceObj)
+    External (_SB_.PC00.PEG1.CBLV, UnknownObj)
+    External (_SB_.PC00.PEG1.CLID, UnknownObj)
+    External (_SB_.PC00.PEG1.CPRA, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.DGCE, IntObj)
+    External (_SB_.PC00.PEG1.DHDW, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.BCCX, UnknownObj)
+    External (_SB_.PC00.PEG1.PEGP.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.PEGB.PEGE.DEDP, DeviceObj)
+    External (_SB_.PC00.PEG1.PEGP.PIXX, UnknownObj)
+    External (_SB_.PC00.PEG1.PEGP.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.SCCX, UnknownObj)
+    External (_SB_.PC00.PEG1.PEGP.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PEGP.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG1.PRMV, IntObj)
+    External (_SB_.PC00.PEG1.PRTP, IntObj)
+    External (_SB_.PC00.PEG1.RD3C, IntObj)
+    External (_SB_.PC00.PEG1.SLOT, IntObj)
+    External (_SB_.PC00.PEG2, DeviceObj)
+    External (_SB_.PC00.PEG2.CPRA, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.BCCX, UnknownObj)
+    External (_SB_.PC00.PEG2.PEGP.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.PIXX, UnknownObj)
+    External (_SB_.PC00.PEG2.PEGP.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.SCCX, UnknownObj)
+    External (_SB_.PC00.PEG2.PEGP.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PEGP.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG2.PRMV, IntObj)
+    External (_SB_.PC00.PEG2.PRTP, IntObj)
+    External (_SB_.PC00.PEG2.RD3C, IntObj)
+    External (_SB_.PC00.PEG2.SLOT, IntObj)
+    External (_SB_.PC00.PEG3.CPRA, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG3.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PEG3.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.PTHT.THEN, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01, DeviceObj)
+    External (_SB_.PC00.RP01.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP01.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PRMV, IntObj)
+    External (_SB_.PC00.RP01.PRTP, IntObj)
+    External (_SB_.PC00.RP01.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP01.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP01.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP01.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP01.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP01.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP01.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP01.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP01.RD3C, IntObj)
+    External (_SB_.PC00.RP01.SLOT, IntObj)
+    External (_SB_.PC00.RP01.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP01.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP02, DeviceObj)
+    External (_SB_.PC00.RP02.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP02.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PRMV, IntObj)
+    External (_SB_.PC00.RP02.PRTP, IntObj)
+    External (_SB_.PC00.RP02.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP02.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP02.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP02.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP02.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP02.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP02.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP02.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP02.RD3C, IntObj)
+    External (_SB_.PC00.RP02.SLOT, IntObj)
+    External (_SB_.PC00.RP02.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP02.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP03, DeviceObj)
+    External (_SB_.PC00.RP03.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP03.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PRMV, IntObj)
+    External (_SB_.PC00.RP03.PRTP, IntObj)
+    External (_SB_.PC00.RP03.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP03.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP03.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP03.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP03.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP03.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP03.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP03.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP03.RD3C, IntObj)
+    External (_SB_.PC00.RP03.SLOT, IntObj)
+    External (_SB_.PC00.RP03.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP03.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP04, DeviceObj)
+    External (_SB_.PC00.RP04.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP04.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PRMV, IntObj)
+    External (_SB_.PC00.RP04.PRTP, IntObj)
+    External (_SB_.PC00.RP04.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP04.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP04.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP04.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP04.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP04.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP04.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP04.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP04.RD3C, IntObj)
+    External (_SB_.PC00.RP04.SLOT, IntObj)
+    External (_SB_.PC00.RP04.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP04.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP05, DeviceObj)
+    External (_SB_.PC00.RP05.LASX, UnknownObj)
+    External (_SB_.PC00.RP05.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP05.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PRMV, IntObj)
+    External (_SB_.PC00.RP05.PRTP, IntObj)
+    External (_SB_.PC00.RP05.PWRG, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX, DeviceObj)
+    External (_SB_.PC00.RP05.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP05.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP05.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP05.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP05.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP05.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP05.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP05.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP05.RD3C, IntObj)
+    External (_SB_.PC00.RP05.SCLK, UnknownObj)
+    External (_SB_.PC00.RP05.SLOT, IntObj)
+    External (_SB_.PC00.RP05.TB2F, UnknownObj)
+    External (_SB_.PC00.RP05.TB2R, UnknownObj)
+    External (_SB_.PC00.RP05.TFDI, UnknownObj)
+    External (_SB_.PC00.RP05.TN2B, UnknownObj)
+    External (_SB_.PC00.RP05.TR2B, UnknownObj)
+    External (_SB_.PC00.RP05.TR2P, UnknownObj)
+    External (_SB_.PC00.RP05.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP05.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP05.WAKG, UnknownObj)
+    External (_SB_.PC00.RP05.WAKP, UnknownObj)
+    External (_SB_.PC00.RP05.WWEN, UnknownObj)
+    External (_SB_.PC00.RP06, DeviceObj)
+    External (_SB_.PC00.RP06.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP06.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PRMV, IntObj)
+    External (_SB_.PC00.RP06.PRTP, IntObj)
+    External (_SB_.PC00.RP06.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP06.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP06.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP06.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP06.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP06.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP06.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP06.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP06.RD3C, IntObj)
+    External (_SB_.PC00.RP06.SLOT, IntObj)
+    External (_SB_.PC00.RP06.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP06.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP07, DeviceObj)
+    External (_SB_.PC00.RP07.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP07.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PRMV, IntObj)
+    External (_SB_.PC00.RP07.PRTP, IntObj)
+    External (_SB_.PC00.RP07.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP07.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP07.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP07.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP07.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP07.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP07.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP07.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP07.RD3C, IntObj)
+    External (_SB_.PC00.RP07.SLOT, IntObj)
+    External (_SB_.PC00.RP07.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP07.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP08, DeviceObj)
+    External (_SB_.PC00.RP08.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP08.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PRMV, IntObj)
+    External (_SB_.PC00.RP08.PRTP, IntObj)
+    External (_SB_.PC00.RP08.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP08.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP08.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP08.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP08.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP08.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP08.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP08.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP08.RD3C, IntObj)
+    External (_SB_.PC00.RP08.SLOT, IntObj)
+    External (_SB_.PC00.RP08.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP08.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP09, DeviceObj)
+    External (_SB_.PC00.RP09.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP09.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PRMV, IntObj)
+    External (_SB_.PC00.RP09.PRTP, IntObj)
+    External (_SB_.PC00.RP09.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP09.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP09.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP09.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP09.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP09.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP09.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP09.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP09.RD3C, IntObj)
+    External (_SB_.PC00.RP09.SLOT, IntObj)
+    External (_SB_.PC00.RP09.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP09.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP10, DeviceObj)
+    External (_SB_.PC00.RP10.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP10.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PRMV, IntObj)
+    External (_SB_.PC00.RP10.PRTP, IntObj)
+    External (_SB_.PC00.RP10.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP10.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP10.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP10.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP10.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP10.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP10.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP10.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP10.RD3C, IntObj)
+    External (_SB_.PC00.RP10.SLOT, IntObj)
+    External (_SB_.PC00.RP10.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP10.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP11, DeviceObj)
+    External (_SB_.PC00.RP11.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP11.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PRMV, IntObj)
+    External (_SB_.PC00.RP11.PRTP, IntObj)
+    External (_SB_.PC00.RP11.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP11.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP11.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP11.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP11.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP11.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP11.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP11.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP11.RD3C, IntObj)
+    External (_SB_.PC00.RP11.SLOT, IntObj)
+    External (_SB_.PC00.RP11.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP11.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP12, DeviceObj)
+    External (_SB_.PC00.RP12.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP12.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PRMV, IntObj)
+    External (_SB_.PC00.RP12.PRTP, IntObj)
+    External (_SB_.PC00.RP12.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP12.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP12.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP12.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP12.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP12.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP12.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP12.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP12.RD3C, IntObj)
+    External (_SB_.PC00.RP12.SLOT, IntObj)
+    External (_SB_.PC00.RP12.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP12.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP13, DeviceObj)
+    External (_SB_.PC00.RP13.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP13.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PRMV, IntObj)
+    External (_SB_.PC00.RP13.PRTP, IntObj)
+    External (_SB_.PC00.RP13.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP13.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP13.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP13.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP13.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP13.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP13.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP13.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP13.RD3C, IntObj)
+    External (_SB_.PC00.RP13.SLOT, IntObj)
+    External (_SB_.PC00.RP13.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP13.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP14, DeviceObj)
+    External (_SB_.PC00.RP14.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP14.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PRMV, IntObj)
+    External (_SB_.PC00.RP14.PRTP, IntObj)
+    External (_SB_.PC00.RP14.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP14.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP14.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP14.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP14.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP14.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP14.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP14.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP14.RD3C, IntObj)
+    External (_SB_.PC00.RP14.SLOT, IntObj)
+    External (_SB_.PC00.RP14.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP14.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP15, DeviceObj)
+    External (_SB_.PC00.RP15.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP15.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PRMV, IntObj)
+    External (_SB_.PC00.RP15.PRTP, IntObj)
+    External (_SB_.PC00.RP15.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP15.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP15.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP15.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP15.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP15.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP15.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP15.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP15.RD3C, IntObj)
+    External (_SB_.PC00.RP15.SLOT, IntObj)
+    External (_SB_.PC00.RP15.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP15.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP16, DeviceObj)
+    External (_SB_.PC00.RP16.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP16.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PRMV, IntObj)
+    External (_SB_.PC00.RP16.PRTP, IntObj)
+    External (_SB_.PC00.RP16.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP16.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP16.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP16.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP16.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP16.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP16.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP16.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP16.RD3C, IntObj)
+    External (_SB_.PC00.RP16.SLOT, IntObj)
+    External (_SB_.PC00.RP16.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP16.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP17, DeviceObj)
+    External (_SB_.PC00.RP17.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP17.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PRMV, IntObj)
+    External (_SB_.PC00.RP17.PRTP, IntObj)
+    External (_SB_.PC00.RP17.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP17.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP17.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP17.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP17.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP17.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP17.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP17.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP17.RD3C, IntObj)
+    External (_SB_.PC00.RP17.SLOT, IntObj)
+    External (_SB_.PC00.RP17.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP17.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP18, DeviceObj)
+    External (_SB_.PC00.RP18.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP18.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PRMV, IntObj)
+    External (_SB_.PC00.RP18.PRTP, IntObj)
+    External (_SB_.PC00.RP18.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP18.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP18.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP18.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP18.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP18.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP18.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP18.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP18.RD3C, IntObj)
+    External (_SB_.PC00.RP18.SLOT, IntObj)
+    External (_SB_.PC00.RP18.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP18.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP19, DeviceObj)
+    External (_SB_.PC00.RP19.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP19.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PRMV, IntObj)
+    External (_SB_.PC00.RP19.PRTP, IntObj)
+    External (_SB_.PC00.RP19.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP19.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP19.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP19.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP19.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP19.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP19.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP19.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP19.RD3C, IntObj)
+    External (_SB_.PC00.RP19.SLOT, IntObj)
+    External (_SB_.PC00.RP19.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP19.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP20, DeviceObj)
+    External (_SB_.PC00.RP20.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP20.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PRMV, IntObj)
+    External (_SB_.PC00.RP20.PRTP, IntObj)
+    External (_SB_.PC00.RP20.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP20.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP20.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP20.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP20.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP20.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP20.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP20.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP20.RD3C, IntObj)
+    External (_SB_.PC00.RP20.SLOT, IntObj)
+    External (_SB_.PC00.RP20.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP20.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP21, DeviceObj)
+    External (_SB_.PC00.RP21.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP21.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PRMV, IntObj)
+    External (_SB_.PC00.RP21.PRTP, IntObj)
+    External (_SB_.PC00.RP21.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP21.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP21.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP21.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP21.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP21.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP21.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP21.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP21.RD3C, IntObj)
+    External (_SB_.PC00.RP21.SLOT, IntObj)
+    External (_SB_.PC00.RP21.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP21.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP22, DeviceObj)
+    External (_SB_.PC00.RP22.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP22.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PRMV, IntObj)
+    External (_SB_.PC00.RP22.PRTP, IntObj)
+    External (_SB_.PC00.RP22.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP22.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP22.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP22.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP22.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP22.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP22.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP22.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP22.RD3C, IntObj)
+    External (_SB_.PC00.RP22.SLOT, IntObj)
+    External (_SB_.PC00.RP22.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP22.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP23, DeviceObj)
+    External (_SB_.PC00.RP23.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP23.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PRMV, IntObj)
+    External (_SB_.PC00.RP23.PRTP, IntObj)
+    External (_SB_.PC00.RP23.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP23.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP23.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP23.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP23.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP23.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP23.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP23.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP23.RD3C, IntObj)
+    External (_SB_.PC00.RP23.SLOT, IntObj)
+    External (_SB_.PC00.RP23.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP23.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP24, DeviceObj)
+    External (_SB_.PC00.RP24.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP24.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PRMV, IntObj)
+    External (_SB_.PC00.RP24.PRTP, IntObj)
+    External (_SB_.PC00.RP24.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP24.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP24.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP24.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP24.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP24.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP24.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP24.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP24.RD3C, IntObj)
+    External (_SB_.PC00.RP24.SLOT, IntObj)
+    External (_SB_.PC00.RP24.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP24.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP25, DeviceObj)
+    External (_SB_.PC00.RP25.NFRP, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP25.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PRMV, IntObj)
+    External (_SB_.PC00.RP25.PRTP, IntObj)
+    External (_SB_.PC00.RP25.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP25.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP25.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP25.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP25.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP25.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP25.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP25.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP25.RD3C, IntObj)
+    External (_SB_.PC00.RP25.SLOT, IntObj)
+    External (_SB_.PC00.RP25.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP25.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP26, DeviceObj)
+    External (_SB_.PC00.RP26.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP26.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PRMV, IntObj)
+    External (_SB_.PC00.RP26.PRTP, IntObj)
+    External (_SB_.PC00.RP26.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP26.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP26.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP26.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP26.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP26.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP26.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP26.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP26.RD3C, IntObj)
+    External (_SB_.PC00.RP26.SLOT, IntObj)
+    External (_SB_.PC00.RP26.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP26.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP27, DeviceObj)
+    External (_SB_.PC00.RP27.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP27.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PRMV, IntObj)
+    External (_SB_.PC00.RP27.PRTP, IntObj)
+    External (_SB_.PC00.RP27.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP27.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP27.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP27.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP27.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP27.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP27.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP27.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP27.RD3C, IntObj)
+    External (_SB_.PC00.RP27.SLOT, IntObj)
+    External (_SB_.PC00.RP27.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP27.VDID, FieldUnitObj)
+    External (_SB_.PC00.RP28, DeviceObj)
+    External (_SB_.PC00.RP28.PINI, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.POFF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PON_, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PPBA, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP28.PPS0, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PPS3, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PRMV, IntObj)
+    External (_SB_.PC00.RP28.PRTP, IntObj)
+    External (_SB_.PC00.RP28.PXSX.BCCX, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.BOFC, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.BRMT, IntObj)
+    External (_SB_.PC00.RP28.PXSX.CRFI, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.DPRS, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.FDEL, IntObj)
+    External (_SB_.PC00.RP28.PXSX.FLRC, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.ISGX, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PXSX.PAHC, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PXSX.PDEL, IntObj)
+    External (_SB_.PC00.RP28.PXSX.PIXX, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.PNVM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PXSX.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PXSX.RDF0, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.RDF6, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.RDLY, IntObj)
+    External (_SB_.PC00.RP28.PXSX.RSTY, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.SCCX, UnknownObj)
+    External (_SB_.PC00.RP28.PXSX.VDEL, IntObj)
+    External (_SB_.PC00.RP28.PXSX.WIST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.PXSX.WVHO, IntObj)
+    External (_SB_.PC00.RP28.PXSX.WWST, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.RP28.RD3C, IntObj)
+    External (_SB_.PC00.RP28.SLOT, IntObj)
+    External (_SB_.PC00.RP28.UPRD, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.RP28.VDID, FieldUnitObj)
+    External (_SB_.PC00.SAT0.PRT0, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT0.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT0.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT0.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT1, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT1.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT1.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT1.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT2, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT2.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT2.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT2.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT3, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT3.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT3.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT3.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT4, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT4.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT4.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT4.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT5, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT5.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT5.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT5.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT6, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT6.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT6.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT6.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT7, DeviceObj)
+    External (_SB_.PC00.SAT0.PRT7.PRES, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT7.SPOF, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.PRT7.SPON, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.SAT0.SATC, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.SAT0.SATD, MethodObj)    // 4 Arguments
+    External (_SB_.PC00.SAT0.ZPOV, MethodObj)    // 3 Arguments
+    External (_SB_.PC00.SWAK, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.TDM0, DeviceObj)
+    External (_SB_.PC00.TDM0._STA, UnknownObj)
+    External (_SB_.PC00.TDM0.SCME, UnknownObj)
+    External (_SB_.PC00.TDM0.STCM, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.TDM1, DeviceObj)
+    External (_SB_.PC00.TDM1._STA, UnknownObj)
+    External (_SB_.PC00.TDM1.SCME, UnknownObj)
+    External (_SB_.PC00.TDM1.STCM, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.THC0, DeviceObj)
+    External (_SB_.PC00.THC0.CINI, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.THC1, DeviceObj)
+    External (_SB_.PC00.THC1.CINI, MethodObj)    // 2 Arguments
+    External (_SB_.PC00.TXHC, DeviceObj)
+    External (_SB_.PC00.UA00.WGAS, IntObj)
+    External (_SB_.PC00.XDCI.XDAT, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.DUAM, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.PS0X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.PS3X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.PSLI, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.XHCI.PSLP, MethodObj)    // 1 Arguments
+    External (_SB_.PC00.XHCI.RHUB.HS10.BRMT, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS10.CBTC, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS10.CBTI, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS10.RDLY, UnknownObj)
+    External (_SB_.PC00.XHCI.RHUB.HS10.WGAS, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS10.WVHO, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.BRMT, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.CBTC, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.CBTI, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.RDLY, UnknownObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.WGAS, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.HS14.WVHO, IntObj)
+    External (_SB_.PC00.XHCI.RHUB.INIR, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.RHUB.PS0X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.RHUB.PS2X, MethodObj)    // 0 Arguments
+    External (_SB_.PC00.XHCI.RHUB.PS3X, MethodObj)    // 0 Arguments
+    External (_SB_.PCI0.B0D4.NPCC, IntObj)
+    External (_SB_.PR00.LPSS, PkgObj)
+    External (_SB_.PR00.TPSS, PkgObj)
+    External (_SB_.PSD0, MethodObj)    // 1 Arguments
+    External (_SB_.PSD3, MethodObj)    // 1 Arguments
+    External (_SB_.PTHH.THEN, MethodObj)    // 0 Arguments
+    External (_SB_.PWRB, DeviceObj)
+    External (_SB_.SGOV, MethodObj)    // 2 Arguments
+    External (_SB_.SHPO, MethodObj)    // 2 Arguments
+    External (_SB_.SIME, UnknownObj)
+    External (_SB_.TCWK, MethodObj)    // 1 Arguments
+    External (_SB_.TPM_.PTS_, MethodObj)    // 1 Arguments
+    External (_SB_.TRPD, UnknownObj)
+    External (_SB_.TRPF, UnknownObj)
+    External (_TZ_.ETMD, IntObj)
+    External (_TZ_.TZ00, DeviceObj)
+    External (ADBG, MethodObj)    // 1 Arguments
+    External (AL6D, FieldUnitObj)
+    External (ATRA, IntObj)
+    External (BGIA, IntObj)
+    External (BGMA, IntObj)
+    External (BGMS, IntObj)
+    External (BIPM, UnknownObj)
+    External (BMID, UnknownObj)
+    External (BPNT, MethodObj)    // 0 Arguments
+    External (BS02, PkgObj)
+    External (BTCA, UnknownObj)
+    External (CGLS, UnknownObj)
+    External (CNMT, UnknownObj)
+    External (DDMS, MethodObj)    // 0 Arguments
+    External (DGBA, UnknownObj)
+    External (DGDX, UnknownObj)
+    External (DIDX, UnknownObj)
+    External (DIDY, UnknownObj)
+    External (DME0, UnknownObj)
+    External (DME1, UnknownObj)
+    External (DPG1, UnknownObj)
+    External (DPIW, UnknownObj)
+    External (DPMS, FieldUnitObj)
+    External (DPRS, IntObj)
+    External (DSCE, IntObj)
+    External (DTCM, MethodObj)    // 2 Arguments
+    External (DTFS, UnknownObj)
+    External (DTRT, UnknownObj)
+    External (DUWS, UnknownObj)
+    External (ECU0, MethodObj)    // 2 Arguments
+    External (EPTU, FieldUnitObj)
+    External (ESPC, UnknownObj)
+    External (GPRV, MethodObj)    // 2 Arguments
+    External (HBCL, FieldUnitObj)
+    External (HBPL, FieldUnitObj)
+    External (HGMD, UnknownObj)
+    External (IDMN, IntObj)
+    External (IDPC, IntObj)
+    External (ISAR, MethodObj)    // 4 Arguments
+    External (ITSP, IntObj)
+    External (KMOF, MethodObj)    // 0 Arguments
+    External (KMON, MethodObj)    // 1 Arguments
+    External (M32B, IntObj)
+    External (M32L, IntObj)
+    External (M64B, IntObj)
+    External (M64L, IntObj)
+    External (MEM3, IntObj)
+    External (MEMC, IntObj)
+    External (MEMH, IntObj)
+    External (ODBG, MethodObj)    // 1 Arguments
+    External (ODV0, IntObj)
+    External (ODV1, IntObj)
+    External (ODV2, IntObj)
+    External (ODV3, IntObj)
+    External (ODV4, IntObj)
+    External (ODV5, IntObj)
+    External (P0WK, UnknownObj)
+    External (P1WK, UnknownObj)
+    External (P2WK, UnknownObj)
+    External (P3WK, UnknownObj)
+    External (PBRS, UnknownObj)
+    External (PCHS, FieldUnitObj)
+    External (PCHX, IntObj)
+    External (PCRA, MethodObj)    // 3 Arguments
+    External (PFCP, UnknownObj)
+    External (PG3S, UnknownObj)
+    External (PIN_.OFF_, MethodObj)    // 1 Arguments
+    External (PIN_.ON__, MethodObj)    // 1 Arguments
+    External (PIN_.STA_, MethodObj)    // 1 Arguments
+    External (PMRL, FieldUnitObj)
+    External (PMSA, FieldUnitObj)
+    External (PRST, UnknownObj)
+    External (PS2D, UnknownObj)
+    External (PSON, UnknownObj)
+    External (PTHM, FieldUnitObj)
+    External (PTRA, IntObj)
+    External (PU2C, UnknownObj)
+    External (PU3C, UnknownObj)
+    External (RDF0, IntObj)
+    External (RDF6, IntObj)
+    External (RPN0, IntObj)
+    External (RPN1, IntObj)
+    External (RPS0, IntObj)
+    External (RPS1, IntObj)
+    External (RSTY, IntObj)
+    External (RTD3, FieldUnitObj)
+    External (SBIE, MethodObj)    // 1 Arguments
+    External (SIME, UnknownObj)
+    External (SPNT, MethodObj)    // 0 Arguments
+    External (SPTS, MethodObj)    // 1 Arguments
+    External (STD3, FieldUnitObj)
+    External (SWAK, MethodObj)    // 2 Arguments
+    External (TBPE, IntObj)
+    External (TCPN, UnknownObj)
+    External (TDCE, UnknownObj)
+    External (THCE, UnknownObj)
+    External (TOFF, IntObj)
+    External (TPDT, UnknownObj)
+    External (TPHD, BuffObj)
+    External (TPLT, UnknownObj)
+    External (TPPD, BuffObj)
+    External (TPTS, MethodObj)    // 1 Arguments
+    External (TRE0, UnknownObj)
+    External (TRE1, UnknownObj)
+    External (TRE2, UnknownObj)
+    External (TRE3, UnknownObj)
+    External (TVCF, MethodObj)    // 4 Arguments
+    External (UF0E, UnknownObj)
+    External (UF1E, UnknownObj)
+    External (ULTR, MethodObj)    // 1 Arguments
+    External (VDSD, IntObj)
+    External (VMCP, UnknownObj)
+    External (VMDE, FieldUnitObj)
+    External (VMR1, UnknownObj)
+    External (VMR2, UnknownObj)
+    External (VMR3, UnknownObj)
+    External (VMR4, UnknownObj)
+    External (WBRS, UnknownObj)
+    External (WFCP, UnknownObj)
+    External (WPRP, UnknownObj)
+    External (WRTO, UnknownObj)
+    External (WWKP, UnknownObj)
+    External (WWMT, UnknownObj)
+    External (XBAS, UnknownObj)
+    External (ZPPB, FieldUnitObj)
+
+    Method (DISP, 1, NotSerialized)
     {
-        Device (PCI0)
+        Return (Zero)
+    }
+
+    Name (SANB, 0x5D50F418)
+    Name (SANL, 0x01C7)
+    OperationRegion (SANV, SystemMemory, SANB, SANL)
+    Field (SANV, AnyAcc, Lock, Preserve)
+    {
+        ASLB,   32, 
+        IMON,   8, 
+        IGDS,   8, 
+        IBTT,   8, 
+        IPAT,   8, 
+        IPSC,   8, 
+        IBIA,   8, 
+        ISSC,   8, 
+        IF1E,   8, 
+        HVCO,   8, 
+        GSMI,   8, 
+        PAVP,   8, 
+        CADL,   8, 
+        CSTE,   16, 
+        NSTE,   16, 
+        NDID,   8, 
+        DID1,   32, 
+        DID2,   32, 
+        DID3,   32, 
+        DID4,   32, 
+        DID5,   32, 
+        DID6,   32, 
+        DID7,   32, 
+        DID8,   32, 
+        DID9,   32, 
+        DIDA,   32, 
+        DIDB,   32, 
+        DIDC,   32, 
+        DIDD,   32, 
+        DIDE,   32, 
+        DIDF,   32, 
+        DIDX,   32, 
+        NXD1,   32, 
+        NXD2,   32, 
+        NXD3,   32, 
+        NXD4,   32, 
+        NXD5,   32, 
+        NXD6,   32, 
+        NXD7,   32, 
+        NXD8,   32, 
+        NXDX,   32, 
+        LIDS,   8, 
+        KSV0,   32, 
+        KSV1,   8, 
+        BRTL,   8, 
+        ALSE,   8, 
+        ALAF,   8, 
+        LLOW,   8, 
+        LHIH,   8, 
+        ALFP,   8, 
+        IPTP,   8, 
+        EDPV,   8, 
+        HGMD,   8, 
+        HGFL,   8, 
+        SGGP,   8, 
+        HRE0,   8, 
+        HRG0,   32, 
+        HRA0,   8, 
+        PWE0,   8, 
+        PWG0,   32, 
+        PWA0,   8, 
+        P1GP,   8, 
+        HRE1,   8, 
+        HRG1,   32, 
+        HRA1,   8, 
+        PWE1,   8, 
+        PWG1,   32, 
+        PWA1,   8, 
+        P2GP,   8, 
+        HRE2,   8, 
+        HRG2,   32, 
+        HRA2,   8, 
+        PWE2,   8, 
+        PWG2,   32, 
+        PWA2,   8, 
+        P3GP,   8, 
+        HRE3,   8, 
+        HRG3,   32, 
+        HRA3,   8, 
+        PWE3,   8, 
+        PWG3,   32, 
+        PWA3,   8, 
+        P3WK,   32, 
+        DLPW,   16, 
+        DLHR,   16, 
+        EECP,   8, 
+        XBAS,   32, 
+        GBAS,   16, 
+        NVGA,   32, 
+        NVHA,   32, 
+        AMDA,   32, 
+        LTRX,   8, 
+        OBFX,   8, 
+        LTRY,   8, 
+        OBFY,   8, 
+        LTRZ,   8, 
+        OBFZ,   8, 
+        LTRW,   8, 
+        OBFA,   8, 
+        SMSL,   16, 
+        SNSL,   16, 
+        M64B,   64, 
+        M64L,   64, 
+        CPEX,   32, 
+        M32B,   32, 
+        M32L,   32, 
+        P0WK,   32, 
+        P1WK,   32, 
+        P2WK,   32, 
+        VTDS,   8, 
+        VTB1,   32, 
+        VTB2,   32, 
+        VTB3,   32, 
+        VTB4,   32, 
+        VTB5,   32, 
+        VTB6,   32, 
+        VTB7,   32, 
+        VE1V,   16, 
+        VE2V,   16, 
+        RPIN,   8, 
+        RPBA,   32, 
+        CTHM,   8, 
+        SIME,   8, 
+        THCE,   8, 
+        TDCE,   8, 
+        DME0,   8, 
+        DME1,   8, 
+        TRE0,   8, 
+        TRE1,   8, 
+        TRE2,   8, 
+        TRE3,   8, 
+        TPA0,   32, 
+        TPA1,   32, 
+        TPA2,   32, 
+        TPA3,   32, 
+        TCDS,   32, 
+        TCIT,   8, 
+        TCIR,   8, 
+        TRTD,   8, 
+        ITM0,   32, 
+        ITM1,   32, 
+        LTE0,   8, 
+        LTE1,   8, 
+        LTE2,   8, 
+        LTE3,   8, 
+        PSL0,   16, 
+        PSL1,   16, 
+        PSL2,   16, 
+        PSL3,   16, 
+        PNS0,   16, 
+        PNS1,   16, 
+        PNS2,   16, 
+        PNS3,   16, 
+        IMRY,   8, 
+        TIVS,   8, 
+        PG0E,   8, 
+        PG1E,   8, 
+        PG2E,   8, 
+        PG3E,   8, 
+        VMDE,   8, 
+        DIDY,   32, 
+        NXDY,   32, 
+        SLTS,   8, 
+        VMR1,   8, 
+        VMR2,   8, 
+        VMR3,   8, 
+        VMR4,   8, 
+        VMS0,   8, 
+        VMCP,   8, 
+        CPRT,   8, 
+        CSLU,   32, 
+        CSSP,   32, 
+        MPGN,   8, 
+        CMBM,   8, 
+        DPMS,   8, 
+        PMSA,   64, 
+        PMRL,   64, 
+        PBR1,   8, 
+        PBR2,   8, 
+        PBR3,   8, 
+        PPA0,   32, 
+        PPA1,   32, 
+        PPA2,   32, 
+        PPA3,   32, 
+        REGO,   16, 
+        WSCI,   8, 
+        RTBM,   8, 
+        PFG0,   8, 
+        PFG1,   8, 
+        PFG2,   8, 
+        PFG3,   8, 
+        P0SC,   8, 
+        P1SC,   8, 
+        P2SC,   8, 
+        P3SC,   8, 
+        SBN0,   8, 
+        SBN1,   8, 
+        SBN2,   8, 
+        SBN3,   8, 
+        EEC1,   8, 
+        EEC2,   8, 
+        EEC3,   8
+    }
+
+    Name (SS1, Zero)
+    Name (SS2, Zero)
+    Name (SS3, Zero)
+    Name (SS4, One)
+    OperationRegion (GNVS, SystemMemory, 0x5D50C000, 0x0D04)
+    Field (GNVS, AnyAcc, Lock, Preserve)
+    {
+        OSYS,   16, 
+        SMIF,   8, 
+        PRM0,   8, 
+        PRM1,   8, 
+        SCIF,   8, 
+        PRM2,   8, 
+        PRM3,   8, 
+        LCKF,   8, 
+        PRM4,   8, 
+        PRM5,   8, 
+        PWRS,   8, 
+        DBGS,   8, 
+        THOF,   8, 
+        ACT1,   8, 
+        ACTT,   8, 
+        PSVT,   8, 
+        TC1V,   8, 
+        TC2V,   8, 
+        TSPV,   8, 
+        CRTT,   8, 
+        REVN,   8, 
+        APIC,   8, 
+        TCNT,   8, 
+        PCP0,   8, 
+        PCP1,   8, 
+        PPCM,   8, 
+        PPMF,   32, 
+        C67L,   8, 
+        NATP,   8, 
+        CMAP,   8, 
+        CMBP,   8, 
+        LPTP,   8, 
+        FDCP,   8, 
+        CMCP,   8, 
+        CIRP,   8, 
+        SMSC,   8, 
+        W381,   8, 
+        SMC1,   8, 
+        EMAE,   8, 
+        EMAP,   16, 
+        EMAL,   16, 
+        MEFE,   8, 
+        DSTS,   8, 
+        MORD,   8, 
+        TCGP,   8, 
+        PPRP,   32, 
+        PPRQ,   8, 
+        LPPR,   8, 
+        IDEM,   8, 
+        PLID,   8, 
+        BTYP,   8, 
+        OSCC,   8, 
+        NEXP,   8, 
+        SBV1,   8, 
+        SBV2,   8, 
+        ECON,   8, 
+        DSEN,   8, 
+        GPIC,   8, 
+        CTYP,   8, 
+        L01C,   8, 
+        VFN0,   8, 
+        VFN1,   8, 
+        VFN2,   8, 
+        VFN3,   8, 
+        VFN4,   8, 
+        VFN5,   8, 
+        VFN6,   8, 
+        VFN7,   8, 
+        VFN8,   8, 
+        VFN9,   8, 
+        PNHM,   32, 
+        TBAL,   32, 
+        TBAH,   32, 
+        TSOD,   8, 
+        PFLV,   8, 
+        BREV,   16, 
+        PAMT,   8, 
+        AC0F,   8, 
+        AC1F,   8, 
+        XTUB,   32, 
+        XTUS,   32, 
+        XMPB,   32, 
+        DDRF,   8, 
+        RTD3,   8, 
+        PEP0,   8, 
+        PEP3,   8, 
+        DPTF,   8, 
+        DCFE,   16, 
+        SADE,   8, 
+        FND1,   8, 
+        AMBD,   8, 
+        AMAT,   8, 
+        AMPT,   8, 
+        AMCT,   8, 
+        AMHT,   8, 
+        SKDE,   8, 
+        SKAT,   8, 
+        SKPT,   8, 
+        SKCT,   8, 
+        SKHT,   8, 
+        EFDE,   8, 
+        EFAT,   8, 
+        EFPT,   8, 
+        EFCT,   8, 
+        EFHT,   8, 
+        VRDE,   8, 
+        VRAT,   8, 
+        VRPT,   8, 
+        VRCT,   8, 
+        VRHT,   8, 
+        DPAP,   8, 
+        DPPP,   8, 
+        DPCP,   8, 
+        PIDE,   8, 
+        PPSZ,   32, 
+        Offset (0x9C), 
+        CHEN,   8, 
+        S0ID,   8, 
+        CTDB,   8, 
+        DKSM,   8, 
+        SIO1,   16, 
+        SIO2,   16, 
+        SPBA,   16, 
+        Offset (0x1F3), 
+        PG3S,   8, 
+        PWRE,   8, 
+        Offset (0x1F7), 
+        PPPR,   16, 
+        PBPE,   8, 
+        VSPE,   8, 
+        RFIM,   8, 
+        Offset (0x203), 
+        XHPR,   8, 
+        RIC0,   8, 
+        GBSX,   8, 
+        IUBE,   8, 
+        IUCE,   8, 
+        IUDE,   8, 
+        ECNO,   8, 
+        AUDD,   16, 
+        IC0D,   16, 
+        IC1D,   16, 
+        IC1S,   16, 
+        VRRD,   16, 
+        PSCP,   8, 
+        I20D,   16, 
+        I21D,   16, 
+        RCG0,   16, 
+        RCG1,   16, 
+        P2ME,   8, 
+        P2MK,   8, 
+        SSH0,   16, 
+        SSL0,   16, 
+        SSD0,   16, 
+        FMH0,   16, 
+        FML0,   16, 
+        FMD0,   16, 
+        FPH0,   16, 
+        FPL0,   16, 
+        FPD0,   16, 
+        HSH0,   16, 
+        HSL0,   16, 
+        HSD0,   16, 
+        Offset (0x23D), 
+        SSH1,   16, 
+        SSL1,   16, 
+        SSD1,   16, 
+        FMH1,   16, 
+        FML1,   16, 
+        FMD1,   16, 
+        FPH1,   16, 
+        FPL1,   16, 
+        FPD1,   16, 
+        HSH1,   16, 
+        HSL1,   16, 
+        HSD1,   16, 
+        Offset (0x256), 
+        SSH2,   16, 
+        SSL2,   16, 
+        SSD2,   16, 
+        FMH2,   16, 
+        FML2,   16, 
+        FMD2,   16, 
+        FPH2,   16, 
+        FPL2,   16, 
+        FPD2,   16, 
+        HSH2,   16, 
+        HSL2,   16, 
+        HSD2,   16, 
+        Offset (0x26F), 
+        SSH3,   16, 
+        SSL3,   16, 
+        SSD3,   16, 
+        FMH3,   16, 
+        FML3,   16, 
+        FMD3,   16, 
+        FPH3,   16, 
+        FPL3,   16, 
+        FPD3,   16, 
+        HSH3,   16, 
+        HSL3,   16, 
+        HSD3,   16, 
+        Offset (0x288), 
+        SSH4,   16, 
+        SSL4,   16, 
+        SSD4,   16, 
+        FMH4,   16, 
+        FML4,   16, 
+        FMD4,   16, 
+        FPH4,   16, 
+        FPL4,   16, 
+        FPD4,   16, 
+        HSH4,   16, 
+        HSL4,   16, 
+        HSD4,   16, 
+        Offset (0x2A1), 
+        SSH5,   16, 
+        SSL5,   16, 
+        SSD5,   16, 
+        FMH5,   16, 
+        FML5,   16, 
+        FMD5,   16, 
+        FPH5,   16, 
+        FPL5,   16, 
+        FPD5,   16, 
+        HSH5,   16, 
+        HSL5,   16, 
+        HSD5,   16, 
+        Offset (0x2BA), 
+        M0C0,   16, 
+        M1C0,   16, 
+        M0C1,   16, 
+        M1C1,   16, 
+        M0C2,   16, 
+        M1C2,   16, 
+        M0C3,   16, 
+        M1C3,   16, 
+        M0C4,   16, 
+        M1C4,   16, 
+        M0C5,   16, 
+        M1C5,   16, 
+        M0C6,   16, 
+        M1C6,   16, 
+        M0C7,   16, 
+        M1C7,   16, 
+        M0C8,   16, 
+        M1C8,   16, 
+        Offset (0x2DF), 
+        M0C9,   16, 
+        M1C9,   16, 
+        M0CA,   16, 
+        M1CA,   16, 
+        M0CB,   16, 
+        M1CB,   16, 
+        Offset (0x2EC), 
+        GIRQ,   32, 
+        DMTP,   8, 
+        DMTD,   8, 
+        DMSH,   8, 
+        SHSB,   8, 
+        PLCS,   8, 
+        PLVL,   16, 
+        WWSD,   8, 
+        CVSD,   8, 
+        SSDD,   8, 
+        INLD,   8, 
+        IFAT,   8, 
+        IFPT,   8, 
+        IFCT,   8, 
+        IFHT,   8, 
+        USBH,   8, 
+        BCV4,   8, 
+        WTV0,   8, 
+        WTV1,   8, 
+        APFU,   8, 
+        Offset (0x30A), 
+        PEPC,   64, 
+        VRSD,   16, 
+        PB1E,   8, 
+        GNID,   8, 
+        Offset (0x320), 
+        AUPL,   32, 
+        Offset (0x327), 
+        CHGE,   8, 
+        AMC3,   8, 
+        SKC3,   8, 
+        EFC3,   8, 
+        VRC3,   8, 
+        IFC3,   8, 
+        WGC3,   8, 
+        ESPC,   8, 
+        BATR,   8, 
+        IN34,   8, 
+        ECLP,   8, 
+        MEMS,   8, 
+        S1DE,   8, 
+        S2DE,   8, 
+        S3DE,   8, 
+        S4DE,   8, 
+        S5DE,   8, 
+        S1S3,   8, 
+        S2S3,   8, 
+        S3S3,   8, 
+        S4S3,   8, 
+        S5S3,   8, 
+        PSME,   8, 
+        PDT1,   8, 
+        PLM1,   32, 
+        PTW1,   32, 
+        DDT1,   8, 
+        DDP1,   8, 
+        DLI1,   16, 
+        DPL1,   16, 
+        DTW1,   32, 
+        DMI1,   16, 
+        DMA1,   16, 
+        DMT1,   16, 
+        WIFE,   8, 
+        DOM1,   8, 
+        LIM1,   16, 
+        TIM1,   32, 
+        TRD0,   8, 
+        TRL0,   8, 
+        TRD1,   8, 
+        TRL1,   8, 
+        WDM1,   8, 
+        CID1,   16, 
+        Offset (0x3FA), 
+        APPE,   8, 
+        SDS0,   8, 
+        SDS1,   8, 
+        SDS2,   8, 
+        SDS3,   8, 
+        SDS4,   8, 
+        SDS5,   8, 
+        SDS6,   8, 
+        SDS7,   8, 
+        SDS8,   8, 
+        SDS9,   8, 
+        SDSA,   8, 
+        TPLT,   8, 
+        TPLM,   8, 
+        TPLB,   8, 
+        TPLH,   16, 
+        TPLS,   8, 
+        TPDT,   8, 
+        TPDM,   8, 
+        TPDB,   8, 
+        TPDH,   16, 
+        TPDS,   8, 
+        FPTT,   8, 
+        FPTM,   8, 
+        WTVX,   8, 
+        WITX,   8, 
+        GPTD,   8, 
+        GDBT,   16, 
+        UTKX,   8, 
+        SPTD,   8, 
+        Offset (0x42A), 
+        ATLB,   32, 
+        SDM0,   8, 
+        SDM1,   8, 
+        SDM2,   8, 
+        SDM3,   8, 
+        SDM4,   8, 
+        SDM5,   8, 
+        SDM6,   8, 
+        SDM7,   8, 
+        SDM8,   8, 
+        SDM9,   8, 
+        SDMA,   8, 
+        SDMB,   8, 
+        Offset (0x43B), 
+        USTP,   8, 
+        Offset (0x465), 
+        GFPS,   32, 
+        GFPI,   32, 
+        WBBR,   32, 
+        GBTK,   32, 
+        GBTI,   32, 
+        GPDI,   32, 
+        GPLI,   32, 
+        CL00,   8, 
+        CL01,   8, 
+        CL02,   8, 
+        CL03,   8, 
+        CL04,   8, 
+        CL05,   8, 
+        L0EN,   8, 
+        L1EN,   8, 
+        L2EN,   8, 
+        L3EN,   8, 
+        L4EN,   8, 
+        L5EN,   8, 
+        CDIV,   8, 
+        C0VE,   8, 
+        C0TP,   8, 
+        C0CV,   8, 
+        C0IC,   32, 
+        C0GP,   8, 
+        C0IB,   8, 
+        C0IA,   16, 
+        C0P0,   8, 
+        C0P1,   8, 
+        C0P2,   8, 
+        C0P3,   8, 
+        C0P4,   8, 
+        C0P5,   8, 
+        C0G0,   8, 
+        C0G1,   8, 
+        C0G2,   8, 
+        C0G3,   8, 
+        C0G4,   8, 
+        C0G5,   8, 
+        C0F0,   8, 
+        C0F1,   8, 
+        C0F2,   8, 
+        C0F3,   8, 
+        C0F4,   8, 
+        C0F5,   8, 
+        C0A0,   8, 
+        C0A1,   8, 
+        C0A2,   8, 
+        C0A3,   8, 
+        C0A4,   8, 
+        C0A5,   8, 
+        C0I0,   8, 
+        C0I1,   8, 
+        C0I2,   8, 
+        C0I3,   8, 
+        C0I4,   8, 
+        C0I5,   8, 
+        C0PL,   8, 
+        C0W0,   8, 
+        C0W1,   8, 
+        C0W2,   8, 
+        C0W3,   8, 
+        C0SP,   8, 
+        C0W4,   8, 
+        C0W5,   8, 
+        C0CS,   8, 
+        C1VE,   8, 
+        C1TP,   8, 
+        C1CV,   8, 
+        C1IC,   32, 
+        C1GP,   8, 
+        C1IB,   8, 
+        C1IA,   16, 
+        C1P0,   8, 
+        C1P1,   8, 
+        C1P2,   8, 
+        C1P3,   8, 
+        C1P4,   8, 
+        C1P5,   8, 
+        C1G0,   8, 
+        C1G1,   8, 
+        C1G2,   8, 
+        C1G3,   8, 
+        C1G4,   8, 
+        C1G5,   8, 
+        C1F0,   8, 
+        C1F1,   8, 
+        C1F2,   8, 
+        C1F3,   8, 
+        C1F4,   8, 
+        C1F5,   8, 
+        C1A0,   8, 
+        C1A1,   8, 
+        C1A2,   8, 
+        C1A3,   8, 
+        C1A4,   8, 
+        C1A5,   8, 
+        C1I0,   8, 
+        C1I1,   8, 
+        C1I2,   8, 
+        C1I3,   8, 
+        C1I4,   8, 
+        C1I5,   8, 
+        C1PL,   8, 
+        C1W0,   8, 
+        C1W1,   8, 
+        C1W2,   8, 
+        C1W3,   8, 
+        C1SP,   8, 
+        C1W4,   8, 
+        C1W5,   8, 
+        C1CS,   8, 
+        C2VE,   8, 
+        C2TP,   8, 
+        C2CV,   8, 
+        C2IC,   32, 
+        C2GP,   8, 
+        C2IB,   8, 
+        C2IA,   16, 
+        C2P0,   8, 
+        C2P1,   8, 
+        C2P2,   8, 
+        C2P3,   8, 
+        C2P4,   8, 
+        C2P5,   8, 
+        C2G0,   8, 
+        C2G1,   8, 
+        C2G2,   8, 
+        C2G3,   8, 
+        C2G4,   8, 
+        C2G5,   8, 
+        C2F0,   8, 
+        C2F1,   8, 
+        C2F2,   8, 
+        C2F3,   8, 
+        C2F4,   8, 
+        C2F5,   8, 
+        C2A0,   8, 
+        C2A1,   8, 
+        C2A2,   8, 
+        C2A3,   8, 
+        C2A4,   8, 
+        C2A5,   8, 
+        C2I0,   8, 
+        C2I1,   8, 
+        C2I2,   8, 
+        C2I3,   8, 
+        C2I4,   8, 
+        C2I5,   8, 
+        C2PL,   8, 
+        C2W0,   8, 
+        C2W1,   8, 
+        C2W2,   8, 
+        C2W3,   8, 
+        C2SP,   8, 
+        C2W4,   8, 
+        C2W5,   8, 
+        C2CS,   8, 
+        C3VE,   8, 
+        C3TP,   8, 
+        C3CV,   8, 
+        C3IC,   32, 
+        C3GP,   8, 
+        C3IB,   8, 
+        C3IA,   16, 
+        C3P0,   8, 
+        C3P1,   8, 
+        C3P2,   8, 
+        C3P3,   8, 
+        C3P4,   8, 
+        C3P5,   8, 
+        C3G0,   8, 
+        C3G1,   8, 
+        C3G2,   8, 
+        C3G3,   8, 
+        C3G4,   8, 
+        C3G5,   8, 
+        C3F0,   8, 
+        C3F1,   8, 
+        C3F2,   8, 
+        C3F3,   8, 
+        C3F4,   8, 
+        C3F5,   8, 
+        C3A0,   8, 
+        C3A1,   8, 
+        C3A2,   8, 
+        C3A3,   8, 
+        C3A4,   8, 
+        C3A5,   8, 
+        C3I0,   8, 
+        C3I1,   8, 
+        C3I2,   8, 
+        C3I3,   8, 
+        C3I4,   8, 
+        C3I5,   8, 
+        C3PL,   8, 
+        C3W0,   8, 
+        C3W1,   8, 
+        C3W2,   8, 
+        C3W3,   8, 
+        C3SP,   8, 
+        C3W4,   8, 
+        C3W5,   8, 
+        C3CS,   8, 
+        C4VE,   8, 
+        C4TP,   8, 
+        C4CV,   8, 
+        C4IC,   32, 
+        C4GP,   8, 
+        C4IB,   8, 
+        C4IA,   16, 
+        C4P0,   8, 
+        C4P1,   8, 
+        C4P2,   8, 
+        C4P3,   8, 
+        C4P4,   8, 
+        C4P5,   8, 
+        C4G0,   8, 
+        C4G1,   8, 
+        C4G2,   8, 
+        C4G3,   8, 
+        C4G4,   8, 
+        C4G5,   8, 
+        C4F0,   8, 
+        C4F1,   8, 
+        C4F2,   8, 
+        C4F3,   8, 
+        C4F4,   8, 
+        C4F5,   8, 
+        C4A0,   8, 
+        C4A1,   8, 
+        C4A2,   8, 
+        C4A3,   8, 
+        C4A4,   8, 
+        C4A5,   8, 
+        C4I0,   8, 
+        C4I1,   8, 
+        C4I2,   8, 
+        C4I3,   8, 
+        C4I4,   8, 
+        C4I5,   8, 
+        C4PL,   8, 
+        C4W0,   8, 
+        C4W1,   8, 
+        C4W2,   8, 
+        C4W3,   8, 
+        C4SP,   8, 
+        C4W4,   8, 
+        C4W5,   8, 
+        C4CS,   8, 
+        C5VE,   8, 
+        C5TP,   8, 
+        C5CV,   8, 
+        C5IC,   32, 
+        C5GP,   8, 
+        C5IB,   8, 
+        C5IA,   16, 
+        C5P0,   8, 
+        C5P1,   8, 
+        C5P2,   8, 
+        C5P3,   8, 
+        C5P4,   8, 
+        C5P5,   8, 
+        C5G0,   8, 
+        C5G1,   8, 
+        C5G2,   8, 
+        C5G3,   8, 
+        C5G4,   8, 
+        C5G5,   8, 
+        C5F0,   8, 
+        C5F1,   8, 
+        C5F2,   8, 
+        C5F3,   8, 
+        C5F4,   8, 
+        C5F5,   8, 
+        C5A0,   8, 
+        C5A1,   8, 
+        C5A2,   8, 
+        C5A3,   8, 
+        C5A4,   8, 
+        C5A5,   8, 
+        C5I0,   8, 
+        C5I1,   8, 
+        C5I2,   8, 
+        C5I3,   8, 
+        C5I4,   8, 
+        C5I5,   8, 
+        C5PL,   8, 
+        C5W0,   8, 
+        C5W1,   8, 
+        C5W2,   8, 
+        C5W3,   8, 
+        C5SP,   8, 
+        C5W4,   8, 
+        C5W5,   8, 
+        C5CS,   8, 
+        L0SM,   8, 
+        L0H0,   8, 
+        L0H1,   8, 
+        L0H2,   8, 
+        L0H3,   8, 
+        L0H4,   8, 
+        L0H5,   8, 
+        L0H6,   8, 
+        L0H7,   8, 
+        L0H8,   8, 
+        L0PL,   8, 
+        L0M0,   8, 
+        L0M1,   8, 
+        L0M2,   8, 
+        L0M3,   8, 
+        L0M4,   8, 
+        L0M5,   8, 
+        L0M6,   8, 
+        L0M7,   8, 
+        L0M8,   8, 
+        L0M9,   8, 
+        L0MA,   8, 
+        L0MB,   8, 
+        L0MC,   8, 
+        L0MD,   8, 
+        L0ME,   8, 
+        L0MF,   8, 
+        L0DI,   8, 
+        L0BS,   8, 
+        L0A0,   16, 
+        L0A1,   16, 
+        L0A2,   16, 
+        L0A3,   16, 
+        L0A4,   16, 
+        L0A5,   16, 
+        L0A6,   16, 
+        L0A7,   16, 
+        L0A8,   16, 
+        L0A9,   16, 
+        L0AA,   16, 
+        L0AB,   16, 
+        L0D0,   8, 
+        L0D1,   8, 
+        L0D2,   8, 
+        L0D3,   8, 
+        L0D4,   8, 
+        L0D5,   8, 
+        L0D6,   8, 
+        L0D7,   8, 
+        L0D8,   8, 
+        L0D9,   8, 
+        L0DA,   8, 
+        L0DB,   8, 
+        L0DV,   8, 
+        L0CV,   8, 
+        L0LU,   8, 
+        L0NL,   8, 
+        L0EE,   8, 
+        L0VC,   8, 
+        L0FS,   8, 
+        L0LE,   8, 
+        L0DG,   8, 
+        L0CK,   32, 
+        L0CL,   8, 
+        L0PP,   8, 
+        L0VR,   8, 
+        L0FD,   8, 
+        L1SM,   8, 
+        L1H0,   8, 
+        L1H1,   8, 
+        L1H2,   8, 
+        L1H3,   8, 
+        L1H4,   8, 
+        L1H5,   8, 
+        L1H6,   8, 
+        L1H7,   8, 
+        L1H8,   8, 
+        L1PL,   8, 
+        L1M0,   8, 
+        L1M1,   8, 
+        L1M2,   8, 
+        L1M3,   8, 
+        L1M4,   8, 
+        L1M5,   8, 
+        L1M6,   8, 
+        L1M7,   8, 
+        L1M8,   8, 
+        L1M9,   8, 
+        L1MA,   8, 
+        L1MB,   8, 
+        L1MC,   8, 
+        L1MD,   8, 
+        L1ME,   8, 
+        L1MF,   8, 
+        L1DI,   8, 
+        L1BS,   8, 
+        L1A0,   16, 
+        L1A1,   16, 
+        L1A2,   16, 
+        L1A3,   16, 
+        L1A4,   16, 
+        L1A5,   16, 
+        L1A6,   16, 
+        L1A7,   16, 
+        L1A8,   16, 
+        L1A9,   16, 
+        L1AA,   16, 
+        L1AB,   16, 
+        L1D0,   8, 
+        L1D1,   8, 
+        L1D2,   8, 
+        L1D3,   8, 
+        L1D4,   8, 
+        L1D5,   8, 
+        L1D6,   8, 
+        L1D7,   8, 
+        L1D8,   8, 
+        L1D9,   8, 
+        L1DA,   8, 
+        L1DB,   8, 
+        L1DV,   8, 
+        L1CV,   8, 
+        L1LU,   8, 
+        L1NL,   8, 
+        L1EE,   8, 
+        L1VC,   8, 
+        L1FS,   8, 
+        L1LE,   8, 
+        L1DG,   8, 
+        L1CK,   32, 
+        L1CL,   8, 
+        L1PP,   8, 
+        L1VR,   8, 
+        L1FD,   8, 
+        L2SM,   8, 
+        L2H0,   8, 
+        L2H1,   8, 
+        L2H2,   8, 
+        L2H3,   8, 
+        L2H4,   8, 
+        L2H5,   8, 
+        L2H6,   8, 
+        L2H7,   8, 
+        L2H8,   8, 
+        L2PL,   8, 
+        L2M0,   8, 
+        L2M1,   8, 
+        L2M2,   8, 
+        L2M3,   8, 
+        L2M4,   8, 
+        L2M5,   8, 
+        L2M6,   8, 
+        L2M7,   8, 
+        L2M8,   8, 
+        L2M9,   8, 
+        L2MA,   8, 
+        L2MB,   8, 
+        L2MC,   8, 
+        L2MD,   8, 
+        L2ME,   8, 
+        L2MF,   8, 
+        L2DI,   8, 
+        L2BS,   8, 
+        L2A0,   16, 
+        L2A1,   16, 
+        L2A2,   16, 
+        L2A3,   16, 
+        L2A4,   16, 
+        L2A5,   16, 
+        L2A6,   16, 
+        L2A7,   16, 
+        L2A8,   16, 
+        L2A9,   16, 
+        L2AA,   16, 
+        L2AB,   16, 
+        L2D0,   8, 
+        L2D1,   8, 
+        L2D2,   8, 
+        L2D3,   8, 
+        L2D4,   8, 
+        L2D5,   8, 
+        L2D6,   8, 
+        L2D7,   8, 
+        L2D8,   8, 
+        L2D9,   8, 
+        L2DA,   8, 
+        L2DB,   8, 
+        L2DV,   8, 
+        L2CV,   8, 
+        L2LU,   8, 
+        L2NL,   8, 
+        L2EE,   8, 
+        L2VC,   8, 
+        L2FS,   8, 
+        L2LE,   8, 
+        L2DG,   8, 
+        L2CK,   32, 
+        L2CL,   8, 
+        L2PP,   8, 
+        L2VR,   8, 
+        L2FD,   8, 
+        L3SM,   8, 
+        L3H0,   8, 
+        L3H1,   8, 
+        L3H2,   8, 
+        L3H3,   8, 
+        L3H4,   8, 
+        L3H5,   8, 
+        L3H6,   8, 
+        L3H7,   8, 
+        L3H8,   8, 
+        L3PL,   8, 
+        L3M0,   8, 
+        L3M1,   8, 
+        L3M2,   8, 
+        L3M3,   8, 
+        L3M4,   8, 
+        L3M5,   8, 
+        L3M6,   8, 
+        L3M7,   8, 
+        L3M8,   8, 
+        L3M9,   8, 
+        L3MA,   8, 
+        L3MB,   8, 
+        L3MC,   8, 
+        L3MD,   8, 
+        L3ME,   8, 
+        L3MF,   8, 
+        L3DI,   8, 
+        L3BS,   8, 
+        L3A0,   16, 
+        L3A1,   16, 
+        L3A2,   16, 
+        L3A3,   16, 
+        L3A4,   16, 
+        L3A5,   16, 
+        L3A6,   16, 
+        L3A7,   16, 
+        L3A8,   16, 
+        L3A9,   16, 
+        L3AA,   16, 
+        L3AB,   16, 
+        L3D0,   8, 
+        L3D1,   8, 
+        L3D2,   8, 
+        L3D3,   8, 
+        L3D4,   8, 
+        L3D5,   8, 
+        L3D6,   8, 
+        L3D7,   8, 
+        L3D8,   8, 
+        L3D9,   8, 
+        L3DA,   8, 
+        L3DB,   8, 
+        L3DV,   8, 
+        L3CV,   8, 
+        L3LU,   8, 
+        L3NL,   8, 
+        L3EE,   8, 
+        L3VC,   8, 
+        L3FS,   8, 
+        L3LE,   8, 
+        L3DG,   8, 
+        L3CK,   32, 
+        L3CL,   8, 
+        L3PP,   8, 
+        L3VR,   8, 
+        L3FD,   8, 
+        L4SM,   8, 
+        L4H0,   8, 
+        L4H1,   8, 
+        L4H2,   8, 
+        L4H3,   8, 
+        L4H4,   8, 
+        L4H5,   8, 
+        L4H6,   8, 
+        L4H7,   8, 
+        L4H8,   8, 
+        L4PL,   8, 
+        L4M0,   8, 
+        L4M1,   8, 
+        L4M2,   8, 
+        L4M3,   8, 
+        L4M4,   8, 
+        L4M5,   8, 
+        L4M6,   8, 
+        L4M7,   8, 
+        L4M8,   8, 
+        L4M9,   8, 
+        L4MA,   8, 
+        L4MB,   8, 
+        L4MC,   8, 
+        L4MD,   8, 
+        L4ME,   8, 
+        L4MF,   8, 
+        L4DI,   8, 
+        L4BS,   8, 
+        L4A0,   16, 
+        L4A1,   16, 
+        L4A2,   16, 
+        L4A3,   16, 
+        L4A4,   16, 
+        L4A5,   16, 
+        L4A6,   16, 
+        L4A7,   16, 
+        L4A8,   16, 
+        L4A9,   16, 
+        L4AA,   16, 
+        L4AB,   16, 
+        L4D0,   8, 
+        L4D1,   8, 
+        L4D2,   8, 
+        L4D3,   8, 
+        L4D4,   8, 
+        L4D5,   8, 
+        L4D6,   8, 
+        L4D7,   8, 
+        L4D8,   8, 
+        L4D9,   8, 
+        L4DA,   8, 
+        L4DB,   8, 
+        L4DV,   8, 
+        L4CV,   8, 
+        L4LU,   8, 
+        L4NL,   8, 
+        L4EE,   8, 
+        L4VC,   8, 
+        L4FS,   8, 
+        L4LE,   8, 
+        L4DG,   8, 
+        L4CK,   32, 
+        L4CL,   8, 
+        L4PP,   8, 
+        L4VR,   8, 
+        L4FD,   8, 
+        L5SM,   8, 
+        L5H0,   8, 
+        L5H1,   8, 
+        L5H2,   8, 
+        L5H3,   8, 
+        L5H4,   8, 
+        L5H5,   8, 
+        L5H6,   8, 
+        L5H7,   8, 
+        L5H8,   8, 
+        L5PL,   8, 
+        L5M0,   8, 
+        L5M1,   8, 
+        L5M2,   8, 
+        L5M3,   8, 
+        L5M4,   8, 
+        L5M5,   8, 
+        L5M6,   8, 
+        L5M7,   8, 
+        L5M8,   8, 
+        L5M9,   8, 
+        L5MA,   8, 
+        L5MB,   8, 
+        L5MC,   8, 
+        L5MD,   8, 
+        L5ME,   8, 
+        L5MF,   8, 
+        L5DI,   8, 
+        L5BS,   8, 
+        L5A0,   16, 
+        L5A1,   16, 
+        L5A2,   16, 
+        L5A3,   16, 
+        L5A4,   16, 
+        L5A5,   16, 
+        L5A6,   16, 
+        L5A7,   16, 
+        L5A8,   16, 
+        L5A9,   16, 
+        L5AA,   16, 
+        L5AB,   16, 
+        L5D0,   8, 
+        L5D1,   8, 
+        L5D2,   8, 
+        L5D3,   8, 
+        L5D4,   8, 
+        L5D5,   8, 
+        L5D6,   8, 
+        L5D7,   8, 
+        L5D8,   8, 
+        L5D9,   8, 
+        L5DA,   8, 
+        L5DB,   8, 
+        L5DV,   8, 
+        L5CV,   8, 
+        L5LU,   8, 
+        L5NL,   8, 
+        L5EE,   8, 
+        L5VC,   8, 
+        L5FS,   8, 
+        L5LE,   8, 
+        L5DG,   8, 
+        L5CK,   32, 
+        L5CL,   8, 
+        L5PP,   8, 
+        L5VR,   8, 
+        L5FD,   8, 
+        F0FM,   8, 
+        F0MS,   8, 
+        F0M0,   8, 
+        F0M1,   8, 
+        F0M2,   8, 
+        F0M3,   8, 
+        F0M4,   8, 
+        F0M5,   8, 
+        F0M6,   8, 
+        F0M7,   8, 
+        F0M8,   8, 
+        F0M9,   8, 
+        F0MA,   8, 
+        F0MB,   8, 
+        F0MC,   8, 
+        F0MD,   8, 
+        F0ME,   8, 
+        F0MF,   8, 
+        F0BS,   8, 
+        F0AB,   16, 
+        F0GP,   8, 
+        F0GG,   16, 
+        F0AV,   8, 
+        F0IV,   8, 
+        F0OM,   8, 
+        F1FM,   8, 
+        F1MS,   8, 
+        F1M0,   8, 
+        F1M1,   8, 
+        F1M2,   8, 
+        F1M3,   8, 
+        F1M4,   8, 
+        F1M5,   8, 
+        F1M6,   8, 
+        F1M7,   8, 
+        F1M8,   8, 
+        F1M9,   8, 
+        F1MA,   8, 
+        F1MB,   8, 
+        F1MC,   8, 
+        F1MD,   8, 
+        F1ME,   8, 
+        F1MF,   8, 
+        F1BS,   8, 
+        F1AB,   16, 
+        F1GP,   8, 
+        F1GG,   16, 
+        F1AV,   8, 
+        F1IV,   8, 
+        F1OM,   8, 
+        F2FM,   8, 
+        F2MS,   8, 
+        F2M0,   8, 
+        F2M1,   8, 
+        F2M2,   8, 
+        F2M3,   8, 
+        F2M4,   8, 
+        F2M5,   8, 
+        F2M6,   8, 
+        F2M7,   8, 
+        F2M8,   8, 
+        F2M9,   8, 
+        F2MA,   8, 
+        F2MB,   8, 
+        F2MC,   8, 
+        F2MD,   8, 
+        F2ME,   8, 
+        F2MF,   8, 
+        F2BS,   8, 
+        F2AB,   16, 
+        F2GP,   8, 
+        F2GG,   16, 
+        F2AV,   8, 
+        F2IV,   8, 
+        F2OM,   8, 
+        F3FM,   8, 
+        F3MS,   8, 
+        F3M0,   8, 
+        F3M1,   8, 
+        F3M2,   8, 
+        F3M3,   8, 
+        F3M4,   8, 
+        F3M5,   8, 
+        F3M6,   8, 
+        F3M7,   8, 
+        F3M8,   8, 
+        F3M9,   8, 
+        F3MA,   8, 
+        F3MB,   8, 
+        F3MC,   8, 
+        F3MD,   8, 
+        F3ME,   8, 
+        F3MF,   8, 
+        F3BS,   8, 
+        F3AB,   16, 
+        F3GP,   8, 
+        F3GG,   16, 
+        F3AV,   8, 
+        F3IV,   8, 
+        F3OM,   8, 
+        F4FM,   8, 
+        F4MS,   8, 
+        F4M0,   8, 
+        F4M1,   8, 
+        F4M2,   8, 
+        F4M3,   8, 
+        F4M4,   8, 
+        F4M5,   8, 
+        F4M6,   8, 
+        F4M7,   8, 
+        F4M8,   8, 
+        F4M9,   8, 
+        F4MA,   8, 
+        F4MB,   8, 
+        F4MC,   8, 
+        F4MD,   8, 
+        F4ME,   8, 
+        F4MF,   8, 
+        F4BS,   8, 
+        F4AB,   16, 
+        F4GP,   8, 
+        F4GG,   16, 
+        F4AV,   8, 
+        F4IV,   8, 
+        F4OM,   8, 
+        F5FM,   8, 
+        F5MS,   8, 
+        F5M0,   8, 
+        F5M1,   8, 
+        F5M2,   8, 
+        F5M3,   8, 
+        F5M4,   8, 
+        F5M5,   8, 
+        F5M6,   8, 
+        F5M7,   8, 
+        F5M8,   8, 
+        F5M9,   8, 
+        F5MA,   8, 
+        F5MB,   8, 
+        F5MC,   8, 
+        F5MD,   8, 
+        F5ME,   8, 
+        F5MF,   8, 
+        F5BS,   8, 
+        F5AB,   16, 
+        F5GP,   8, 
+        F5GG,   16, 
+        F5AV,   8, 
+        F5IV,   8, 
+        F5OM,   8, 
+        ECR1,   8, 
+        I2SC,   8, 
+        I2SI,   32, 
+        I2SB,   8, 
+        ODV0,   8, 
+        ODV1,   8, 
+        ODV2,   8, 
+        ODV3,   8, 
+        ODV4,   8, 
+        ODV5,   8, 
+        UBCB,   32, 
+        WIFC,   8, 
+        Offset (0x860), 
+        ADPM,   32, 
+        AG1L,   64, 
+        AG1H,   64, 
+        AG2L,   64, 
+        AG2H,   64, 
+        AG3L,   64, 
+        AG3H,   64, 
+        HEFE,   8, 
+        XDCE,   8, 
+        STXE,   8, 
+        ST10,   8, 
+        ST11,   8, 
+        ST12,   8, 
+        ST13,   8, 
+        ST14,   8, 
+        ST15,   8, 
+        ST16,   8, 
+        ST17,   8, 
+        ST18,   8, 
+        ST19,   8, 
+        ENVM,   8, 
+        DHSP,   16, 
+        DSSP,   16, 
+        DSTP,   8, 
+        STDE,   8, 
+        STRS,   8, 
+        ST20,   8, 
+        ST21,   8, 
+        ST22,   8, 
+        ST23,   8, 
+        ST24,   8, 
+        ST25,   8, 
+        ST26,   8, 
+        ST27,   8, 
+        ST28,   8, 
+        ST29,   8, 
+        ST30,   8, 
+        ST31,   8, 
+        ST32,   8, 
+        ST33,   8, 
+        ST34,   8, 
+        ST35,   8, 
+        ST36,   8, 
+        ST37,   8, 
+        ST38,   8, 
+        ST39,   8, 
+        ST40,   8, 
+        ST41,   8, 
+        ST42,   8, 
+        ST43,   8, 
+        ST44,   8, 
+        ST45,   8, 
+        ST46,   8, 
+        ST47,   8, 
+        ST48,   8, 
+        ST49,   8, 
+        SD11,   8, 
+        SD12,   8, 
+        SD13,   8, 
+        SD14,   8, 
+        SD15,   8, 
+        SD16,   8, 
+        SD21,   8, 
+        SD22,   8, 
+        SD23,   8, 
+        SD24,   8, 
+        SD25,   8, 
+        SD26,   8, 
+        SD31,   8, 
+        SD32,   8, 
+        SD33,   8, 
+        SD34,   8, 
+        SD35,   8, 
+        SD36,   8, 
+        Offset (0x902), 
+        SDAA,   8, 
+        SDAB,   8, 
+        BTSE,   8, 
+        BTBR,   8, 
+        BED2,   8, 
+        BED3,   8, 
+        BTLE,   8, 
+        BTL2,   8, 
+        BTLL,   8, 
+        BIPM,   8, 
+        BTCA,   8, 
+        ATDV,   8, 
+        COEM,   8, 
+        RTVM,   8, 
+        USTC,   8, 
+        HEB1,   32, 
+        BATP,   8, 
+        TSDB,   8, 
+        EPTU,   8, 
+        Offset (0x919), 
+        RBY1,   8, 
+        RBY2,   8, 
+        SCSS,   8, 
+        NCTC,   8, 
+        NCTI,   8, 
+        NCTH,   8, 
+        HSIO,   8, 
+        ZPOD,   8, 
+        RGBC,   8, 
+        DPTC,   8, 
+        SRSP,   32, 
+        CEDS,   8, 
+        EHK3,   8, 
+        EHK4,   8, 
+        EHK5,   8, 
+        EHK6,   8, 
+        EHK7,   8, 
+        EHK8,   8, 
+        VBVP,   8, 
+        VBVD,   8, 
+        VBHB,   8, 
+        VBRL,   8, 
+        SMSS,   8, 
+        VBST,   8, 
+        ADAS,   8, 
+        PPBG,   32, 
+        AEAB,   8, 
+        AHDB,   8, 
+        ELPM,   32, 
+        ELPS,   32, 
+        UCMS,   8, 
+        UCG1,   32, 
+        UCG2,   32, 
+        UCG3,   32, 
+        UCG4,   32, 
+        UTCE,   8, 
+        Offset (0x969), 
+        PCHE,   8, 
+        Offset (0x96D), 
+        UDGF,   8, 
+        UDUP,   8, 
+        DBGF,   8, 
+        DBUP,   8, 
+        TTUP,   8, 
+        TP1T,   8, 
+        TP1P,   8, 
+        TP1D,   8, 
+        TP2T,   8, 
+        TP2P,   8, 
+        TP2D,   8, 
+        TP3T,   8, 
+        TP3P,   8, 
+        TP3D,   8, 
+        TP4T,   8, 
+        TP4P,   8, 
+        TP4D,   8, 
+        TP5T,   8, 
+        TP5P,   8, 
+        TP5D,   8, 
+        TP6T,   8, 
+        TP6P,   8, 
+        TP6D,   8, 
+        STAS,   8, 
+        WRTO,   8, 
+        PRST,   32, 
+        WPRP,   8, 
+        PUIS,   8, 
+        PSWP,   32, 
+        RPNB,   8, 
+        POME,   8, 
+        PSW2,   32, 
+        RPN2,   8, 
+        WFCP,   32, 
+        PFCP,   8, 
+        WBRS,   32, 
+        PBRS,   8, 
+        WWKP,   32, 
+        GPLP,   32, 
+        GPLR,   32, 
+        GPI1,   32, 
+        TPP1,   32, 
+        TPR1,   32, 
+        PPDI,   8, 
+        PPLI,   8, 
+        PPLP,   8, 
+        PPLR,   8, 
+        PPI1,   8, 
+        PPP1,   8, 
+        PPR1,   8, 
+        PSPE,   32, 
+        PPSP,   8, 
+        PSPR,   32, 
+        PPSR,   8, 
+        PSP2,   32, 
+        PS2P,   8, 
+        PSR2,   32, 
+        SR2P,   8, 
+        WLWK,   32, 
+        WLRP,   8, 
+        SATP,   32, 
+        STPP,   8, 
+        SSDP,   32, 
+        SDPP,   8, 
+        SSDR,   32, 
+        SDRP,   8, 
+        SD2P,   32, 
+        SDP1,   8, 
+        SD2R,   32, 
+        SDR1,   8, 
+        SD5P,   32, 
+        SDP5,   8, 
+        SD5R,   32, 
+        SDR5,   8, 
+        DG2P,   32, 
+        DGP2,   8, 
+        DG2R,   32, 
+        DGR2,   8, 
+        DGWP,   32, 
+        SXI1,   8, 
+        SXI2,   8, 
+        SXP1,   8, 
+        SXP2,   8, 
+        TSD0,   8, 
+        WCLK,   8, 
+        CWEF,   8, 
+        CECV,   32, 
+        WWRP,   8, 
+        KMOW,   8, 
+        WAGE,   8, 
+        AGA1,   8, 
+        AGA2,   8, 
+        AGA3,   8, 
+        AGA4,   8, 
+        AGA5,   8, 
+        AGB1,   8, 
+        AGB2,   8, 
+        AGB3,   8, 
+        AGB4,   8, 
+        AGB5,   8, 
+        SGMM,   8, 
+        SG00,   8, 
+        SG01,   8, 
+        SG02,   8, 
+        SG03,   8, 
+        SG04,   8, 
+        SG05,   8, 
+        SG06,   8, 
+        SG07,   8, 
+        SG08,   8, 
+        SG09,   8, 
+        SG10,   8, 
+        SG11,   8, 
+        SG12,   8, 
+        SG13,   8, 
+        SG14,   8, 
+        SG15,   8, 
+        SG16,   8, 
+        SG17,   8, 
+        SG18,   8, 
+        ACSD,   8, 
+        I5BS,   8, 
+        DGVR,   32, 
+        LPMR,   32, 
+        SG19,   8, 
+        SG20,   8, 
+        SG21,   8, 
+        P1PE,   32, 
+        P1PP,   8, 
+        P1RE,   32, 
+        P1RP,   8, 
+        P1WP,   32, 
+        PRP1,   8, 
+        P2PE,   32, 
+        P2PP,   8, 
+        P2RE,   32, 
+        P2RP,   8, 
+        P2WP,   32, 
+        PRP2,   8, 
+        PSP3,   32, 
+        PS3P,   8, 
+        PSR3,   32, 
+        SR3P,   8, 
+        PSW3,   32, 
+        RPN3,   8, 
+        SD3P,   32, 
+        SDP3,   8, 
+        SD3R,   32, 
+        SDR3,   8, 
+        SD4P,   32, 
+        SDP4,   8, 
+        SD4R,   32, 
+        SDR4,   8, 
+        XSMI,   32, 
+        DUWS,   8, 
+        ST50,   8, 
+        ST51,   8, 
+        ST52,   8, 
+        ST53,   8, 
+        ST54,   8, 
+        ST55,   8, 
+        ST56,   8, 
+        ST57,   8, 
+        ST58,   8, 
+        ST59,   8, 
+        ST5A,   8, 
+        ST5B,   8, 
+        ST60,   8, 
+        ST61,   8, 
+        ST62,   8, 
+        ST63,   8, 
+        ST64,   8, 
+        ST65,   8, 
+        ST66,   8, 
+        ST67,   8, 
+        ST68,   8, 
+        ST69,   8, 
+        ST6A,   8, 
+        ST6B,   8, 
+        ST70,   8, 
+        ST71,   8, 
+        ST72,   8, 
+        ST73,   8, 
+        ST74,   8, 
+        ST75,   8, 
+        ST76,   8, 
+        ST77,   8, 
+        ST78,   8, 
+        ST79,   8, 
+        ST7A,   8, 
+        ST7B,   8, 
+        ST80,   8, 
+        ST81,   8, 
+        ST82,   8, 
+        ST83,   8, 
+        ST84,   8, 
+        ST85,   8, 
+        ST86,   8, 
+        ST87,   8, 
+        ST88,   8, 
+        ST89,   8, 
+        ST8A,   8, 
+        ST8B,   8, 
+        SD17,   8, 
+        SD18,   8, 
+        SD19,   8, 
+        SD27,   8, 
+        SD28,   8, 
+        SD29,   8, 
+        SD37,   8, 
+        SD38,   8, 
+        SD39,   8, 
+        AGA6,   8, 
+        AGA7,   8, 
+        AGA8,   8, 
+        AGA9,   8, 
+        AGAA,   8, 
+        AGAB,   8, 
+        AGB6,   8, 
+        AGB7,   8, 
+        AGB8,   8, 
+        AGB9,   8, 
+        AGBA,   8, 
+        AGBB,   8, 
+        UHBS,   32, 
+        AXSU,   8, 
+        AXMU,   8, 
+        AXSR,   8, 
+        AXMR,   8, 
+        CD10,   8, 
+        CD11,   8, 
+        CD12,   8, 
+        CD13,   8, 
+        CD14,   8, 
+        CD15,   8, 
+        CD16,   8, 
+        CD17,   8, 
+        CD18,   8, 
+        CD19,   8, 
+        CD1A,   8, 
+        CD20,   8, 
+        CD21,   8, 
+        CD22,   8, 
+        CD23,   8, 
+        CD24,   8, 
+        CD25,   8, 
+        CD26,   8, 
+        CD27,   8, 
+        CD28,   8, 
+        CD29,   8, 
+        CD2A,   8, 
+        CD30,   8, 
+        CD31,   8, 
+        CD32,   8, 
+        CD33,   8, 
+        CD34,   8, 
+        CD35,   8, 
+        CD36,   8, 
+        CD37,   8, 
+        CD38,   8, 
+        CD39,   8, 
+        CD3A,   8, 
+        CD3B,   8, 
+        CD3C,   8, 
+        CD3D,   8, 
+        CD3E,   8, 
+        CD3F,   8, 
+        CD40,   8, 
+        CD41,   8, 
+        CD42,   8, 
+        CD43,   8, 
+        CD44,   8, 
+        CD45,   8, 
+        CD46,   8, 
+        CD47,   8, 
+        CD48,   8, 
+        CD49,   8, 
+        CD4A,   8, 
+        CD4B,   8, 
+        CD4C,   8, 
+        CD4D,   8, 
+        CD4E,   8, 
+        CD4F,   8, 
+        CD50,   8, 
+        CD51,   8, 
+        CD52,   8, 
+        CD53,   8, 
+        CD54,   8, 
+        CD55,   8, 
+        CD56,   8, 
+        CD57,   8, 
+        CD58,   8, 
+        CD59,   8, 
+        CD5A,   8, 
+        CD5B,   8, 
+        CD5C,   8, 
+        CD5D,   8, 
+        CD5E,   8, 
+        CD5F,   8, 
+        CD60,   8, 
+        CD61,   8, 
+        CD62,   8, 
+        CD63,   8, 
+        CD64,   8, 
+        CD65,   8, 
+        CD66,   8, 
+        CD67,   8, 
+        CD68,   8, 
+        CD69,   8, 
+        CD6A,   8, 
+        CD6B,   8, 
+        CD6C,   8, 
+        CD6D,   8, 
+        CD6E,   8, 
+        CD6F,   8, 
+        CD70,   8, 
+        CD71,   8, 
+        WPFA,   32, 
+        WPFB,   32, 
+        WPFC,   32, 
+        WPFD,   32, 
+        L0LC,   8, 
+        L1LC,   8, 
+        L2LC,   8, 
+        L3LC,   8, 
+        L4LC,   8, 
+        L5LC,   8, 
+        POVP,   32, 
+        PSG1,   32, 
+        PSG2,   32, 
+        PPOE,   32, 
+        FND2,   8, 
+        FND3,   8, 
+        S6DE,   8, 
+        WTSE,   8, 
+        WTLE,   8, 
+        BL01,   16, 
+        BL02,   16, 
+        BL03,   16, 
+        BL04,   16, 
+        BL05,   16, 
+        BL06,   16, 
+        BL07,   16, 
+        BL08,   16, 
+        BL09,   16, 
+        BL10,   16, 
+        BL11,   16, 
+        BL12,   16, 
+        BL13,   16, 
+        BL14,   16, 
+        BL15,   16, 
+        BL16,   16, 
+        CVFS,   8, 
+        CUPN,   8, 
+        DGBA,   64, 
+        DGOP,   32, 
+        TILE,   8, 
+        TIS0,   8, 
+        TS0X,   8, 
+        TIS4,   8, 
+        TIS5,   8, 
+        SLEC,   8, 
+        LEDU,   16, 
+        TAPM,   8, 
+        STD3,   8, 
+        PXDC,   8, 
+        PXAC,   8, 
+        PXWC,   8, 
+        PXUC,   8, 
+        PXFD,   8, 
+        Offset (0xB97), 
+        WWEN,   8, 
+        WFFD,   8, 
+        TN2B,   16, 
+        TB2R,   16, 
+        TR2P,   16, 
+        TB2F,   16, 
+        TFDI,   16, 
+        TBTG,   16, 
+        TBTP,   16, 
+        LSWP,   32, 
+        U4CM,   8, 
+        CMSK,   8, 
+        LP5E,   8, 
+        CLCN,   8, 
+        CLSA,   8, 
+        TP7T,   8, 
+        TP7P,   8, 
+        TP7D,   8, 
+        TP8T,   8, 
+        TP8P,   8, 
+        TP8D,   8, 
+        TP9T,   8, 
+        TP9P,   8, 
+        TP9D,   8, 
+        TPAT,   8, 
+        TPAP,   8, 
+        TPAD,   8, 
+        TP1U,   8, 
+        TP2U,   8, 
+        TP3U,   8, 
+        TP4U,   8, 
+        TP5U,   8, 
+        TP6U,   8, 
+        TP7U,   8, 
+        TP8U,   8, 
+        TP9U,   8, 
+        TPAU,   8, 
+        FVWP,   32, 
+        FVRE,   32, 
+        FVRP,   8, 
+        FVPE,   32, 
+        FVPP,   8, 
+        FVSP,   8, 
+        RPFV,   8, 
+        DPIW,   8, 
+        DPG1,   32, 
+        UDRS,   8, 
+        U4SE,   8, 
+        L0FI,   8, 
+        L1FI,   8, 
+        L2FI,   8, 
+        L3FI,   8, 
+        L4FI,   8, 
+        L5FI,   8, 
+        SSH6,   16, 
+        SSL6,   16, 
+        SSD6,   16, 
+        FMH6,   16, 
+        FML6,   16, 
+        FMD6,   16, 
+        FPH6,   16, 
+        FPL6,   16, 
+        FPD6,   16, 
+        HSH6,   16, 
+        HSL6,   16, 
+        HSD6,   16, 
+        M0CC,   16, 
+        M1CC,   16, 
+        SSH7,   16, 
+        SSL7,   16, 
+        SSD7,   16, 
+        FMH7,   16, 
+        FML7,   16, 
+        FMD7,   16, 
+        FPH7,   16, 
+        FPL7,   16, 
+        FPD7,   16, 
+        HSH7,   16, 
+        HSL7,   16, 
+        HSD7,   16, 
+        M0CD,   16, 
+        M1CD,   16, 
+        TR2B,   16, 
+        ZPDA,   32, 
+        ZDPR,   32, 
+        ZDPW,   32, 
+        ZDPP,   8, 
+        WSID,   16, 
+        WSTO,   16, 
+        HUAR,   8, 
+        BLEC,   8, 
+        BLPD,   8, 
+        BLPI,   8, 
+        WFRC,   32, 
+        WFUC,   32, 
+        UNI4,   32, 
+        WFIC,   32, 
+        R8DC,   8, 
+        OMP1,   32, 
+        OM1P,   8, 
+        OMR1,   32, 
+        MR1P,   8, 
+        OMW1,   32, 
+        RPO1,   8, 
+        OMP2,   32, 
+        OM2P,   8, 
+        OMR2,   32, 
+        MR2P,   8, 
+        OMW2,   32, 
+        RPO2,   8, 
+        WCEN,   8, 
+        R8DS,   8, 
+        WLBI,   8, 
+        WHBI,   8, 
+        SDGN,   8, 
+        SD41,   8, 
+        SD42,   8, 
+        SD43,   8, 
+        SD44,   8, 
+        SD45,   8, 
+        SD46,   8, 
+        SD47,   8, 
+        SD48,   8, 
+        SD49,   8, 
+        SD51,   8, 
+        SD52,   8, 
+        SD53,   8, 
+        SD54,   8, 
+        SD55,   8, 
+        SD56,   8, 
+        SD57,   8, 
+        SD58,   8, 
+        SD59,   8, 
+        SD61,   8, 
+        SD62,   8, 
+        SD63,   8, 
+        SD64,   8, 
+        SD65,   8, 
+        SD66,   8, 
+        SD67,   8, 
+        SD68,   8, 
+        SD69,   8, 
+        SD71,   8, 
+        SD72,   8, 
+        SD73,   8, 
+        SD74,   8, 
+        SD75,   8, 
+        SD76,   8, 
+        SD77,   8, 
+        SD78,   8, 
+        SD79,   8, 
+        SD81,   8, 
+        SD82,   8, 
+        SD83,   8, 
+        SD84,   8, 
+        SD85,   8, 
+        SD86,   8, 
+        SD87,   8, 
+        SD88,   8, 
+        SD89,   8, 
+        R8WR,   8, 
+        WTSV,   32, 
+        EDMX,   32, 
+        DBRL,   8, 
+        DNID,   8, 
+        DGD1,   32, 
+        DGD2,   32, 
+        DGD3,   32, 
+        DGD4,   32, 
+        DGD5,   32, 
+        DGD6,   32, 
+        DGD7,   32, 
+        DGD8,   32, 
+        DGD9,   32, 
+        DGDA,   32, 
+        DGDB,   32, 
+        DGDC,   32, 
+        DGDD,   32, 
+        DGDE,   32, 
+        DGDF,   32, 
+        DGDX,   32, 
+        DGDS,   8, 
+        VTCM,   8, 
+        ZPPB,   8, 
+        LLKI,   32, 
+        LLKE,   8, 
+        HSC0,   8, 
+        TBD3,   8, 
+        WGAS,   8, 
+        WLRT,   32, 
+        WVHO,   32, 
+        WF7C,   32, 
+        WEDT,   32, 
+        WFBS,   32, 
+        CDRM,   8, 
+        DTCV,   32, 
+        U4CL,   8, 
+        CGLS,   8
+    }
+
+    Scope (_SB)
+    {
+        Name (PD00, Package (0x2A)
         {
-            Name (INT1, 0x1234)
-            Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)
-            Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)
-            CreateDWordField (INTR, \_SB.PC00.INTB._Y18._INT, NUMI)  // _INT: Interrupts
-            Method (_BBN, 0, NotSerialized)
+            Package (0x04)
             {
-                VAR = 0x12 + INT1
+                0x001FFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0017FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0004FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0005FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0008FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x000DFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR00, Package (0x48)
+        {
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x001FFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x001EFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001EFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001EFFFF, 
+                0x02, 
+                Zero, 
+                0x24
+            }, 
+
+            Package (0x04)
+            {
+                0x001EFFFF, 
+                0x03, 
+                Zero, 
+                0x25
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x001DFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x001CFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x001BFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x001AFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x001AFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x001AFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x001AFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x0019FFFF, 
+                Zero, 
+                Zero, 
+                0x1F
+            }, 
+
+            Package (0x04)
+            {
+                0x0019FFFF, 
+                One, 
+                Zero, 
+                0x20
+            }, 
+
+            Package (0x04)
+            {
+                0x0019FFFF, 
+                0x02, 
+                Zero, 
+                0x2A
+            }, 
+
+            Package (0x04)
+            {
+                0x0017FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0016FFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x0015FFFF, 
+                Zero, 
+                Zero, 
+                0x1B
+            }, 
+
+            Package (0x04)
+            {
+                0x0015FFFF, 
+                One, 
+                Zero, 
+                0x28
+            }, 
+
+            Package (0x04)
+            {
+                0x0015FFFF, 
+                0x02, 
+                Zero, 
+                0x1D
+            }, 
+
+            Package (0x04)
+            {
+                0x0015FFFF, 
+                0x03, 
+                Zero, 
+                0x2B
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0014FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0013FFFF, 
+                Zero, 
+                Zero, 
+                0x14
+            }, 
+
+            Package (0x04)
+            {
+                0x0013FFFF, 
+                One, 
+                Zero, 
+                0x15
+            }, 
+
+            Package (0x04)
+            {
+                0x0013FFFF, 
+                0x02, 
+                Zero, 
+                0x18
+            }, 
+
+            Package (0x04)
+            {
+                0x0013FFFF, 
+                0x03, 
+                Zero, 
+                0x26
+            }, 
+
+            Package (0x04)
+            {
+                0x0012FFFF, 
+                Zero, 
+                Zero, 
+                0x1A
+            }, 
+
+            Package (0x04)
+            {
+                0x0012FFFF, 
+                One, 
+                Zero, 
+                0x27
+            }, 
+
+            Package (0x04)
+            {
+                0x0012FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0011FFFF, 
+                Zero, 
+                Zero, 
+                0x19
+            }, 
+
+            Package (0x04)
+            {
+                0x0011FFFF, 
+                One, 
+                Zero, 
+                0x23
+            }, 
+
+            Package (0x04)
+            {
+                0x0011FFFF, 
+                0x02, 
+                Zero, 
+                0x1C
+            }, 
+
+            Package (0x04)
+            {
+                0x0011FFFF, 
+                0x03, 
+                Zero, 
+                0x22
+            }, 
+
+            Package (0x04)
+            {
+                0x0010FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0010FFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x0010FFFF, 
+                Zero, 
+                Zero, 
+                0x17
+            }, 
+
+            Package (0x04)
+            {
+                0x0010FFFF, 
+                One, 
+                Zero, 
+                0x16
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0006FFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0001FFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0x0002FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0004FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0005FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0008FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x000DFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x000DFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0x0007FFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }
+        })
+        Name (PD04, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR04, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }
+        })
+        Name (PD05, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR05, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x10
+            }
+        })
+        Name (PD06, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0A
+            }
+        })
+        Name (AR06, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x11
+            }
+        })
+        Name (PD07, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR07, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x12
+            }
+        })
+        Name (PD08, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR08, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }
+        })
+        Name (PD09, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR09, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x10
+            }
+        })
+        Name (PD0E, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0A
+            }
+        })
+        Name (AR0E, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x11
+            }
+        })
+        Name (PD0F, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR0F, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x12
+            }
+        })
+        Name (PD02, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR02, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x13
+            }
+        })
+        Name (PD0A, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR0A, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x10
+            }
+        })
+        Name (PD0B, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0A
+            }
+        })
+        Name (AR0B, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x12
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x11
+            }
+        })
+        Name (PD0C, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x0B
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x0A
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x0B
+            }
+        })
+        Name (AR0C, Package (0x04)
+        {
+            Package (0x04)
+            {
+                0xFFFF, 
+                Zero, 
+                Zero, 
+                0x13
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                One, 
+                Zero, 
+                0x10
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x02, 
+                Zero, 
+                0x11
+            }, 
+
+            Package (0x04)
+            {
+                0xFFFF, 
+                0x03, 
+                Zero, 
+                0x12
+            }
+        })
+        Device (PC00)
+        {
+            Name (_HID, EisaId ("PNP0A08") /* PCI Express Bus */)  // _HID: Hardware ID
+            Name (_CID, EisaId ("PNP0A03") /* PCI Bus */)  // _CID: Compatible ID
+            Name (_SEG, Zero)  // _SEG: PCI Segment
+            Method (^BN00, 0, NotSerialized)
+            {
+                Return (Zero)
+            }
+
+            Method (_BBN, 0, NotSerialized)  // _BBN: BIOS Bus Number
+            {
                 Return (BN00 ())
             }
-            Method (BN00, 0, NotSerialized)
-            {
-                Return (0x12 + INT1)
-            }
-            Field (MCHT, ByteAcc, NoLock, Preserve)
-            {
-                Offset (0x5994),
-                RPSL, 8,
-                Offset (0x5998)
-                RPSL, 8,
-                RPSL, 8
-            }
-        }
 
-        Device (PCI1)
-        {
-            Name (_HID, 0x1234)
-            Name (PD05, Package (0x04)
+            Name (_UID, Zero)  // _UID: Unique ID
+            Method (_PRT, 0, NotSerialized)  // _PRT: PCI Routing Table
             {
-                Package (0x04)
+                If (PICM)
                 {
-                    0xFFFF, 
-                    Zero, 
-                    Zero, 
-                    0x0A
-                }, 
-
-                Package (0x04)
-                {
-                    0xFFFF, 
-                    0x03, 
-                    Zero, 
-                    0x0B
+                    Return (AR00 ())
                 }
-            })
-            Name (RXEV, Package (0x12)
+
+                Return (PD00 ())
+            }
+
+            Device (MC)
             {
-                Buffer (0x1A){}, 
-                Buffer (0x10){}
+                Name (_ADR, Zero)  // _ADR: Address
+                OperationRegion (HBUS, PCI_Config, Zero, 0x0100)
+                Field (HBUS, DWordAcc, NoLock, Preserve)
+                {
+                    Offset (0x40), 
+                    EPEN,   1, 
+                        ,   11, 
+                    EPBR,   20, 
+                    Offset (0x48), 
+                    MHEN,   1, 
+                        ,   14, 
+                    MHBR,   17, 
+                    Offset (0x50), 
+                    GCLK,   1, 
+                    Offset (0x54), 
+                    D0EN,   1, 
+                    D1F2,   1, 
+                    D1F1,   1, 
+                    D1F0,   1, 
+                        ,   9, 
+                    D6F0,   1, 
+                    Offset (0x60), 
+                    PXEN,   1, 
+                    PXSZ,   3, 
+                        ,   22, 
+                    PXBR,   6, 
+                    Offset (0x68), 
+                    DIEN,   1, 
+                        ,   11, 
+                    DIBR,   20, 
+                    Offset (0x70), 
+                        ,   20, 
+                    MEBR,   12, 
+                    Offset (0x80), 
+                        ,   4, 
+                    PM0H,   2, 
+                    Offset (0x81), 
+                    PM1L,   2, 
+                        ,   2, 
+                    PM1H,   2, 
+                    Offset (0x82), 
+                    PM2L,   2, 
+                        ,   2, 
+                    PM2H,   2, 
+                    Offset (0x83), 
+                    PM3L,   2, 
+                        ,   2, 
+                    PM3H,   2, 
+                    Offset (0x84), 
+                    PM4L,   2, 
+                        ,   2, 
+                    PM4H,   2, 
+                    Offset (0x85), 
+                    PM5L,   2, 
+                        ,   2, 
+                    PM5H,   2, 
+                    Offset (0x86), 
+                    PM6L,   2, 
+                        ,   2, 
+                    PM6H,   2, 
+                    Offset (0x87), 
+                    Offset (0xA8), 
+                        ,   20, 
+                    TUUD,   19, 
+                    Offset (0xBC), 
+                        ,   20, 
+                    TLUD,   12, 
+                    Offset (0xC8), 
+                        ,   7, 
+                    HTSE,   1
+                }
+            }
+
+            Name (BUF0, ResourceTemplate ()
+            {
+                WordBusNumber (ResourceProducer, MinFixed, MaxFixed, PosDecode,
+                    0x0000,             // Granularity
+                    0x0000,             // Range Minimum
+                    0x00FF,             // Range Maximum
+                    0x0000,             // Translation Offset
+                    0x0100,             // Length
+                    ,, _Y00)
+                DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
+                    0x00000000,         // Granularity
+                    0x00000000,         // Range Minimum
+                    0x00000CF7,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00000CF8,         // Length
+                    ,, , TypeStatic, DenseTranslation)
+                IO (Decode16,
+                    0x0CF8,             // Range Minimum
+                    0x0CF8,             // Range Maximum
+                    0x01,               // Alignment
+                    0x08,               // Length
+                    )
+                DWordIO (ResourceProducer, MinFixed, MaxFixed, PosDecode, EntireRange,
+                    0x00000000,         // Granularity
+                    0x00000D00,         // Range Minimum
+                    0x0000FFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x0000F300,         // Length
+                    ,, , TypeStatic, DenseTranslation)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000A0000,         // Range Minimum
+                    0x000BFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00020000,         // Length
+                    ,, , AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000C0000,         // Range Minimum
+                    0x000C3FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y01, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000C4000,         // Range Minimum
+                    0x000C7FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y02, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000C8000,         // Range Minimum
+                    0x000CBFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y03, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000CC000,         // Range Minimum
+                    0x000CFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y04, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000D0000,         // Range Minimum
+                    0x000D3FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y05, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000D4000,         // Range Minimum
+                    0x000D7FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y06, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000D8000,         // Range Minimum
+                    0x000DBFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y07, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000DC000,         // Range Minimum
+                    0x000DFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y08, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000E0000,         // Range Minimum
+                    0x000E3FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y09, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000E4000,         // Range Minimum
+                    0x000E7FFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y0A, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000E8000,         // Range Minimum
+                    0x000EBFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y0B, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000EC000,         // Range Minimum
+                    0x000EFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00004000,         // Length
+                    ,, _Y0C, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, Cacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x000F0000,         // Range Minimum
+                    0x000FFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0x00010000,         // Length
+                    ,, _Y0D, AddressRangeMemory, TypeStatic)
+                DWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
+                    0x00000000,         // Granularity
+                    0x00000000,         // Range Minimum
+                    0xDFFFFFFF,         // Range Maximum
+                    0x00000000,         // Translation Offset
+                    0xE0000000,         // Length
+                    ,, _Y0E, AddressRangeMemory, TypeStatic)
+                QWordMemory (ResourceProducer, PosDecode, MinFixed, MaxFixed, NonCacheable, ReadWrite,
+                    0x0000000000000000, // Granularity
+                    0x0000000000010000, // Range Minimum
+                    0x000000000001FFFF, // Range Maximum
+                    0x0000000000000000, // Translation Offset
+                    0x0000000000010000, // Length
+                    ,, _Y0F, AddressRangeMemory, TypeStatic)
             })
+            Name (EP_B, Zero)
+            Name (MH_B, Zero)
+            Name (PC_B, Zero)
+            Name (PC_L, Zero)
+            Name (DM_B, Zero)
+            Method (GEPB, 0, Serialized)
+            {
+                If ((EP_B == Zero))
+                {
+                    EP_B = (^MC.EPBR << 0x0C)
+                }
+
+                Return (EP_B) /* \_SB_.PC00.EP_B */
+            }
+
+            Method (GMHB, 0, Serialized)
+            {
+                If ((MH_B == Zero))
+                {
+                    MH_B = (^MC.MHBR << 0x0F)
+                }
+
+                Return (MH_B) /* \_SB_.PC00.MH_B */
+            }
+
+            Method (GPCB, 0, Serialized)
+            {
+                If ((PC_B == Zero))
+                {
+                    PC_B = (^MC.PXBR << 0x1A)
+                }
+
+                Return (PC_B) /* \_SB_.PC00.PC_B */
+            }
+
+            Method (PC2M, 1, Serialized)
+            {
+                Local0 = GPCB ()
+                Local0 += ((Arg0 & 0x001F0000) >> One)
+                Local0 += ((Arg0 & 0x07) << 0x0C)
+                Return (Local0)
+            }
+
+            Method (GPCL, 0, Serialized)
+            {
+                If ((PC_L == Zero))
+                {
+                    If ((^MC.PXSZ < 0x03))
+                    {
+                        PC_L = (0x10000000 >> ^MC.PXSZ) /* \_SB_.PC00.MC__.PXSZ */
+                    }
+                    Else
+                    {
+                        PC_L = 0x10000000
+                    }
+                }
+
+                Return (PC_L) /* \_SB_.PC00.PC_L */
+            }
+
+            Method (GDMB, 0, Serialized)
+            {
+                If ((DM_B == Zero))
+                {
+                    DM_B = (^MC.DIBR << 0x0C)
+                }
+
+                Return (DM_B) /* \_SB_.PC00.DM_B */
+            }
+
+            Method (_CRS, 0, Serialized)  // _CRS: Current Resource Settings
+            {
+                Local0 = GPCL ()
+                CreateWordField (BUF0, \_SB.PC00._Y00._MAX, PBMX)  // _MAX: Maximum Base Address
+                PBMX = ((Local0 >> 0x14) - 0x02)
+
+            }
+
         }
     }
 }
