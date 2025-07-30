@@ -709,7 +709,7 @@ XOrTerm                     :=	XOr (
                                     Result // Target
                                 ) => Integer
 
-## 19.2.7. ASL Parameter Keyword Terms
+## 19.2.7. ASL Parameter Keyword Terms (DONE)
 AccessAttribKeyword         :=	AttribQuick | AttribSendReceive | AttribByte | AttribBytes (n) | AttribRawBytes (n) | AttribRawProcessBytes (n) | AttribWord | AttribBlock |AttribProcessCall | AttribBlockProcessCall
 AccessTypeKeyword           :=	AnyAcc | ByteAcc | WordAcc | DWordAcc | QWordAcc | BufferAcc
 AddressKeyword              :=	AddressRangeMemory | AddressRangeReserved | AddressRangeNVS | AddressRangeACPI
@@ -753,7 +753,7 @@ UserDefRegionSpace          :=	IntegerData => 0x80 - 0xFF
 XferTypeKeyword             :=	Transfer8 | Transfer16 | Transfer8_16
 WireModeKeyword             :=	ThreeWireMode | FourWireMode
 
-## 19.2.8. ASL Resource Template Terms
+## 19.2.8. ASL Resource Template Terms (Only declarated not fully implemented)
 ResourceMacroList           :=	Nothing | <resourcemacroterm resourcemacrolist>
 ResourceMacroTerm           :=	DMATerm | DWordIOTerm | DWordMemoryTerm | DWordSpaceTerm | EndDependentFnTerm | ExtendedIOTerm | ExtendedMemoryTerm | ExtendedSpaceTerm | FixedDMATerm | FixedIOTerm | GpioIntTerm | GpioIOTerm | I2CSerialBusTerm | InterruptTerm | IOTerm | IRQNoFlagsTerm | IRQTerm | Memory24Term | Memory32FixedTerm | Memory32Term | PinConfigTerm | PinFunctionTerm | PinGroupTerm | PinGroupConfigTerm | PinGroupFunctionTerm | QWordIOTerm | QWordMemoryTerm | QWordSpaceTerm | RegisterTerm | SPISerialBusTerm | StartDependentFnTerm | StartDependentFnNoPriTerm | UARTSerialBusTerm | VendorLongTerm | VendorShortTerm | WordBusNumberTerm | WordIOTerm | WordSpaceTerm
 DMATerm                     :=	DMA (
@@ -937,8 +937,8 @@ IRQTerm                     :=	IRQ (
                                 ) {ByteList} // list of interrupts (0-15 bytes)
 Memory24Term                :=	Memory24 (
                                     ReadWriteType, // ReadWriteKeyword (_RW)
-                                    MinAddress[23       : 8], // WordConstExpr (_MIN)
-                                    MaxAddress[23       : 8], // WordConstExpr (_MAX)
+                                    MinAddress[23:8], // WordConstExpr (_MIN)
+                                    MaxAddress[23:8], // WordConstExpr (_MAX)
                                     Alignment, // WordConstExpr (_ALN)
                                     RangeLength, // WordConstExpr (_LEN)
                                     DescriptorName // Nothing | NameString

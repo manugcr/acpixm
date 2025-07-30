@@ -1615,7 +1615,7 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
         EEC2,   8, 
         EEC3,   8
     }
-
+    
     Name (SS1, Zero)
     Name (SS2, Zero)
     Name (SS3, Zero)
@@ -5616,9 +5616,452 @@ DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
                 Local0 = GPCL ()
                 CreateWordField (BUF0, \_SB.PC00._Y00._MAX, PBMX)  // _MAX: Maximum Base Address
                 PBMX = ((Local0 >> 0x14) - 0x02)
+                CreateWordField (BUF0, \_SB.PC00._Y00._LEN, PBLN)  // _LEN: Length
+                PBLN = ((Local0 >> 0x14) - One)
+                If (CondRefOf (\VMDE))
+                {
+                    If (((VMDE == One) && (PBMX > 0xE0)))
+                    {
+                        PBMX = 0xE0
+                        PBLN = 0xE1
+                    }
+                }
 
+                If (^MC.PM1L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y01._LEN, C0LN)  // _LEN: Length
+                    C0LN = Zero
+                }
+
+                If ((^MC.PM1L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y01._RW, C0RW)  // _RW_: Read-Write Status
+                    C0RW = Zero
+                }
+
+                If (^MC.PM1H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y02._LEN, C4LN)  // _LEN: Length
+                    C4LN = Zero
+                }
+
+                If ((^MC.PM1H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y02._RW, C4RW)  // _RW_: Read-Write Status
+                    C4RW = Zero
+                }
+
+                If (^MC.PM2L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y03._LEN, C8LN)  // _LEN: Length
+                    C8LN = Zero
+                }
+
+                If ((^MC.PM2L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y03._RW, C8RW)  // _RW_: Read-Write Status
+                    C8RW = Zero
+                }
+
+                If (^MC.PM2H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y04._LEN, CCLN)  // _LEN: Length
+                    CCLN = Zero
+                }
+
+                If ((^MC.PM2H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y04._RW, CCRW)  // _RW_: Read-Write Status
+                    CCRW = Zero
+                }
+
+                If (^MC.PM3L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y05._LEN, D0LN)  // _LEN: Length
+                    D0LN = Zero
+                }
+
+                If ((^MC.PM3L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y05._RW, D0RW)  // _RW_: Read-Write Status
+                    D0RW = Zero
+                }
+
+                If (^MC.PM3H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y06._LEN, D4LN)  // _LEN: Length
+                    D4LN = Zero
+                }
+
+                If ((^MC.PM3H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y06._RW, D4RW)  // _RW_: Read-Write Status
+                    D4RW = Zero
+                }
+
+                If (^MC.PM4L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y07._LEN, D8LN)  // _LEN: Length
+                    D8LN = Zero
+                }
+
+                If ((^MC.PM4L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y07._RW, D8RW)  // _RW_: Read-Write Status
+                    D8RW = Zero
+                }
+
+                If (^MC.PM4H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y08._LEN, DCLN)  // _LEN: Length
+                    DCLN = Zero
+                }
+
+                If ((^MC.PM4H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y08._RW, DCRW)  // _RW_: Read-Write Status
+                    DCRW = Zero
+                }
+
+                If (^MC.PM5L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y09._LEN, E0LN)  // _LEN: Length
+                    E0LN = Zero
+                }
+
+                If ((^MC.PM5L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y09._RW, E0RW)  // _RW_: Read-Write Status
+                    E0RW = Zero
+                }
+
+                If (^MC.PM5H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y0A._LEN, E4LN)  // _LEN: Length
+                    E4LN = Zero
+                }
+
+                If ((^MC.PM5H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y0A._RW, E4RW)  // _RW_: Read-Write Status
+                    E4RW = Zero
+                }
+
+                If (^MC.PM6L)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y0B._LEN, E8LN)  // _LEN: Length
+                    E8LN = Zero
+                }
+
+                If ((^MC.PM6L == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y0B._RW, E8RW)  // _RW_: Read-Write Status
+                    E8RW = Zero
+                }
+
+                If (^MC.PM6H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y0C._LEN, ECLN)  // _LEN: Length
+                    ECLN = Zero
+                }
+
+                If ((^MC.PM6H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y0C._RW, ECRW)  // _RW_: Read-Write Status
+                    ECRW = Zero
+                }
+
+                If (^MC.PM0H)
+                {
+                    CreateDWordField (BUF0, \_SB.PC00._Y0D._LEN, F0LN)  // _LEN: Length
+                    F0LN = Zero
+                }
+
+                If ((^MC.PM0H == One))
+                {
+                    CreateBitField (BUF0, \_SB.PC00._Y0D._RW, F0RW)  // _RW_: Read-Write Status
+                    F0RW = Zero
+                }
+
+                CreateDWordField (BUF0, \_SB.PC00._Y0E._MIN, M1MN)  // _MIN: Minimum Base Address
+                CreateDWordField (BUF0, \_SB.PC00._Y0E._MAX, M1MX)  // _MAX: Maximum Base Address
+                CreateDWordField (BUF0, \_SB.PC00._Y0E._LEN, M1LN)  // _LEN: Length
+                M1LN = M32L /* External reference */
+                M1MN = M32B /* External reference */
+                M1MX = ((M1MN + M1LN) - One)
+                If ((M64L == Zero))
+                {
+                    CreateQWordField (BUF0, \_SB.PC00._Y0F._LEN, MSLN)  // _LEN: Length
+                    MSLN = Zero
+                }
+                Else
+                {
+                    CreateQWordField (BUF0, \_SB.PC00._Y0F._LEN, M2LN)  // _LEN: Length
+                    CreateQWordField (BUF0, \_SB.PC00._Y0F._MIN, M2MN)  // _MIN: Minimum Base Address
+                    CreateQWordField (BUF0, \_SB.PC00._Y0F._MAX, M2MX)  // _MAX: Maximum Base Address
+                    M2LN = M64L /* External reference */
+                    M2MN = M64B /* External reference */
+                    M2MX = ((M2MN + M2LN) - One)
+                }
+
+                Return (BUF0) /* \_SB_.PC00.BUF0 */
             }
 
+            Name (GUID, ToUUID ("33db4d5b-1ff7-401c-9657-7441c03dd766") /* PCI Host Bridge Device */)
+            Name (SUPP, Zero)
+            Name (CTRL, Zero)
+            Name (XCNT, Zero)
+            Method (_OSC, 4, Serialized)  // _OSC: Operating System Capabilities
+            {
+                Local0 = Arg3
+                CreateDWordField (Local0, Zero, CDW1)
+                CreateDWordField (Local0, 0x04, CDW2)
+                CreateDWordField (Local0, 0x08, CDW3)
+                If ((Arg0 == GUID))
+                {
+                    SUPP = CDW2 /* \_SB_.PC00._OSC.CDW2 */
+                    CTRL = CDW3 /* \_SB_.PC00._OSC.CDW3 */
+                    If (!NEXP)
+                    {
+                        CTRL &= 0xFFFFFFF8
+                    }
+
+                    If (CondRefOf (ITSP))
+                    {
+                        If (ITSP)
+                        {
+                            CTRL &= 0xFFFFFFF7
+                        }
+                    }
+
+                    If (~(CDW1 & One))
+                    {
+                        OSCC = CTRL /* \_SB_.PC00.CTRL */
+                        If (CondRefOf (SWAK))
+                        {
+                            SWAK (0xFFFF, Zero)
+                        }
+                    }
+
+                    If ((Arg1 != One))
+                    {
+                        CDW1 |= 0x08
+                    }
+
+                    If ((CDW3 != CTRL))
+                    {
+                        CDW1 |= 0x10
+                    }
+
+                    CDW3 = CTRL /* \_SB_.PC00.CTRL */
+                    OSCC = CTRL /* \_SB_.PC00.CTRL */
+                    Return (Local0)
+                }
+                Else
+                {
+                    CDW1 |= 0x04
+                    Return (Local0)
+                }
+            }
+
+            Scope (\_SB.PC00)
+            {
+                Method (AR00, 0, NotSerialized)
+                {
+                    Return (^^AR00) /* \_SB_.AR00 */
+                }
+
+                Method (PD00, 0, NotSerialized)
+                {
+                    Return (^^PD00) /* \_SB_.PD00 */
+                }
+
+                Method (AR04, 0, NotSerialized)
+                {
+                    Return (^^AR04) /* \_SB_.AR04 */
+                }
+
+                Method (PD04, 0, NotSerialized)
+                {
+                    Return (^^PD04) /* \_SB_.PD04 */
+                }
+
+                Method (AR05, 0, NotSerialized)
+                {
+                    Return (^^AR05) /* \_SB_.AR05 */
+                }
+
+                Method (PD05, 0, NotSerialized)
+                {
+                    Return (^^PD05) /* \_SB_.PD05 */
+                }
+
+                Method (AR06, 0, NotSerialized)
+                {
+                    Return (^^AR06) /* \_SB_.AR06 */
+                }
+
+                Method (PD06, 0, NotSerialized)
+                {
+                    Return (^^PD06) /* \_SB_.PD06 */
+                }
+
+                Method (AR07, 0, NotSerialized)
+                {
+                    Return (^^AR07) /* \_SB_.AR07 */
+                }
+
+                Method (PD07, 0, NotSerialized)
+                {
+                    Return (^^PD07) /* \_SB_.PD07 */
+                }
+
+                Method (AR08, 0, NotSerialized)
+                {
+                    Return (^^AR08) /* \_SB_.AR08 */
+                }
+
+                Method (PD08, 0, NotSerialized)
+                {
+                    Return (^^PD08) /* \_SB_.PD08 */
+                }
+
+                Method (AR09, 0, NotSerialized)
+                {
+                    Return (^^AR09) /* \_SB_.AR09 */
+                }
+
+                Method (PD09, 0, NotSerialized)
+                {
+                    Return (^^PD09) /* \_SB_.PD09 */
+                }
+
+                Device (PEG0)
+                {
+                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    {
+                        Local0 = 0x00060000
+                        If (CondRefOf (\_SB.PC00.PEG0.CPRA))
+                        {
+                            Local0 = CPRA ()
+                        }
+
+                        Return (Local0)
+                    }
+
+                    Device (PEGP)
+                    {
+                        Name (_ADR, Zero)  // _ADR: Address
+                    }
+                }
+
+                Device (PEG1)
+                {
+                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    {
+                        Local0 = 0x00010000
+                        If (CondRefOf (\_SB.PC00.PEG1.CPRA))
+                        {
+                            Local0 = CPRA ()
+                        }
+
+                        Return (Local0)
+                    }
+
+                    Device (PEGP)
+                    {
+                        Name (_ADR, Zero)  // _ADR: Address
+                    }
+                }
+
+                Device (PEG2)
+                {
+                    Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                    {
+                        Local0 = 0x00010001
+                        If (CondRefOf (\_SB.PC00.PEG2.CPRA))
+                        {
+                            Local0 = CPRA ()
+                        }
+
+                        Return (Local0)
+                    }
+
+                    Device (PEGP)
+                    {
+                        Name (_ADR, Zero)  // _ADR: Address
+                    }
+                }
+
+                If ((MPGN >= 0x04))
+                {
+                    Device (PEG3)
+                    {
+                        Method (_ADR, 0, NotSerialized)  // _ADR: Address
+                        {
+                            Local0 = 0x00010002
+                            If (CondRefOf (\_SB.PC00.PEG3.CPRA))
+                            {
+                                Local0 = CPRA ()
+                            }
+
+                            Return (Local0)
+                        }
+
+                        Device (PEGP)
+                        {
+                            Name (_ADR, Zero)  // _ADR: Address
+                        }
+                    }
+                }
+
+                Device (GFX0)
+                {
+                    Name (_ADR, 0x00020000)  // _ADR: Address
+                }
+
+                Device (TCPU)
+                {
+                    Method (_DSM, 4, Serialized)  // _DSM: Device-Specific Method
+                    {
+                        If (PCIC (Arg0))
+                        {
+                            Return (PCID (Arg0, Arg1, Arg2, Arg3))
+                        }
+
+                        Return (Buffer (One)
+                        {
+                             0x00                                             // .
+                        })
+                    }
+
+                    Name (_ADR, 0x00040000)  // _ADR: Address
+                }
+
+                Device (IPU0)
+                {
+                    Name (_ADR, 0x00050000)  // _ADR: Address
+                }
+
+                Device (GNA0)
+                {
+                    Name (_ADR, 0x00080000)  // _ADR: Address
+                }
+            }
+
+            Scope (\)
+            {
+                Method (ADBG, 1, Serialized)
+                {
+                    If (CondRefOf (ODBG))
+                    {
+                        ODBG (Arg0)
+                    }
+
+                    Debug = Arg0
+                    Return (DISP (Arg0))
+                }
+            }
         }
     }
 }

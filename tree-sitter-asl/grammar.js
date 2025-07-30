@@ -1,3 +1,5 @@
+/* global grammar, choice, prec, seq, token, repeat, field, optional, $, repeat1, module */
+
 function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule));
 }
@@ -57,9 +59,12 @@ module.exports = grammar({
     NameSeg: $ => /[A-Za-z0-9_][A-Za-z0-9_]{0,3}/,
 
     // NameString := <RootChar NamePath> | <ParentPrefixChar PrefixPath NamePath> | NonEmptyNamePath
-    NameString: $ => seq(
-      optional(choice('\\', repeat1('^'))),
-      sepBy1('.', $.NameSeg)
+    NameString: $ => choice(
+      prec(2, seq(
+        optional(choice('\\', repeat1('^'))),
+        sepBy1('.', $.NameSeg)
+      )),
+      prec(1, '\\') // standalone root
     ),
 
     // Integer := DecimalConst | OctalConst | HexConst
@@ -99,8 +104,8 @@ module.exports = grammar({
     
     // TermArg                     :=	ExpressionOpcode | DataObject | ArgTerm | LocalTerm | NameString | SymbolicExpression
     TermArg: $ => choice(
-      $.ExpressionOpcode,
       $.DataObject,
+      $.ExpressionOpcode,
       $.ArgTerm,
       $.LocalTerm,
       $.NameString,
@@ -109,18 +114,32 @@ module.exports = grammar({
     // MethodInvocationTerm        :=	NameString ( // NameString => Method
     //                                     ArgList
     //                                 ) => Nothing | DataRefObject
-    MethodInvocationTerm: $ => seq(
+    MethodInvocationTerm: $ => prec.left(2, seq(
       field('Term', $.NameString),
       '(',
       optional(field('ArgList', $.ArgList)),
       ')'
-    ),
+    )),
 
 
 
     // ------------------------------------------------
     // 4. List Terms
     // ------------------------------------------------
+    // CaseTermList                :=	Nothing | CaseTerm | DefaultTerm DefaultTermList | CaseTerm CaseTermList
+    CaseTermList: $ => choice(
+      seq($.DefaultTerm, optional($.DefaultTermList)),
+      seq($.CaseTerm, optional($.CaseTermList)),
+      $.CaseTerm,
+      $.DefaultTerm,
+    ),
+
+    // DefaultTermList             :=	Nothing | CaseTerm | CaseTerm DefaultTermList
+    DefaultTermList: $ => choice(
+      $.CaseTerm,
+      seq($.CaseTerm, $.DefaultTermList)
+    ),
+
     // ArgList                     :=	Nothing | <TermArg ArgListTail>
     ArgList: $ => sepBy1(',', $.TermArg),
 
@@ -312,9 +331,9 @@ module.exports = grammar({
       $.SignalTerm,
       $.SleepTerm,
       $.StallTerm,
-      // $.SwitchTerm,
+      $.SwitchTerm,
       $.UnloadTerm,
-      // $.WhileTerm
+      $.WhileTerm
     ),
 
     // ExpressionOpcode            :=	AcquireTerm | AddTerm | AndTerm | ConcatTerm | ConcatResTerm | CondRefOfTerm | CopyObjectTerm | DecTerm | DerefOfTerm | DivideTerm | FindSetLeftBitTerm | FindSetRightBitTerm | FprintfTerm | FromBCDTerm | IncTerm | IndexTerm | LAndTerm | LEqualTerm | LGreaterTerm | LGreaterEqualTerm | LLessTerm | LLessEqualTerm | LNotTerm | LNotEqualTerm | LOrTerm | MatchTerm | MidTerm | ModTerm | MultiplyTerm | NAndTerm | NOrTerm | NotTerm | ObjectTypeTerm | OrTerm | PrintfTerm | RefOfTerm | ShiftLeftTerm | ShiftRightTerm | SizeOfTerm | StoreTerm | SubtractTerm | TimerTerm | ToBCDTerm | ToBufferTerm | ToDecimalStringTerm | ToHexStringTerm | ToIntegerTerm | ToStringTerm | WaitTerm | XorTerm | MethodInvocationTerm | SymbolicExpressionTerm | SymbolicAssignmentTerm
@@ -370,6 +389,8 @@ module.exports = grammar({
       $.WaitTerm,
       // $.XorTerm,
       $.MethodInvocationTerm,
+      $.SymbolicExpressionTerm,
+      $.SymbolicAssignmentTerm,
     )),
 
     // IntegerTypeOpcode           :=	AddTerm | AndTerm | DecTerm | DerefOfTerm | DivideTerm | EISAIDTerm | FindSetLeftBitTerm | FindSetRightBitTerm | FromBCDTerm | IncTerm | LAndTerm | LEqualTerm | LGreaterTerm | LGreaterEqualTerm | LLessTerm | LLessEqualTerm | LNotTerm | LNotEqualTerm | MatchTerm | ModTerm | MultiplyTerm | NAndTerm | NOrTerm | NotTerm | OrTerm | ShiftLeftTerm | ShiftRightTerm | SubtractTerm | ToBCDTerm | ToIntegerTerm | XorTerm | SymbolicExpressionTerm
@@ -404,6 +425,7 @@ module.exports = grammar({
       $.SubtractTerm,
       $.ToBCDTerm,
       $.ToIntegerTerm,
+      $.SymbolicExpressionTerm,
       // $.XorTerm,
     )),
 
@@ -424,7 +446,8 @@ module.exports = grammar({
       $.ConcatTerm,                 
       $.ConcatResTerm,                  
       $.DerefOfTerm,                
-      $.MidTerm,                    
+      $.MidTerm,   
+      $.ResourceTemplateTerm,                 
       $.ToBufferTerm,               
       $.ToUUIDTerm,                 
       $.UnicodeTerm                 
@@ -439,9 +462,410 @@ module.exports = grammar({
       // $.UserTermObj
     )),
 
+    // SymbolicExpressionTerm      :=	( TermArg ) | AddSymbolicTerm | AndSymbolicTerm | DecSymbolicTerm | DivideSymbolicTerm | IncSymbolicTerm | LAndSymbolicTerm | LEqualSymbolicTerm | LGreaterEqualSymbolicTerm | LGreaterSymbolicTerm | LLessEqualSymbolicTerm | LLessSymbolicTerm | LNotEqualSymbolicTerm | LNotSymbolicTerm | LOrSymbolicTerm | ModSymbolicTerm | MultiplySymbolicTerm | NotSymbolicTerm | OrSymbolicTerm | ShiftLeftSymbolicTerm | ShiftRightSymbolicTerm | SubtractSymbolicTerm | XorSymbolicTerm
+    SymbolicExpressionTerm: $ => choice(
+      seq('(', $.TermArg, ')'),
+      $.AddSymbolicTerm,
+      $.AndSymbolicTerm,
+      $.DecSymbolicTerm,
+      $.DivideSymbolicTerm,
+      $.IncSymbolicTerm,
+      $.LAndSymbolicTerm,
+      $.LEqualSymbolicTerm,
+      $.LGreaterEqualSymbolicTerm,
+      $.LGreaterSymbolicTerm,
+      $.LLessEqualSymbolicTerm,
+      $.LLessSymbolicTerm,
+      $.LNotEqualSymbolicTerm,
+      $.LNotSymbolicTerm,
+      $.LOrSymbolicTerm,
+      $.ModSymbolicTerm,
+      $.MultiplySymbolicTerm,
+      $.NotSymbolicTerm,
+      $.OrSymbolicTerm,
+      $.ShiftLeftSymbolicTerm,
+      $.ShiftRightSymbolicTerm,
+      $.SubtractSymbolicTerm,
+      // $.XorSymbolicTerm,
+    ),
+
+    // SymbolicAssignmentTerm      :=	StoreSymbolicTerm | AddCompoundTerm | AndCompoundTerm | DivideCompoundTerm | ModCompoundTerm | MultiplyCompoundTerm | OrCompoundTerm | ShiftLeftCompoundTerm | ShiftRightCompoundTerm | SubtractCompoundTerm | XorCompoundTerm
+    SymbolicAssignmentTerm: $ => choice(
+      $.StoreSymbolicTerm,
+      $.AddCompoundTerm,
+      $.AndCompoundTerm,
+      $.DivideCompoundTerm,
+      $.ModCompoundTerm,
+      $.MultiplyCompoundTerm,
+      $.OrCompoundTerm,
+      $.XorCompoundTerm,
+      $.ShiftLeftCompoundTerm,
+      $.ShiftRightCompoundTerm,
+      $.SubtractCompoundTerm,
+    ),
+
     // ------------------------------------------------
     // 7. ASL Primary (Terminal) Terms
     // ------------------------------------------------
+    // DefaultTerm                 :=	Default {TermList}    
+    DefaultTerm: $ => seq(
+      'Default',
+      '{',
+      field('TermList', $.TermList),
+      '}'
+    ),
+
+    // CaseTerm                    :=	Case (
+    //                                     Value // DataObject
+    //                                 ) {TermList}
+    CaseTerm: $ => seq(
+      'Case',
+      '(',
+      field('Value', $.DataObject),
+      ')',
+      '{',
+      field('TermList', $.TermList),
+      '}'
+    ),
+
+    // SwitchTerm                  :=	Switch (
+    //                                     Predicate // TermArg => ComputationalData
+    //                                 ) {CaseTermList}
+    SwitchTerm: $ => seq(
+      'Switch',
+      '(',
+      field('Predicate', $.TermArg),
+      ')',
+      '{',
+      field('CaseTermList', $.CaseTermList),
+      '}'
+    ),
+
+    // WhileTerm                   :=	While (
+    //                                     Predicate // TermArg => Integer
+    //                                 ) {TermList}
+    WhileTerm: $ => seq(
+      field('Term', 'While'),
+      '(',
+      field('Predicate', $.TermArg),
+      ')',
+      '{',
+      field('TermList', $.TermList),
+      '}'
+    ),
+
+    // SubtractCompoundTerm        :=	Minuend-Result // TermArg => Integer => Target
+    //                                 -= 
+    //                                 Subtrahend // TermArg => Integer
+    //                                 => Integer
+    SubtractCompoundTerm: $ => prec.left(10, seq(
+      field('Minuend', $.TermArg),
+      '-=',
+      field('Subtrahend', $.TermArg)
+    )),
+
+    // ShiftRightCompoundTerm      :=	Source-Result // TermArg => Integer => Target
+    //                                 >>=
+    //                                 ShiftCount // TermArg => Integer
+    //                                 => Integer
+    ShiftRightCompoundTerm: $ => prec.left(10, seq(
+      field('Source', $.TermArg),
+      '>>=',
+      field('ShiftCount', $.TermArg)
+    )),
+
+    // ShiftLeftCompoundTerm       :=	Source-Result // TermArg => Integer => Target
+    //                                 <<=
+    //                                 ShiftCount // TermArg => Integer
+    //                                 => Integer
+    ShiftLeftCompoundTerm: $ => prec.left(10, seq(
+      field('Source', $.TermArg),
+      '<<=',
+      field('ShiftCount', $.TermArg)
+    )),
+
+    // OrCompoundTerm              :=	Source1-Result // TermArg => Integer => Target
+    //                                 |= 
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    OrCompoundTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '|=',
+      field('Source2', $.TermArg)
+    )),
+
+    // XorCompoundTerm              :=	Source1-Result // TermArg => Integer => Target
+    //                                 ^=
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    XorCompoundTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '^=',
+      field('Source2', $.TermArg)
+    )),
+
+    // MultiplyCompoundTerm        :=	Multiplicand-Result // TermArg => Integer => Target
+    //                             *=
+    //                             Multiplier // TermArg => Integer
+    //                             => Integer
+    MultiplyCompoundTerm: $ => prec.left(10, seq(
+      field('Multiplicand', $.TermArg),
+      '*=',
+      field('Multiplier', $.TermArg)
+    )),
+
+    // ModCompoundTerm             :=	Dividend-Result // TermArg => Integer => Target
+    //                                 %= 
+    //                                 Divisor // TermArg => Integer
+    //                                 => Integer
+    ModCompoundTerm: $ => prec.left(10, seq(
+      field('Dividend', $.TermArg),
+      '%=',
+      field('Divisor', $.TermArg)
+    )),
+
+    // DivideCompoundTerm          := | Dividend-Result // TermArg => Integer => Target | /= | Divisor // TermArg => Integer | => Integer
+    DivideCompoundTerm: $ => prec.left(10, seq(
+      field('Dividend', $.TermArg),
+      '/=',
+      field('Divisor', $.TermArg)
+    )),
+
+    // AndCompoundTerm             :=	Source1-Result // TermArg => Integer => Target
+    //                                 &= 
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    AndCompoundTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '&=',
+      field('Source2', $.TermArg)
+    )),
+
+    // AddCompoundTerm             :=	Addend1-Result // TermArg => Integer => Target += Addend2 // TermArg => Integer => Integer
+    AddCompoundTerm: $ => prec.left(10, seq(
+      field('Addend1', $.TermArg),
+      '+=',
+      field('Result', $.TermArg)
+    )),
+
+    // StoreSymbolicTerm           :=	Destination // SuperName
+    //                                 = 
+    //                                 Source // TermArg => DataRefObject
+    //                                 => DataRefObject
+    StoreSymbolicTerm: $ => prec.left(10, seq(
+      field('Destination', $.SuperName),
+      '=',
+      field('Source', $.TermArg)
+    )),
+
+    // XorSymbolicTerm             :=	Source1 // TermArg => Integer
+    //                                 ^
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    XorSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '^',
+      field('Source2', $.TermArg)
+    )),
+
+    // SubtractSymbolicTerm        :=	Minuend // TermArg => Integer
+    //                                 Subtrahend // TermArg => Integer
+    //                                 => Integer
+    SubtractSymbolicTerm: $ => prec.left(10, seq(
+      field('Minuend', $.TermArg),
+      '-',
+      field('Subtrahend', $.TermArg)
+    )),
+
+    // ShiftRightSymbolicTerm      :=	Source // TermArg => Integer
+    //                             >>
+    //                             ShiftCount // TermArg => Integer
+    //                             => Integer
+    ShiftRightSymbolicTerm: $ => prec.left(10, seq(
+      field('Source', $.TermArg),
+      '>>',
+      field('ShiftCount', $.TermArg)
+    )),
+
+    // ShiftLeftSymbolicTerm       :=	Source // TermArg => Integer
+    //                                 <<
+    //                                 ShiftCount // TermArg => Integer
+    //                                 => Integer
+    ShiftLeftSymbolicTerm: $ => prec.left(10, seq(
+      field('Source', $.TermArg),
+      '<<',
+      field('ShiftCount', $.TermArg)
+    )),
+
+    // OrSymbolicTerm              :=	Source1 // TermArg => Integer
+    //                                 |
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    OrSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '|',
+      field('Source2', $.TermArg)
+    )),
+
+    // NotSymbolicTerm             :=	~
+    //                                 Source // TermArg => Integer
+    //                                 => Integer
+    NotSymbolicTerm: $ => prec.left(10, seq(
+      '~',
+      field('Source', $.TermArg)
+    )),
+
+    // MultiplySymbolicTerm        :=	Multiplicand // TermArg => Integer
+    //                                 *
+    //                                 Multiplier // TermArg => Integer
+    //                                 => Integer
+    MultiplySymbolicTerm: $ => prec.left(10, seq(
+      field('Multiplicand', $.TermArg),
+      '*',
+      field('Multiplier', $.TermArg)
+    )),
+
+    // ModSymbolicTerm             :=	Dividend // TermArg => Integer
+    //                                 %
+    //                                 Divisor // TermArg => Integer
+    //                                 => Integer
+    ModSymbolicTerm: $ => prec.left(10, seq(
+      field('Dividend', $.TermArg),
+      '%',
+      field('Divisor', $.TermArg)
+    )),
+
+    // LOrSymbolicTerm             :=	Source1 // TermArg => Integer
+    //                                 ||
+    //                                 Source2 // TermArg => Integer
+    //                                 => Boolean
+    LOrSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '||',
+      field('Source2', $.TermArg)
+    )),
+
+    // LNotSymbolicTerm            :=	!
+    //                                 Source // TermArg => Integer
+    //                                 => Boolean
+    LNotSymbolicTerm: $ => prec.left(10, seq(
+      '!',
+      field('Source', $.TermArg)
+    )),
+
+    // LNotEqualSymbolicTerm       :=	Source1 // TermArg => ComputationalData
+    //                                 !=
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LNotEqualSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '!=',
+      field('Source2', $.TermArg)
+    )),
+
+    // LLessSymbolicTerm           :=	Source1 // TermArg => ComputationalData
+    //                                 <
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LLessSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '<',
+      field('Source2', $.TermArg)
+    )),
+
+    // LLessEqualSymbolicTerm      :=	Source1 // TermArg => ComputationalData
+    //                                 <=
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LLessEqualSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '<=',
+      field('Source2', $.TermArg)
+    )),
+
+    // LGreaterSymbolicTerm        :=	Source1 // TermArg => ComputationalData
+    //                                 >
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LGreaterSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '>',
+      field('Source2', $.TermArg)
+    )),
+
+    // LGreaterEqualSymbolicTerm   :=	Source1 // TermArg => ComputationalData
+    //                                 >=
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LGreaterEqualSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '>=',
+      field('Source2', $.TermArg)
+    )),
+
+    // LEqualSymbolicTerm          :=	Source1 // TermArg => ComputationalData
+    //                                 ==
+    //                                 Source2 // TermArg => ComputationalData
+    //                                 => Boolean
+    LEqualSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '==',
+      field('Source2', $.TermArg)
+    )),
+
+    // LAndSymbolicTerm            :=	Source1 // TermArg => Integer
+    //                                 &&
+    //                                 Source2 // TermArg => Integer
+    //                                 => Boolean
+    LAndSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '&&',
+      field('Source2', $.TermArg)
+    )),
+
+    // IncSymbolicTerm             :=	Addend // SuperName => Integer
+    //                                 ++
+    //                                 => Integer
+    IncSymbolicTerm: $ => prec.left(10, seq(
+      field('Addend', $.SuperName),
+      '++',
+    )),
+
+    // DivideSymbolicTerm          :=	Dividend // TermArg => Integer
+    //                                 /
+    //                                 Divisor // TermArg => Integer
+    //                                 => Integer
+    DivideSymbolicTerm: $ => prec.left(10, seq(
+      field('Dividend', $.TermArg),
+      '/',
+      field('Divisor', $.TermArg)
+    )),
+
+    // DecSymbolicTerm             :=	Minuend // SuperName => Integer
+    //                             –
+    //                             => Integer
+    DecSymbolicTerm: $ => prec.left(10, seq(
+      field('Minuend', $.SuperName),
+      '--',
+    )),
+
+    // AndSymbolicTerm             :=	Source1 // TermArg => Integer
+    //                                 &
+    //                                 Source2 // TermArg => Integer
+    //                                 => Integer
+    AndSymbolicTerm: $ => prec.left(10, seq(
+      field('Source1', $.TermArg),
+      '&',
+      field('Source2', $.TermArg)
+    )),
+
+    // AddSymbolicTerm             :=	Addend1 // TermArg => Integer + Addend2 // TermArg => Integer => Integer
+    AddSymbolicTerm: $ => prec.left(10, seq(
+      field('Addend1', $.TermArg),
+      '+',
+      field('Addend2', $.TermArg)
+    )),
+
     // ElseIfTerm                  :=	ElseIf (
     //                                     Predicate // TermArg => Integer
     //                                 ) {TermList} ElseTerm
@@ -451,9 +875,9 @@ module.exports = grammar({
       field('Predicate', $.TermArg),
       ')',
       '{',
-      field('TermList', $.TermList),
+      optional(field('TermList', $.TermList)),
       '}',
-      field('ElseTerm', $.ElseTerm)
+      optional(field('ElseTerm', $.ElseTerm))
     ),
 
     // ElseTerm                    :=	Else {TermList} | ElseIfTerm | Nothing
@@ -461,7 +885,7 @@ module.exports = grammar({
       seq(
         field('Term', 'Else'),
         '{',
-        field('TermList', $.TermList),
+        optional(field('TermList', $.TermList)),
         '}'
       ),
       $.ElseIfTerm,
@@ -476,7 +900,7 @@ module.exports = grammar({
       field('Predicate', $.TermArg),
       ')',
       '{',
-      field('TermList', $.TermList),
+      optional(field('TermList', $.TermList)),
       '}'
     ),
 
@@ -562,8 +986,7 @@ module.exports = grammar({
     ToIntegerTerm: $ => seq(
       field('Term', 'ToInteger'),
       '(',
-      field('Data', $.ComputationalData), ',',
-      field('Result', $.Target),
+      field('Data', $.TermArg),
       ')'
     ),
 
@@ -855,8 +1278,8 @@ module.exports = grammar({
     ToDecimalStringTerm: $ => seq(
       field('Term', 'ToDecimalString'),
       '(',
-      field('Data', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Data', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -867,8 +1290,8 @@ module.exports = grammar({
     ToHexStringTerm: $ => seq(
       field('Term', 'ToHexString'),
       '(',
-      field('Data', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Data', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1149,7 +1572,7 @@ module.exports = grammar({
       field('BuffSize', optional($.TermArg)),
       ')',
       '{',
-      field('Body', choice($.StringLiteral, $.ByteList)),
+      field('Body', optional(choice($.StringData, $.ByteList))),
       '}'
     ),
 
@@ -1180,9 +1603,19 @@ module.exports = grammar({
     ToBufferTerm: $ => seq(
       field('Term', 'ToBuffer'),
       '(',
-      field('Data', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Data', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
+    ),
+
+    // ResourceTemplateTerm := ResourceTemplate() {ResourceMacroList} => BufferTerm
+    ResourceTemplateTerm: $ => seq(
+      field('Term', 'ResourceTemplate'),
+      '(',
+      ')',
+      '{',
+      field('ResourceMacroList', $.ResourceMacroList),
+      '}'
     ),
 
     // MidTerm                     :=	Mid (
@@ -1232,8 +1665,7 @@ module.exports = grammar({
     CondRefOfTerm: $ => seq(
       field('Term', 'CondRefOf'),
       '(',
-      field('Source', choice($.NameString, $.ArgTerm, $.LocalTerm, $.DerefOfTerm)), ',',
-      field('Destination', $.Target),
+      field('Source', choice($.NameString, $.ArgTerm, $.LocalTerm, $.DerefOfTerm)),
       ')'
     ),
 
@@ -1259,7 +1691,7 @@ module.exports = grammar({
     DerefOfTerm: $ => seq(
       field('Term', 'DerefOf'),
       '(',
-      field('Source', choice($.NameString, $.ArgTerm, $.LocalTerm, $.RefOfTerm, $.CondRefOfTerm)),
+      field('Source', choice($.NameString, $.ArgTerm, $.LocalTerm, $.RefOfTerm, $.CondRefOfTerm, $.IndexSymbolicTerm)),
       ')'
     ),
 
@@ -1285,9 +1717,9 @@ module.exports = grammar({
     ConcatTerm: $ => seq(
       field('Term', 'Concatenate'),
       '(',
-      field('Source1', $.SuperName), ',',
-      field('Source2', $.SuperName), ',',
-      field('Result', $.Target),
+      field('Source1', $.TermArg), ',',
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')',
     ),
 
@@ -1324,7 +1756,7 @@ module.exports = grammar({
       field('Term', 'CreateBitField'),
       '(',
       field('SourceBuffer', $.NameSeg), ',',
-      field('BitIndex', $.IntegerLiteral), ',',
+      field('BitIndex', $.TermArg), ',',
       field('BitFieldName', $.NameString),
       ')'
     ),
@@ -1345,7 +1777,7 @@ module.exports = grammar({
       field('serialize_rule', $.SerializeRuleKeyword),
       ')',
       '{',
-      field('body', $.TermList),
+      optional(field('body', $.TermList)),
       '}'
     ),
 
@@ -1357,8 +1789,8 @@ module.exports = grammar({
     CreateByteFieldTerm: $ => seq(
       field('Term', 'CreateByteField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
-      field('ByteIndex', $.IntegerLiteral), ',',
+      field('SourceBuffer', $.SuperName), ',',
+      field('ByteIndex', $.TermArg), ',',
       field('ByteFieldName', $.NameString),
       ')'
     ),
@@ -1371,8 +1803,8 @@ module.exports = grammar({
     CreateDWordFieldTerm: $ => seq(
       field('Term', 'CreateDWordField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
-      field('ByteIndex', $.IntegerLiteral), ',',
+      field('SourceBuffer', $.SuperName), ',',
+      field('ByteIndex', $.TermArg), ',',
       field('DWordFieldName', $.NameString),
       ')'
     ),
@@ -1387,8 +1819,8 @@ module.exports = grammar({
       field('Term', 'CreateField'),
       '(',
       field('SourceBuffer', $.NameSeg), ',',
-      field('BitIndex', $.IntegerLiteral), ',',
-      field('NumBits', $.IntegerLiteral), ',',
+      field('BitIndex', $.TermArg), ',',
+      field('NumBits', $.TermArg), ',',
       field('FieldName', $.NameString),
       ')'
     ),
@@ -1402,7 +1834,7 @@ module.exports = grammar({
       field('Term', 'CreateQWordField'),
       '(',
       field('SourceBuffer', $.NameSeg), ',',
-      field('ByteIndex', $.IntegerLiteral), ',',
+      field('ByteIndex', $.TermArg), ',',
       field('QWordFieldName', $.NameString),
       ')'
     ),
@@ -1416,7 +1848,7 @@ module.exports = grammar({
       field('Term', 'CreateWordField'),
       '(',
       field('SourceBuffer', $.NameSeg), ',',
-      field('ByteIndex', $.IntegerLiteral), ',',
+      field('ByteIndex', $.TermArg), ',',
       field('WordFieldName', $.NameString),
       ')'
     ),
@@ -1617,6 +2049,828 @@ module.exports = grammar({
 
 
 
+    // ------------------------------------------------
+    // 7. ASL Resource Template Terms
+    // ------------------------------------------------
+    // ResourceMacroList           :=	Nothing | <resourcemacroterm resourcemacrolist>
+    ResourceMacroList: $ => repeat1($.ResourceMacroTerm),
+
+    // ResourceMacroTerm           :=	DMATerm | DWordIOTerm | DWordMemoryTerm | DWordSpaceTerm | EndDependentFnTerm | ExtendedIOTerm | ExtendedMemoryTerm | ExtendedSpaceTerm | FixedDMATerm | FixedIOTerm | GpioIntTerm | GpioIOTerm | I2CSerialBusTerm | InterruptTerm | IOTerm | IRQNoFlagsTerm | IRQTerm | Memory24Term | Memory32FixedTerm | Memory32Term | PinConfigTerm | PinFunctionTerm | PinGroupTerm | PinGroupConfigTerm | PinGroupFunctionTerm | QWordIOTerm | QWordMemoryTerm | QWordSpaceTerm | RegisterTerm | SPISerialBusTerm | StartDependentFnTerm | StartDependentFnNoPriTerm | UARTSerialBusTerm | VendorLongTerm | VendorShortTerm | WordBusNumberTerm | WordIOTerm | WordSpaceTerm
+    ResourceMacroTerm: $ => choice(
+      $.DMATerm,
+      $.DWordIOTerm,
+      $.DWordMemoryTerm,
+      $.DWordSpaceTerm,
+      $.EndDependentFnTerm,
+      $.ExtendedIOTerm,
+      $.ExtendedMemoryTerm,
+      $.ExtendedSpaceTerm,
+      $.FixedDMATerm,
+      $.FixedIOTerm,
+      $.GpioIntTerm,
+      $.GpioIOTerm,
+      $.I2CSerialBusTerm,
+      $.InterruptTerm,
+      $.IOTerm,
+      $.IRQNoFlagsTerm,
+      $.IRQTerm,
+      $.Memory24Term,
+      $.Memory32FixedTerm,
+      $.Memory32Term,
+      $.PinConfigTerm,
+      $.PinFunctionTerm,
+      $.PinGroupTerm,
+      $.PinGroupConfigTerm,
+      $.PinGroupFunctionTerm,
+      $.QWordIOTerm,
+      $.QWordMemoryTerm,
+      $.QWordSpaceTerm,
+      $.RegisterTerm,
+      $.SPISerialBusTerm,
+      $.StartDependentFnTerm,
+      $.StartDependentFnNoPriTerm,
+      $.UARTSerialBusTerm,
+      $.VendorLongTerm,
+      $.VendorShortTerm,
+      $.WordBusNumberTerm,
+      $.WordIOTerm,
+      $.WordSpaceTerm
+    ),
+    // EndDependentFnTerm          :=	EndDependentFn ()
+    EndDependentFnTerm: $ => seq(
+      field('Term', 'EndDependentFn'),
+      '(',
+      ')'
+    ),
+
+    // ExtendedIOTerm              :=	ExtendedIO (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     RangeType, // Nothing (EntireRange) | RangeTypeKeyword (_RNG)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     TypeSpecificAttributes, // Nothing | QWordConstExpr
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     TranslationType, // Nothing | TypeKeyword (_TTP)
+    //                                     TranslationDensity // Nothing | TranslationKeyword (_TRS)
+    //                                 )
+    ExtendedIOTerm: $ => seq(
+      field('Term', 'ExtendedIO'),
+      '(',
+      field('ResourceUsage', $.ResourceTypeKeyword),
+      ')',
+    ),
+
+    // ExtendedMemoryTerm          :=	ExtendedMemory (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     MemType, // Nothing (NonCacheable) | MemTypeKeyword (_MEM)
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     TypeSpecificAttributes, // Nothing | QWordConstExpr
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     MemoryRangeType, // Nothing | AddressKeyword (_MTP)
+    //                                     TranslationType // Nothing | TypeKeyword (_TTP)
+    //                                 )
+    ExtendedMemoryTerm: $ => seq(
+      field('Term', 'ExtendedMemory'),
+      '(',
+      field('ResourceUsage', $.ResourceTypeKeyword),
+      ')',
+    ),
+
+    // ExtendedSpaceTerm           :=	ExtendedSpace (
+    //                                     ResourceType, // ByteConstExpr (_RT), 0xC0 - 0xFF
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     TypeSpecificFlags, // ByteConstExpr (_TSF)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     TypeSpecificAttributes, // Nothing | QWordConstExpr (_ATT)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    ExtendedSpaceTerm: $ => seq(
+      field('Term', 'ExtendedSpace'),
+      '(',
+      field('ResourceType', $.IntegerLiteral),
+      ')',
+    ),
+
+    // FixedDMATerm                :=	FixedDMA (
+    //                                     DMAReq, // WordConstExpr (_DMA)
+    //                                     Channel, // WordConstExpr (_TYP)
+    //                                     XferWidth, // Nothing (Width32Bit) | TransferWidthKeyword (_SIZ)
+    //                                     DescriptorName, // Nothing | NameString
+    //                                 )
+    FixedDMATerm: $ => seq(
+      field('Term', 'FixedDMA'),
+      '(',
+      field('DMAReq', $.IntegerLiteral), ',',
+      field('Channel', $.IntegerLiteral),
+      ')',
+    ),
+
+    // FixedIOTerm                 :=	FixedIO (
+    //                                     AddressBase, // WordConstExpr (_BAS)
+    //                                     RangeLength, // ByteConstExpr (_LEN)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    FixedIOTerm: $ => seq(
+      field('Term', 'FixedIO'),
+      '(',
+      field('AddressBase', $.IntegerLiteral), ',',
+      field('RangeLength', $.IntegerLiteral),
+      ')',
+    ),
+
+    // GpioIntTerm                 :=	GpioInt (
+    //                                     InterruptType, // InterruptTypeKeyword (_MOD)
+    //                                     InterruptLevel, // InterruptLevelKeyword (_POL)
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     PinConfig, // PinConfigKeyword | ByteConstExpr (_PPI)
+    //                                     DeBounceTime // Nothing | WordConstExpr (_DBT)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 ) {DWordList} // List of GPIO pins (_PIN)
+    GpioIntTerm: $ => seq(
+      field('Term', 'GpioInt'),
+      '(',
+      field('InterruptType', $.InterruptTypeKeyword), ',',
+      field('InterruptLevel', $.InterruptLevelKeyword), ',',
+      field('ShareType', optional($.ShareTypeKeyword)), ',',
+      field('PinConfig', choice($.PinConfigKeyword, $.IntegerLiteral)), ',',
+      field('DeBounceTime', optional($.IntegerLiteral)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
+      ')',
+      '{',
+      field('PinList', $.PackageList),
+      '}',
+    ),
+    
+    // GpioIOTerm                  :=	GpioIO (
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     PinConfig, // PinConfigKeyword | ByteConstExpr (_PPIC)
+    //                                     DeBounceTime // Nothing | WordConstExpr (_DBT)
+    //                                     DriveStrength // Nothing | WordConstExpr (_DRS)
+    //                                     IORestriction // Nothing (None) | IORestrictionKeyword (_IOR)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 ) {DWordList} // List of GPIO pins (_PIN)
+    GpioIOTerm: $ => seq(
+      field('Term', 'GpioIO'),
+      '(',
+      field('PinConfig', choice($.PinConfigKeyword, $.IntegerLiteral)), ',',
+      field('DeBounceTime', optional($.IntegerLiteral)),
+      ')',
+    ),
+
+    // I2CSerialBusTerm            :=	I2CSerialBusV2 (
+    //                                     SlaveAddress, // WordConstExpr (_ADR)
+    //                                     SlaveMode, // Nothing (ControllerInitiated) | SlaveModeKeyword (_SLV)
+    //                                     ConnectionSpeed, // DWordConstExpr (_SPE)
+    //                                     AddressingMode, // Nothing (AddressingMode7Bit) | AddressModeKeyword (_MOD)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 )
+    I2CSerialBusTerm: $ => seq(
+      field('Term', 'I2cSerialBusV2'),
+      '(',
+      field('SlaveAddress', $.IntegerLiteral), ',',
+      field('SlaveMode', optional($.SlaveModeKeyword)), ',',
+      field('ConnectionSpeed', $.IntegerLiteral), ',',
+      field('AddressingMode', optional($.AddressingModeKeyword)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('ShareType', optional($.ShareTypeKeyword)), ',',
+      field('VendorData', optional($.SuperName)),
+      ')',
+    ),
+
+    // InterruptTerm               :=	Interrupt (
+    //                                     ResourceType, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     InterruptType, // InterruptTypeKeyword (_LL, _HE)
+    //                                     InterruptLevel, // InterruptLevelKeyword (_LL, _HE)
+    //                                     ShareType, // Nothing (Exclusive) ShareTypeKeyword (_SHR)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {DWordList} // list of interrupts (_INT)
+    InterruptTerm: $ => seq(
+      field('Term', 'Interrupt'),
+      '(',
+      field('ResourceType', optional($.ResourceTypeKeyword)), ',',
+      field('InterruptType', $.InterruptTypeKeyword), ',',
+      field('InterruptLevel', $.InterruptLevelKeyword), ',',
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),
+      ')',
+      '{',
+      field('Body', $.PackageList),
+      '}'
+    ),
+
+    // IOTerm                      :=	IO (
+    //                                     IODecode, // IODecodeKeyword (_DEC)
+    //                                     MinAddress, // WordConstExpr (_MIN)
+    //                                     MaxAddress, // WordConstExpr (_MAX)
+    //                                     Alignment, // ByteConstExpr (_ALN)
+    //                                     RangeLength, // ByteConstExpr (_LEN)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    IOTerm: $ => seq(
+      field('Term', 'IO'),
+      '(',
+      field('IODecode', $.IODecodeKeyword), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('Alignment', $.IntegerLiteral), ',',
+      field('RangeLength', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
+      ')',
+    ),
+
+    // IRQNoFlagsTerm              :=	IRQNoFlags (
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {ByteList} // list of interrupts (0-15 bytes)
+    IRQNoFlagsTerm: $ => seq(
+      field('Term', 'IRQNoFlags'),
+      '(',
+      optional(field('DescriptorName', $.NameString)),
+      ')',
+      '{',
+      field('InterruptList', $.ByteList),
+      '}'
+    ),
+
+    // IRQTerm                     :=	IRQ (
+    //                                     InterruptType, // InterruptTypeKeyword (_LL, _HE)
+    //                                     InterruptLevel, // InterruptLevelKeyword (_LL, _HE)
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {ByteList} // list of interrupts (0-15 bytes)
+    IRQTerm: $ => seq(
+      field('Term', 'IRQ'),
+      '(',
+      field('InterruptType', $.InterruptTypeKeyword), ',',
+      field('InterruptLevel', $.InterruptLevelKeyword), ',',
+      field('ShareType', $.ShareTypeKeyword),
+      ')',
+    ),
+
+    // Memory24Term                :=	Memory24 (
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     MinAddress[23       : 8], // WordConstExpr (_MIN)
+    //                                     MaxAddress[23       : 8], // WordConstExpr (_MAX)
+    //                                     Alignment, // WordConstExpr (_ALN)
+    //                                     RangeLength, // WordConstExpr (_LEN)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    Memory24Term: $ => seq(
+      field('Term', 'Memory24'),
+      '(',
+      field('ReadWriteType', $.ReadWriteKeyword),
+      ')',
+    ),
+
+    // Memory32FixedTerm           :=	Memory32Fixed (
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     AddressBase, // DWordConstExpr (_BAS)
+    //                                     RangeLength, // DWordConstExpr (_LEN)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    Memory32FixedTerm: $ => seq(
+      field('Term', 'Memory32Fixed'),
+      '(',
+      field('ReadWriteType', $.ReadWriteKeyword), ',',
+      field('AddressBase', $.IntegerLiteral), ',',
+      field('RangeLength', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
+      ')',
+    ),
+
+    // Memory32Term                :=	Memory32 (
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     MinAddress, // DWordConstExpr (_MIN)
+    //                                     MaxAddress, // DWordConstExpr (_MAX)
+    //                                     Alignment, // DWordConstExpr (_ALN)
+    //                                     RangeLength, // DWordConstExpr (_LEN)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    Memory32Term: $ => seq(
+      field('Term', 'Memory32'),
+      '(',
+      field('ReadWriteType', $.ReadWriteKeyword),
+      ')',
+    ),
+
+    // PinConfigTerm               :=	PinConfig (
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     PinConfigType, // ByteData (_TYP)
+    //                                     PinConfigValue, // ByteData (_VAL)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 ) {DWordList} (_PIN)
+    PinConfigTerm: $ => seq(
+      field('Term', 'PinConfig'),
+      '(',
+      field('ShareType', $.ShareTypeKeyword),
+      ')',
+    ),
+
+    // PinFunctionTerm             :=	PinFunction (
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     PinPullConfiguration, // PinConfigKeyword | ByteConstExpr (_PPI)
+    //                                     FunctionNumber, // WordData
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 ) {DWordList} (_PIN)
+    PinFunctionTerm: $ => seq(
+      field('Term', 'PinFunction'),
+      '(',
+      field('ShareType', $.ShareTypeKeyword),
+      ')',
+    ),
+
+    // PinGroupTerm                :=	PinGroup (
+    //                                     ResourceLabel, // StringData
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 ) {DWordList} (_PIN)
+    PinGroupTerm: $ => seq(
+      field('Term', 'PinGroup'),
+      '(',
+      field('ResourceLabel', $.NameString),
+      ')',
+    ),
+
+    // PinGroupConfigTerm          :=	PinGroupConfig (
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     PinConfigType, // ByteData (_TYP)
+    //                                     PinConfigValue, // ByteData (_VAL)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceSourceLabel, // StringData
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 )
+    PinGroupConfigTerm: $ => seq(
+      field('Term', 'PinGroupConfig'),
+      '(',
+      field('ShareType', $.ShareTypeKeyword),
+      ')',
+    ),
+
+    // PinGroupFunctionTerm        :=	PinGroupFunction (
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     FunctionNumber, // WordData (_FUN)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing (0) | ByteConstExpr
+    //                                     ResourceSourceLabel, // StringData
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 )
+    PinGroupFunctionTerm: $ => seq(
+      field('Term', 'PinGroupFunction'),
+      '(',
+      field('ShareType', $.ShareTypeKeyword),
+      ')',
+    ),
+
+    // QWordIOTerm                 :=	QWordIO (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     RangeType, // Nothing (EntireRange) | RangeTypeKeyword (_RNG)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     TranslationType, // Nothing | TypeKeyword (_TTP)
+    //                                     TranslationDensity // Nothing | TranslationKeyword (_TRS)
+    //                                 )
+    QWordIOTerm: $ => seq(
+      field('Term', 'QWordIO'),
+      '(',
+      field('ResourceUsage', $.ResourceTypeKeyword),
+      ')',
+    ),
+
+    // QWordMemoryTerm             :=	QWordMemory (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     MemType, // Nothing (NonCacheable) | MemTypeKeyword (_MEM)
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     MemoryRangeType, // Nothing | AddressKeyword (_MTP)
+    //                                     TranslationType // Nothing | TypeKeyword (_TTP)
+    //                                 )
+    QWordMemoryTerm: $ => seq(
+      field('Term', 'QWordMemory'),
+      '(',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('MemType', optional($.MemTypeKeyword)), ',',
+      field('ReadWriteType', $.ReadWriteKeyword), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),',',
+      field('MemoryRangeType', optional($.AddressKeyword)), ',',
+      field('TranslationType', optional($.TypeKeyword)),  
+      ')',
+    ),
+
+    // QWordSpaceTerm              :=	QWordSpace (
+    //                                     ResourceType, // ByteConstExpr (_RT), 0xC0 - 0xFF
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     TypeSpecificFlags, // ByteConstExpr (_TSF)
+    //                                     AddressGranularity, // QWordConstExpr (_GRA)
+    //                                     MinAddress, // QWordConstExpr (_MIN)
+    //                                     MaxAddress, // QWordConstExpr (_MAX)
+    //                                     AddressTranslation, // QWordConstExpr (_TRA)
+    //                                     AddressLength, // QWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    QWordSpaceTerm: $ => seq(
+      field('Term', 'QWordSpace'),
+      '(',
+      field('ResourceType', $.IntegerLiteral),
+      ')',
+    ),
+
+    // RegisterTerm                :=	Register (
+    //                                     AddressSpaceID, // AddressSpaceKeyword (_ASI)
+    //                                     RegisterBitWidth, // ByteConstExpr (_RBW)
+    //                                     RegisterOffset, // ByteConstExpr (_RBO)
+    //                                     RegisterAddress, // QWordConstExpr (_ADR)
+    //                                     AccessSize, // ByteConstExpr (_ASZ)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    RegisterTerm: $ => seq(
+      field('Term', 'Register'),
+      '(',
+      field('AddressSpaceID', $.AddressSpaceKeyword),
+      ')',
+    ),
+
+    // SPISerialBusTerm            :=	SPISerialBusV2 (
+    //                                     DeviceSelection, // WordConstExpr (_ADR)
+    //                                     DeviceSelectionPolarity, // Nothing (PolarityLow) |
+    //                                     DevicePolarityKeyword (_DPL)
+    //                                     WireMode, // Nothing (FourWireMode) | WireModeKeyword (_MOD)
+    //                                     DataBitLength, // ByteConstExpr (_LEN)
+    //                                     SlaveMode, // Nothing (ControllerInitiated) | SlaveModeKeyword (_SLV)
+    //                                     ConnectionSpeed, // DWordConstExpr (_SPE)
+    //                                     ClockPolarity, // ClockPolarityKeyword (_POL)
+    //                                     ClockPhase, // ClockPhaseKeyword (_PHA)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     VendorData // Nothing | RawDataBuffer (_VEN)
+    //                                 )
+    SPISerialBusTerm: $ => seq(
+      field('Term', 'SPISerialBusV2'),
+      '(',
+      field('DeviceSelection', $.IntegerLiteral),
+      ')',
+    ),
+
+    // StartDependentFnNoPriTerm   :=	StartDependentFnNoPri () {ResourceMacroList}
+    StartDependentFnNoPriTerm: $ => seq(
+      field('Term', 'StartDependentFnNoPri'),
+      '(',
+      ')',
+    ),
+
+    // StartDependentFnTerm        :=	StartDependentFn (
+    //                                     CompatPriority, // ByteConstExpr (0-2)
+    //                                     PerfRobustPriority // ByteConstExpr (0-2)
+    //                                 ) {ResourceMacroList}
+    StartDependentFnTerm: $ => seq(
+      field('Term', 'StartDependentFn'),
+      '(',
+      field('CompatPriority', $.IntegerLiteral), ',',
+      field('PerfRobustPriority', $.IntegerLiteral),
+      ')',
+    ),
+
+    // UARTSerialBusTerm           :=	UARTSerialBusV2 (
+    //                                     Initial BaudRate, // DwordConstExpr (_SPE)
+    //                                     BitsPerByte, // Nothing (DataBitsEight) | DataBitsKeyword (_LEN)
+    //                                     StopBits, // Nothing (StopBitsOne) | StopBitsKeyword (_STB)
+    //                                     LinesInUse, // ByteConstExpr (_LIN)
+    //                                     IsBigEndian, // Nothing (LittleEndian) | EndianessKeyword (_END)
+    //                                     Parity, // Nothing (ParityTypeNone) | ParityTypeKeyword (_PAR)
+    //                                     FlowControl, // Nothing (FlowControlNone) | FlowControlKeyword (_FLC)
+    //                                     ReceiveBufferSize, // WordConstExpr (_RXL)
+    //                                     TransmitBufferSize, // WordConstExpr (_TXL)
+    //                                     ResourceSource, // StringData
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     ShareType, // Nothing (Exclusive) | ShareTypeKeyword (_SHR)
+    //                                     VendorData // Nothing | Object (_VEN)
+    //                                 )
+    UARTSerialBusTerm: $ => seq(
+      field('Term', 'UARTSerialBusV2'),
+      '(',
+      field('InitialBaudRate', $.IntegerLiteral),
+      ')',
+    ),
+
+    // VendorLongTerm              :=	VendorLong (
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {ByteList}
+    VendorLongTerm: $ => seq(
+      field('Term', 'VendorLong'),
+      '(',
+      field('DescriptorName', $.NameString),
+      ')',
+      '{',
+      field('Body', $.ByteList),
+      '}'
+    ),
+
+    // VendorShortTerm             :=	VendorShort (
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {ByteList} // Up to 7 bytes
+    VendorShortTerm: $ => seq(
+      field('Term', 'VendorShort'),
+      '(',
+      field('DescriptorName', $.NameString),
+      ')',
+      '{',
+      field('Body', $.ByteList),
+      '}'
+    ),
+
+    // WordBusNumberTerm           :=	WordBusNumber (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     AddressGranularity, // WordConstExpr (_GRA)
+    //                                     MinAddress, // WordConstExpr (_MIN)
+    //                                     MaxAddress, // WordConstExpr (_MAX)
+    //                                     AddressTranslation, // WordConstExpr (_TRA)
+    //                                     AddressLength, // WordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    WordBusNumberTerm: $ => seq(
+      field('Term', 'WordBusNumber'),
+      '(',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('AddressGranularity', $.IntegerData), ',',
+      field('MinAddress', $.IntegerData), ',',
+      field('MaxAddress', $.IntegerData), ',',
+      field('AddressTranslation', $.IntegerData), ',',
+      field('AddressLength', $.IntegerData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),
+      ')'
+    ),
+
+    // WordIOTerm                  :=	WordIO (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     RangeType, // Nothing (EntireRange) | RangeTypeKeyword (_RNG)
+    //                                     AddressGranularity, // WordConstExpr (_GRA)
+    //                                     MinAddress, // WordConstExpr (_MIN)
+    //                                     MaxAddress, // WordConstExpr (_MAX)
+    //                                     AddressTranslation, // WordConstExpr (_TRA)
+    //                                     AddressLength, // WordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     TranslationType, // Nothing | TypeKeyword (_TTP)
+    //                                     TranslationDensity // Nothing | TranslationKeyword (_TRS)
+    //                                 )
+    WordIOTerm: $ => seq(
+      field('Term', 'WordIO'),
+      '(',
+      field('ResourceUsage', $.ResourceTypeKeyword),
+      ')'
+    ),
+
+    // WordSpaceTerm               :=	WordSpace (
+    //                                     ResourceType, // ByteConstExpr (_RT), 0xC0 - 0xFF
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     TypeSpecificFlags, // ByteConstExpr (_TSF)
+    //                                     AddressGranularity, // WordConstExpr (_GRA)
+    //                                     MinAddress, // WordConstExpr (_MIN)
+    //                                     MaxAddress, // WordConstExpr (_MAX)
+    //                                     AddressTranslation, // WordConstExpr (_TRA)
+    //                                     AddressLength, // WordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    WordSpaceTerm: $ => seq(
+      field('Term', 'WordSpace'),
+      '(',
+      field('ResourceType', $.IntegerLiteral),
+      ')'
+    ),
+
+    // DMATerm                     :=	DMA (
+    //                                     DMAType, // DMATypeKeyword (_TYP)
+    //                                     BusMaster, // BusMasterKeyword (_BM)
+    //                                     XferType, // XferTypeKeyword (_SIZ)
+    //                                     DescriptorName // Nothing | NameString
+    //                                 ) {ByteList} // List of channels (0-7 bytes)
+    DMATerm: $ => seq(
+      field('Term', 'DMA'),
+      '(',
+      field('DMAType', $.NameString), ',',
+      field('BusMaster', $.BusMasterKeyword), ',',
+      field('XferType', $.XferTypeKeyword),
+      ')',
+      '{',
+      field('Body', $.ByteList),
+      '}'
+    ),
+
+    // DWordIOTerm                 :=	DWordIO (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     RangeType, // Nothing (EntireRange) | RangeTypeKeyword (_RNG)
+    //                                     AddressGranularity, // DWordConstExpr (_GRA)
+    //                                     MinAddress, // DWordConstExpr (_MIN)
+    //                                     MaxAddress, // DWordConstExpr (_MAX)
+    //                                     AddressTranslation, // DWordConstExpr (_TRA)
+    //                                     AddressLength, // DWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     TranslationType, // Nothing | TypeKeyword (_TTP)
+    //                                     TranslationDensity // Nothing | TranslationKeyword (_TRS)
+    //                                 )
+    DWordIOTerm: $ => seq(
+      field('Term', 'DWordIO'),
+      '(',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('RangeType', optional($.RangeTypeKeyword)), ',',
+      field('AddressGranularity', $.IntegerData), ',',
+      field('MinAddress', $.IntegerData), ',',
+      field('MaxAddress', $.IntegerData), ',',
+      field('AddressTranslation', $.IntegerData), ',',
+      field('AddressLength', $.IntegerData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('TranslationType', optional($.TypeKeyword)), ',',
+      field('TranslationDensity', optional($.TranslationKeyword)),
+      ')',
+    ),
+
+    // DWordMemoryTerm             :=	DWordMemory (
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     MemType, // Nothing (NonCacheable) | MemTypeKeyword (_MEM)
+    //                                     ReadWriteType, // ReadWriteKeyword (_RW)
+    //                                     AddressGranularity, // DWordConstExpr (_GRA)
+    //                                     MinAddress, // DWordConstExpr (_MIN)
+    //                                     MaxAddress, // DWordConstExpr (_MAX)
+    //                                     AddressTranslation, // DWordConstExpr (_TRA)
+    //                                     AddressLength, // DWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName, // Nothing | NameString
+    //                                     MemoryRangeType, // Nothing | AddressKeyword (_MTP)
+    //                                     TranslationType // Nothing | TypeKeyword (_TTP)
+    //                                 )
+    DWordMemoryTerm: $ => seq(
+      field('Term', 'DWordMemory'),
+      '(',
+      field('ResourceUsage', $.ResourceTypeKeyword), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('MemType', optional($.MemTypeKeyword)), ',',
+      field('ReadWriteType', optional($.ReadWriteKeyword)), ',',
+      field('AddressGranularity', $.IntegerData), ',',
+      field('MinAddress', $.IntegerData), ',',
+      field('MaxAddress', $.IntegerData), ',',
+      field('AddressTranslation', $.IntegerData), ',',
+      field('AddressLength', $.IntegerData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('MemoryRangeType', optional($.AddressKeyword)), ',',
+      field('TranslationType', optional($.TypeKeyword)),
+      ')',
+    ),
+
+    // DWordSpaceTerm              :=	DWordSpace (
+    //                                     ResourceType, // ByteConstExpr (_RT), 0xC0 - 0xFF
+    //                                     ResourceUsage, // Nothing (ResourceConsumer)| ResourceTypeKeyword
+    //                                     Decode, // Nothing (PosDecode) | DecodeKeyword (_DEC)
+    //                                     MinType, // Nothing (MinNotFixed) | MinKeyword (_MIF)
+    //                                     MaxType, // Nothing (MaxNotFixed) | MaxKeyword (_MAF)
+    //                                     TypeSpecificFlags, // ByteConstExpr (_TSF)
+    //                                     AddressGranularity, // DWordConstExpr (_GRA)
+    //                                     MinAddress, // DWordConstExpr (_MIN)
+    //                                     MaxAddress, // DWordConstExpr (_MAX)
+    //                                     AddressTranslation, // DWordConstExpr (_TRA)
+    //                                     AddressLength, // DWordConstExpr (_LEN)
+    //                                     ResourceSourceIndex, // Nothing | ByteConstExpr
+    //                                     ResourceSource, // Nothing | StringData
+    //                                     DescriptorName // Nothing | NameString
+    //                                 )
+    DWordSpaceTerm: $ => seq(
+      field('Term', 'DWordSpace'),
+      '(',
+      field('ResourceType', $.IntegerLiteral),
+      ')',
+    ),
 
 
     // ------------------------------------------------
@@ -2007,6 +3261,5 @@ module.exports = grammar({
 
     // NoOpTerm                    :=	NoOp
     NoOpTerm: $ => 'NoOp',
-
   }
 });
