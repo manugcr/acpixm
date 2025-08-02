@@ -454,6 +454,10 @@
           "named": true
         },
         {
+          "type": "ToPLDTerm",
+          "named": true
+        },
+        {
           "type": "ToUUIDTerm",
           "named": true
         },
@@ -490,7 +494,7 @@
     "fields": {
       "TermList": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "TermList",
@@ -536,6 +540,16 @@
         }
       ]
     }
+  },
+  {
+    "type": "ClockPhaseKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "ClockPolarityKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "CompilerDirective",
@@ -585,7 +599,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -874,7 +888,7 @@
         "required": true,
         "types": [
           {
-            "type": "SuperName",
+            "type": "TermArg",
             "named": true
           }
         ]
@@ -930,7 +944,7 @@
         "required": true,
         "types": [
           {
-            "type": "NameSeg",
+            "type": "TermArg",
             "named": true
           }
         ]
@@ -976,7 +990,7 @@
         "required": true,
         "types": [
           {
-            "type": "NameSeg",
+            "type": "TermArg",
             "named": true
           }
         ]
@@ -1012,7 +1026,7 @@
         "required": true,
         "types": [
           {
-            "type": "NameSeg",
+            "type": "TermArg",
             "named": true
           }
         ]
@@ -1066,6 +1080,16 @@
       "DMAType": {
         "multiple": false,
         "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
         "types": [
           {
             "type": "NameString",
@@ -1377,7 +1401,7 @@
       },
       "ReadWriteType": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "ReadWriteKeyword",
@@ -1462,6 +1486,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "DataBitsKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "DataObject",
@@ -2033,6 +2062,11 @@
     }
   },
   {
+    "type": "EndianessKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "EventTerm",
     "named": true,
     "fields": {
@@ -2273,6 +2307,106 @@
     "type": "ExtendedIOTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "RangeType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "RangeTypeKeyword",
+            "named": true
+          }
+        ]
+      },
       "ResourceUsage": {
         "multiple": false,
         "required": true,
@@ -2292,6 +2426,36 @@
             "named": false
           }
         ]
+      },
+      "TranslationDensity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TranslationKeyword",
+            "named": true
+          }
+        ]
+      },
+      "TranslationType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "TypeSpecificAttributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -2299,6 +2463,126 @@
     "type": "ExtendedMemoryTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MemType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MemTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MemoryRangeType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "AddressKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ReadWriteType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ReadWriteKeyword",
+            "named": true
+          }
+        ]
+      },
       "ResourceUsage": {
         "multiple": false,
         "required": true,
@@ -2318,6 +2602,26 @@
             "named": false
           }
         ]
+      },
+      "TranslationType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "TypeSpecificAttributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -2325,12 +2629,112 @@
     "type": "ExtendedSpaceTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
       "ResourceType": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
             "named": true
           }
         ]
@@ -2342,6 +2746,26 @@
           {
             "type": "ExtendedSpace",
             "named": false
+          }
+        ]
+      },
+      "TypeSpecificAttributes": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "TypeSpecificFlags": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
           }
         ]
       }
@@ -2558,7 +2982,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -2648,6 +3072,16 @@
           }
         ]
       },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
       "Term": {
         "multiple": false,
         "required": true,
@@ -2655,6 +3089,16 @@
           {
             "type": "FixedDMA",
             "named": false
+          }
+        ]
+      },
+      "XferWidth": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TransferWidthKeyword",
+            "named": true
           }
         ]
       }
@@ -2670,6 +3114,16 @@
         "types": [
           {
             "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
             "named": true
           }
         ]
@@ -2695,6 +3149,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "FlowControlKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "ForTerm",
@@ -2768,7 +3227,7 @@
       },
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -2802,16 +3261,92 @@
           }
         ]
       },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "DriveStrength": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "IORestriction": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IORestrictionKeyword",
+            "named": true
+          }
+        ]
+      },
       "PinConfig": {
         "multiple": false,
         "required": true,
         "types": [
           {
+            "type": "PinConfigKeyword",
+            "named": true
+          }
+        ]
+      },
+      "PinList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PackageList",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
             "type": "IntegerLiteral",
             "named": true
-          },
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
           {
-            "type": "PinConfigKeyword",
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ShareType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ShareTypeKeyword",
             "named": true
           }
         ]
@@ -2821,8 +3356,18 @@
         "required": true,
         "types": [
           {
-            "type": "GpioIO",
+            "type": "GpioIo",
             "named": false
+          }
+        ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
           }
         ]
       }
@@ -2898,7 +3443,7 @@
       },
       "ResourceSource": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "StringData",
@@ -2994,7 +3539,7 @@
       },
       "ResourceSource": {
         "multiple": false,
-        "required": false,
+        "required": true,
         "types": [
           {
             "type": "StringData",
@@ -3076,6 +3621,11 @@
   },
   {
     "type": "IODecodeKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "IORestrictionKeyword",
     "named": true,
     "fields": {}
   },
@@ -3195,12 +3745,32 @@
     "type": "IRQTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
       "InterruptLevel": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "InterruptLevelKeyword",
+            "named": true
+          }
+        ]
+      },
+      "InterruptList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ByteList",
             "named": true
           }
         ]
@@ -4411,6 +4981,56 @@
     "type": "Memory24Term",
     "named": true,
     "fields": {
+      "Alignment": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "RangeLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
       "ReadWriteType": {
         "multiple": false,
         "required": true,
@@ -4493,6 +5113,56 @@
     "type": "Memory32Term",
     "named": true,
     "fields": {
+      "Alignment": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "RangeLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
       "ReadWriteType": {
         "multiple": false,
         "required": true,
@@ -4555,6 +5225,26 @@
           }
         ]
       },
+      "NumArgs": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "SerializeRule": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "SerializeRuleKeyword",
+            "named": true
+          }
+        ]
+      },
       "Term": {
         "multiple": false,
         "required": true,
@@ -4571,26 +5261,6 @@
         "types": [
           {
             "type": "TermList",
-            "named": true
-          }
-        ]
-      },
-      "num_args": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "IntegerLiteral",
-            "named": true
-          }
-        ]
-      },
-      "serialize_rule": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "SerializeRuleKeyword",
             "named": true
           }
         ]
@@ -4736,7 +5406,7 @@
       },
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -4834,7 +5504,7 @@
       },
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -4896,7 +5566,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -4942,7 +5612,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -5441,7 +6111,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -5479,6 +6149,38 @@
           }
         ]
       }
+    }
+  },
+  {
+    "type": "PLDKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
+    "type": "PLDKeywordList",
+    "named": true,
+    "fields": {},
+    "children": {
+      "multiple": true,
+      "required": true,
+      "types": [
+        {
+          "type": "IntegerLiteral",
+          "named": true
+        },
+        {
+          "type": "PLDKeyword",
+          "named": true
+        },
+        {
+          "type": "PLDKeywordList",
+          "named": true
+        },
+        {
+          "type": "StringLiteral",
+          "named": true
+        }
+      ]
     }
   },
   {
@@ -5536,7 +6238,7 @@
     "fields": {
       "Body": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "PackageList",
@@ -5567,6 +6269,11 @@
     }
   },
   {
+    "type": "ParityTypeKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "PinConfigKeyword",
     "named": true,
     "fields": {}
@@ -5575,6 +6282,76 @@
     "type": "PinConfigTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "PinConfigType": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "PinConfigValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "PinList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PackageList",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
       "ShareType": {
         "multiple": false,
         "required": true,
@@ -5594,6 +6371,16 @@
             "named": false
           }
         ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -5601,6 +6388,80 @@
     "type": "PinFunctionTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "FunctionNumber": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "PinList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PackageList",
+            "named": true
+          }
+        ]
+      },
+      "PinPullConfiguration": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          },
+          {
+            "type": "PinConfigKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
       "ShareType": {
         "multiple": false,
         "required": true,
@@ -5620,6 +6481,16 @@
             "named": false
           }
         ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -5627,6 +6498,76 @@
     "type": "PinGroupConfigTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "PinConfigType": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "PinConfigValue": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceLabel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
       "ShareType": {
         "multiple": false,
         "required": true,
@@ -5646,6 +6587,16 @@
             "named": false
           }
         ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -5653,6 +6604,66 @@
     "type": "PinGroupFunctionTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "FunctionNumber": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceLabel": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
       "ShareType": {
         "multiple": false,
         "required": true,
@@ -5672,6 +6683,16 @@
             "named": false
           }
         ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -5679,12 +6700,42 @@
     "type": "PinGroupTerm",
     "named": true,
     "fields": {
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "PinList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PackageList",
+            "named": true
+          }
+        ]
+      },
       "ResourceLabel": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
             "named": true
           }
         ]
@@ -5698,8 +6749,23 @@
             "named": false
           }
         ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
       }
     }
+  },
+  {
+    "type": "PolarityKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "PowerResTerm",
@@ -5827,6 +6893,126 @@
     "type": "QWordIOTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "RangeType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "RangeTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
       "ResourceUsage": {
         "multiple": false,
         "required": true,
@@ -6029,12 +7215,132 @@
     "type": "QWordSpaceTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
       "ResourceType": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
             "named": true
           }
         ]
@@ -6046,6 +7352,16 @@
           {
             "type": "QWordSpace",
             "named": false
+          }
+        ]
+      },
+      "TypeSpecificFlags": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
           }
         ]
       }
@@ -6135,12 +7451,62 @@
     "type": "RegisterTerm",
     "named": true,
     "fields": {
+      "AccessSize": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
       "AddressSpaceID": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "AddressSpaceKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "RegisterAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "RegisterBitWidth": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "RegisterOffset": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
             "named": true
           }
         ]
@@ -6448,6 +7814,56 @@
     "type": "SPISerialBusTerm",
     "named": true,
     "fields": {
+      "ClockPhase": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ClockPhaseKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ClockPolarity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ClockPolarityKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ConnectionSpeed": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DataBitLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
       "DeviceSelection": {
         "multiple": false,
         "required": true,
@@ -6458,13 +7874,93 @@
           }
         ]
       },
+      "DeviceSelectionPolarity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PolarityKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ShareType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ShareTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "SlaveMode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SlaveModeKeyword",
+            "named": true
+          }
+        ]
+      },
       "Term": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "SPISerialBusV2",
+            "type": "SpiSerialBusV2",
             "named": false
+          }
+        ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
+          }
+        ]
+      },
+      "WireMode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "WireModeKeyword",
+            "named": true
           }
         ]
       }
@@ -6496,7 +7992,7 @@
       },
       "TermList": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "TermList",
@@ -6574,7 +8070,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -6672,7 +8168,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -6825,6 +8321,16 @@
     "type": "StartDependentFnNoPriTerm",
     "named": true,
     "fields": {
+      "ResourceMacroList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ResourceMacroList",
+            "named": true
+          }
+        ]
+      },
       "Term": {
         "multiple": false,
         "required": true,
@@ -6857,6 +8363,16 @@
         "types": [
           {
             "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceMacroList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ResourceMacroList",
             "named": true
           }
         ]
@@ -6951,6 +8467,11 @@
         }
       ]
     }
+  },
+  {
+    "type": "StopBitsKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "StoreSymbolicTerm",
@@ -7141,7 +8662,7 @@
       },
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -7447,6 +8968,10 @@
         {
           "type": "NameString",
           "named": true
+        },
+        {
+          "type": "TimerTerm",
+          "named": true
         }
       ]
     }
@@ -7506,16 +9031,6 @@
     "type": "TimerTerm",
     "named": true,
     "fields": {
-      "Result": {
-        "multiple": false,
-        "required": true,
-        "types": [
-          {
-            "type": "IntegerLiteral",
-            "named": true
-          }
-        ]
-      },
       "Term": {
         "multiple": false,
         "required": true,
@@ -7534,7 +9049,7 @@
     "fields": {
       "Result": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "Target",
@@ -7699,6 +9214,32 @@
     }
   },
   {
+    "type": "ToPLDTerm",
+    "named": true,
+    "fields": {
+      "PLDKeywordList": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "PLDKeywordList",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ToPLD",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
     "type": "ToStringTerm",
     "named": true,
     "fields": {
@@ -7761,6 +9302,11 @@
     }
   },
   {
+    "type": "TransferWidthKeyword",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "TranslationKeyword",
     "named": true,
     "fields": {}
@@ -7774,6 +9320,36 @@
     "type": "UARTSerialBusTerm",
     "named": true,
     "fields": {
+      "BitsPerByte": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DataBitsKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "FlowControl": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "FlowControlKeyword",
+            "named": true
+          }
+        ]
+      },
       "InitialBaudRate": {
         "multiple": false,
         "required": true,
@@ -7784,13 +9360,123 @@
           }
         ]
       },
+      "IsBigEndian": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "EndianessKeyword",
+            "named": true
+          }
+        ]
+      },
+      "LinesInUse": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Parity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ParityTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ReceiveBufferSize": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ShareType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ShareTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "StopBits": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StopBitsKeyword",
+            "named": true
+          }
+        ]
+      },
       "Term": {
         "multiple": false,
         "required": true,
         "types": [
           {
-            "type": "UARTSerialBusV2",
+            "type": "UartSerialBusV2",
             "named": false
+          }
+        ]
+      },
+      "TransmitBufferSize": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "VendorData": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "SuperName",
+            "named": true
           }
         ]
       }
@@ -7869,7 +9555,7 @@
       },
       "DescriptorName": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "NameString",
@@ -7905,7 +9591,7 @@
       },
       "DescriptorName": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "NameString",
@@ -7996,6 +9682,11 @@
         ]
       }
     }
+  },
+  {
+    "type": "WireModeKeyword",
+    "named": true,
+    "fields": {}
   },
   {
     "type": "WordBusNumberTerm",
@@ -8137,6 +9828,126 @@
     "type": "WordIOTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "RangeType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "RangeTypeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
       "ResourceUsage": {
         "multiple": false,
         "required": true,
@@ -8156,6 +9967,26 @@
             "named": false
           }
         ]
+      },
+      "TranslationDensity": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TranslationKeyword",
+            "named": true
+          }
+        ]
+      },
+      "TranslationType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "TypeKeyword",
+            "named": true
+          }
+        ]
       }
     }
   },
@@ -8163,12 +9994,132 @@
     "type": "WordSpaceTerm",
     "named": true,
     "fields": {
+      "AddressGranularity": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressLength": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "AddressTranslation": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "Decode": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "DecodeKeyword",
+            "named": true
+          }
+        ]
+      },
+      "DescriptorName": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "MaxAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MaxType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MaxKeyword",
+            "named": true
+          }
+        ]
+      },
+      "MinAddress": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "MinType": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "MinKeyword",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSource": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "StringData",
+            "named": true
+          }
+        ]
+      },
+      "ResourceSourceIndex": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "IntegerData",
+            "named": true
+          }
+        ]
+      },
       "ResourceType": {
         "multiple": false,
         "required": true,
         "types": [
           {
             "type": "IntegerLiteral",
+            "named": true
+          }
+        ]
+      },
+      "ResourceUsage": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ResourceTypeKeyword",
             "named": true
           }
         ]
@@ -8180,6 +10131,16 @@
           {
             "type": "WordSpace",
             "named": false
+          }
+        ]
+      },
+      "TypeSpecificFlags": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "IntegerLiteral",
+            "named": true
           }
         ]
       }
@@ -8345,10 +10306,6 @@
     "named": false
   },
   {
-    "type": "=>",
-    "named": false
-  },
-  {
     "type": ">",
     "named": false
   },
@@ -8481,6 +10438,10 @@
     "named": false
   },
   {
+    "type": "BigEndianing",
+    "named": false
+  },
+  {
     "type": "BreakPointTerm",
     "named": true
   },
@@ -8518,6 +10479,22 @@
   },
   {
     "type": "Case",
+    "named": false
+  },
+  {
+    "type": "ClockPhaseFirst",
+    "named": false
+  },
+  {
+    "type": "ClockPhaseSecond",
+    "named": false
+  },
+  {
+    "type": "ClockPolarityHigh",
+    "named": false
+  },
+  {
+    "type": "ClockPolarityLow",
     "named": false
   },
   {
@@ -8586,6 +10563,26 @@
   },
   {
     "type": "DWordSpace",
+    "named": false
+  },
+  {
+    "type": "DataBitsEight",
+    "named": false
+  },
+  {
+    "type": "DataBitsFive",
+    "named": false
+  },
+  {
+    "type": "DataBitsNine",
+    "named": false
+  },
+  {
+    "type": "DataBitsSeven",
+    "named": false
+  },
+  {
+    "type": "DataBitsSix",
     "named": false
   },
   {
@@ -8733,7 +10730,23 @@
     "named": false
   },
   {
+    "type": "FlowControlHardware",
+    "named": false
+  },
+  {
+    "type": "FlowControlNone",
+    "named": false
+  },
+  {
+    "type": "FlowControlXon",
+    "named": false
+  },
+  {
     "type": "For",
+    "named": false
+  },
+  {
+    "type": "FourWireMode",
     "named": false
   },
   {
@@ -8749,11 +10762,11 @@
     "named": false
   },
   {
-    "type": "GpioIO",
+    "type": "GpioInt",
     "named": false
   },
   {
-    "type": "GpioInt",
+    "type": "GpioIo",
     "named": false
   },
   {
@@ -8813,6 +10826,22 @@
     "named": false
   },
   {
+    "type": "IoRestrictionInputOnly",
+    "named": false
+  },
+  {
+    "type": "IoRestrictionNone",
+    "named": false
+  },
+  {
+    "type": "IoRestrictionNoneAndPreserve",
+    "named": false
+  },
+  {
+    "type": "IoRestrictionOutputOnly",
+    "named": false
+  },
+  {
     "type": "LAnd",
     "named": false
   },
@@ -8850,6 +10879,10 @@
   },
   {
     "type": "Level",
+    "named": false
+  },
+  {
+    "type": "LittleEndian",
     "named": false
   },
   {
@@ -9049,7 +11082,135 @@
     "named": false
   },
   {
+    "type": "PLD_Bay",
+    "named": false
+  },
+  {
+    "type": "PLD_Blue",
+    "named": false
+  },
+  {
+    "type": "PLD_CabinetNumber",
+    "named": false
+  },
+  {
+    "type": "PLD_CardCageNumber",
+    "named": false
+  },
+  {
+    "type": "PLD_Dock",
+    "named": false
+  },
+  {
+    "type": "PLD_EjectRequired",
+    "named": false
+  },
+  {
+    "type": "PLD_Ejectable",
+    "named": false
+  },
+  {
+    "type": "PLD_Green",
+    "named": false
+  },
+  {
+    "type": "PLD_GroupOrientation",
+    "named": false
+  },
+  {
+    "type": "PLD_GroupPosition",
+    "named": false
+  },
+  {
+    "type": "PLD_GroupToken",
+    "named": false
+  },
+  {
+    "type": "PLD_Height",
+    "named": false
+  },
+  {
+    "type": "PLD_HorizontalOffset",
+    "named": false
+  },
+  {
+    "type": "PLD_HorizontalPosition",
+    "named": false
+  },
+  {
+    "type": "PLD_IgnoreColor",
+    "named": false
+  },
+  {
+    "type": "PLD_Lid",
+    "named": false
+  },
+  {
+    "type": "PLD_Order",
+    "named": false
+  },
+  {
+    "type": "PLD_Panel",
+    "named": false
+  },
+  {
+    "type": "PLD_Red",
+    "named": false
+  },
+  {
+    "type": "PLD_Reference",
+    "named": false
+  },
+  {
+    "type": "PLD_Revision",
+    "named": false
+  },
+  {
+    "type": "PLD_Rotation",
+    "named": false
+  },
+  {
+    "type": "PLD_Shape",
+    "named": false
+  },
+  {
+    "type": "PLD_UserVisible",
+    "named": false
+  },
+  {
+    "type": "PLD_VerticalOffset",
+    "named": false
+  },
+  {
+    "type": "PLD_VerticalPosition",
+    "named": false
+  },
+  {
+    "type": "PLD_Width",
+    "named": false
+  },
+  {
     "type": "Package",
+    "named": false
+  },
+  {
+    "type": "ParityTypeEven",
+    "named": false
+  },
+  {
+    "type": "ParityTypeMark",
+    "named": false
+  },
+  {
+    "type": "ParityTypeNone",
+    "named": false
+  },
+  {
+    "type": "ParityTypeOdd",
+    "named": false
+  },
+  {
+    "type": "ParityTypeSpace",
     "named": false
   },
   {
@@ -9078,6 +11239,14 @@
   },
   {
     "type": "PkgObj",
+    "named": false
+  },
+  {
+    "type": "PolarityHigh",
+    "named": false
+  },
+  {
+    "type": "PolarityLow",
     "named": false
   },
   {
@@ -9181,10 +11350,6 @@
     "named": false
   },
   {
-    "type": "SPISerialBusV2",
-    "named": false
-  },
-  {
     "type": "Scope",
     "named": false
   },
@@ -9225,6 +11390,10 @@
     "named": false
   },
   {
+    "type": "SpiSerialBusV2",
+    "named": false
+  },
+  {
     "type": "Stall",
     "named": false
   },
@@ -9234,6 +11403,22 @@
   },
   {
     "type": "StartDependentFnNoPri",
+    "named": false
+  },
+  {
+    "type": "StopBitsOne",
+    "named": false
+  },
+  {
+    "type": "StopBitsOnePlusHalf",
+    "named": false
+  },
+  {
+    "type": "StopBitsTwo",
+    "named": false
+  },
+  {
+    "type": "StopBitsZero",
     "named": false
   },
   {
@@ -9277,6 +11462,10 @@
     "named": false
   },
   {
+    "type": "ThreeWireMode",
+    "named": false
+  },
+  {
     "type": "Timer",
     "named": false
   },
@@ -9298,6 +11487,10 @@
   },
   {
     "type": "ToInteger",
+    "named": false
+  },
+  {
+    "type": "ToPLD",
     "named": false
   },
   {
@@ -9329,7 +11522,7 @@
     "named": false
   },
   {
-    "type": "UARTSerialBusV2",
+    "type": "UartSerialBusV2",
     "named": false
   },
   {
@@ -9358,6 +11551,30 @@
   },
   {
     "type": "While",
+    "named": false
+  },
+  {
+    "type": "Width128Bit",
+    "named": false
+  },
+  {
+    "type": "Width16Bit",
+    "named": false
+  },
+  {
+    "type": "Width256Bit",
+    "named": false
+  },
+  {
+    "type": "Width32Bit",
+    "named": false
+  },
+  {
+    "type": "Width64Bit",
+    "named": false
+  },
+  {
+    "type": "Width8Bit",
     "named": false
   },
   {

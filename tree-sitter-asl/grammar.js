@@ -1,4 +1,10 @@
-/* global grammar, choice, prec, seq, token, repeat, field, optional, $, repeat1, module */
+/**
+ * TO FIX:
+ *     - Xor terms broke precedence     var1 = (var2 ^ var3)
+ * 
+ */
+
+
 
 function sepBy(sep, rule) {
   return optional(sepBy1(sep, rule));
@@ -59,12 +65,25 @@ module.exports = grammar({
     NameSeg: $ => /[A-Za-z0-9_][A-Za-z0-9_]{0,3}/,
 
     // NameString := <RootChar NamePath> | <ParentPrefixChar PrefixPath NamePath> | NonEmptyNamePath
+    // NameString: $ => choice(
+    //   prec(2, seq(
+    //     optional(choice('\\', repeat1('^'))),
+    //     sepBy1('.', $.NameSeg)
+    //   )),
+    //   prec(1, '\\') // standalone root
+    // ),
     NameString: $ => choice(
+      // Highest priority: root or parent prefix + NameSeg (actual named path)
       prec(2, seq(
         optional(choice('\\', repeat1('^'))),
         sepBy1('.', $.NameSeg)
       )),
-      prec(1, '\\') // standalone root
+
+      // Medium priority: just one or more '^'s (like ^ or ^^)
+      prec(1, repeat1('^')),
+
+      // Lowest priority: just root '\'
+      prec(0, '\\'),
     ),
 
     // Integer := DecimalConst | OctalConst | HexConst
@@ -73,6 +92,7 @@ module.exports = grammar({
       /[0-9]+/,            // decimal
       /Zero/,
       /One/,
+      /Ones/,
       /True/,
       /False/
     )),
@@ -104,11 +124,13 @@ module.exports = grammar({
     
     // TermArg                     :=	ExpressionOpcode | DataObject | ArgTerm | LocalTerm | NameString | SymbolicExpression
     TermArg: $ => choice(
-      $.DataObject,
       $.ExpressionOpcode,
+      $.DataObject,
       $.ArgTerm,
       $.LocalTerm,
+      $.TimerTerm,
       $.NameString,
+      // $.SymbolicExpressionTerm
     ),
 
     // MethodInvocationTerm        :=	NameString ( // NameString => Method
@@ -126,6 +148,17 @@ module.exports = grammar({
     // ------------------------------------------------
     // 4. List Terms
     // ------------------------------------------------
+    // PLDKeywordList              :=	PLDKeyword = StringDataPLD_Revision | PLDKeyword = IntegerDataPLD_Revision | PLDKeyword = StringDataPLD_Revision, PLDKeywordListPLD_Revision, PLDKeyword = IntegerDataPLD_Revision, PLDKeywordListPLD_Revision
+    PLDKeywordList: $ => seq(
+      $.PLDKeyword,
+      '=',
+      choice(
+        $.StringLiteral,
+        $.IntegerLiteral,
+      ),
+      optional(seq(',', $.PLDKeywordList))
+    ),
+
     // CaseTermList                :=	Nothing | CaseTerm | DefaultTerm DefaultTermList | CaseTerm CaseTermList
     CaseTermList: $ => choice(
       seq($.DefaultTerm, optional($.DefaultTermList)),
@@ -151,6 +184,7 @@ module.exports = grammar({
       $.Object,
       $.StatementOpcode,
       $.ExpressionOpcode,
+      // $.SymbolicExpressionTerm
     ),
 
     // Object                      := CompilerDirective | NamedObject | NameSpaceModifier
@@ -448,7 +482,8 @@ module.exports = grammar({
       $.DerefOfTerm,                
       $.MidTerm,   
       $.ResourceTemplateTerm,                 
-      $.ToBufferTerm,               
+      $.ToBufferTerm,
+      $.ToPLDTerm,               
       $.ToUUIDTerm,                 
       $.UnicodeTerm                 
     )),
@@ -524,7 +559,7 @@ module.exports = grammar({
       field('Value', $.DataObject),
       ')',
       '{',
-      field('TermList', $.TermList),
+      optional(field('TermList', $.TermList)),
       '}'
     ),
 
@@ -974,8 +1009,8 @@ module.exports = grammar({
       field('Term', 'XOr'),
       '(',
       field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -999,16 +1034,14 @@ module.exports = grammar({
       field('Term', 'Subtract'),
       '(',
       field('Minuend', $.TermArg), ',',
-      field('Subtrahend', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Subtrahend', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
     // TimerTerm                   :=	Timer => Integer
     TimerTerm: $ => seq(
-      field('Term', 'Timer'),
-      '=>',
-      field('Result', $.IntegerLiteral)
+      field('Term', 'Timer')
     ),
 
     // ToBCDTerm                   :=	ToBCD (
@@ -1018,8 +1051,8 @@ module.exports = grammar({
     ToBCDTerm: $ => seq(
       field('Term', 'ToBCD'),
       '(',
-      field('Value', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Value', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1032,8 +1065,8 @@ module.exports = grammar({
       field('Term', 'ShiftLeft'),
       '(',
       field('Source', $.TermArg), ',',
-      field('ShiftCount', $.TermArg), ',',
-      field('Result', $.Target),
+      field('ShiftCount', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1046,8 +1079,8 @@ module.exports = grammar({
       field('Term', 'ShiftRight'),
       '(',
       field('Source', $.TermArg), ',',
-      field('ShiftCount', $.TermArg), ',',
-      field('Result', $.Target),
+      field('ShiftCount', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1060,8 +1093,8 @@ module.exports = grammar({
       field('Term', 'Or'),
       '(',
       field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1096,8 +1129,8 @@ module.exports = grammar({
       field('Term', 'NAnd'),
       '(',
       field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1110,8 +1143,8 @@ module.exports = grammar({
       field('Term', 'NOr'),
       '(',
       field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1124,8 +1157,8 @@ module.exports = grammar({
       field('Term', 'Multiply'),
       '(',
       field('Multiplicand', $.TermArg), ',',
-      field('Multiplier', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Multiplier', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1138,8 +1171,8 @@ module.exports = grammar({
       field('Term', 'Mod'),
       '(',
       field('Dividend', $.IntegerLiteral), ',',
-      field('Divisor', $.IntegerLiteral), ',',
-      field('Result', $.Target),
+      field('Divisor', $.IntegerLiteral),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1325,8 +1358,8 @@ module.exports = grammar({
     FromBCDTerm: $ => seq(
       field('Term', 'FromBCD'),
       '(',
-      field('BCDValue', $.TermArg), ',',
-      field('Result', $.Target),
+      field('BCDValue', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
 
@@ -1337,8 +1370,8 @@ module.exports = grammar({
     FindSetLeftBitTerm: $ => seq(
       field('Term', 'FindSetLeftBit'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')'
     ),
     
@@ -1559,7 +1592,7 @@ module.exports = grammar({
       field('NumElements', $.IntegerLiteral),
       ')',
       '{',
-      field('Body', $.PackageList),
+      field('Body', optional($.PackageList)),
       '}'
     ),
 
@@ -1583,6 +1616,16 @@ module.exports = grammar({
       field('Term', 'Unicode'),
       '(',
       field('String', $.StringLiteral),
+      ')'
+    ),
+
+    // ToPLDTerm                   :=	ToPLD (
+    //                                     PLDKeywordList
+    //                                 ) => Buffer
+    ToPLDTerm: $ => seq(
+      field('Term', 'ToPLD'),
+      '(',
+      field('PLDKeywordList', $.PLDKeywordList),
       ')'
     ),
 
@@ -1704,8 +1747,8 @@ module.exports = grammar({
       field('Term', 'ConcatenateResTemplate'),
       '(',
       field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source2', $.TermArg),
+      optional(seq(',', field('Result', $.Target))),
       ')',
     ),
 
@@ -1773,8 +1816,8 @@ module.exports = grammar({
       field('Term', 'Method'),
       '(',
       field('MethodName', $.NameString),  ',',
-      field('num_args', $.IntegerLiteral), ',',
-      field('serialize_rule', $.SerializeRuleKeyword),
+      field('NumArgs', $.IntegerLiteral), ',',
+      field('SerializeRule', $.SerializeRuleKeyword),
       ')',
       '{',
       optional(field('body', $.TermList)),
@@ -1803,7 +1846,7 @@ module.exports = grammar({
     CreateDWordFieldTerm: $ => seq(
       field('Term', 'CreateDWordField'),
       '(',
-      field('SourceBuffer', $.SuperName), ',',
+      field('SourceBuffer', $.TermArg), ',',
       field('ByteIndex', $.TermArg), ',',
       field('DWordFieldName', $.NameString),
       ')'
@@ -1818,7 +1861,7 @@ module.exports = grammar({
     CreateFieldTerm: $ => seq(
       field('Term', 'CreateField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
+      field('SourceBuffer', $.TermArg), ',',
       field('BitIndex', $.TermArg), ',',
       field('NumBits', $.TermArg), ',',
       field('FieldName', $.NameString),
@@ -1833,7 +1876,7 @@ module.exports = grammar({
     CreateQWordFieldTerm: $ => seq(
       field('Term', 'CreateQWordField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
+      field('SourceBuffer', $.TermArg), ',',
       field('ByteIndex', $.TermArg), ',',
       field('QWordFieldName', $.NameString),
       ')'
@@ -1847,7 +1890,7 @@ module.exports = grammar({
     CreateWordFieldTerm: $ => seq(
       field('Term', 'CreateWordField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
+      field('SourceBuffer', $.TermArg), ',',
       field('ByteIndex', $.TermArg), ',',
       field('WordFieldName', $.NameString),
       ')'
@@ -2043,7 +2086,7 @@ module.exports = grammar({
       field('Location', $.NameString),
       ')',
       '{',
-      field("TermList", $.TermList),
+      optional(field("TermList", $.TermList)),
       '}'
     ),
 
@@ -2122,7 +2165,20 @@ module.exports = grammar({
     ExtendedIOTerm: $ => seq(
       field('Term', 'ExtendedIO'),
       '(',
-      field('ResourceUsage', $.ResourceTypeKeyword),
+      field('ResourceUsage', $.ResourceTypeKeyword), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('RangeType', optional($.RangeTypeKeyword)), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('TypeSpecificAttributes', optional($.IntegerLiteral)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('TranslationType', optional($.TypeKeyword)), ',',
+      field('TranslationDensity', optional($.TranslationKeyword)),
       ')',
     ),
 
@@ -2146,7 +2202,21 @@ module.exports = grammar({
     ExtendedMemoryTerm: $ => seq(
       field('Term', 'ExtendedMemory'),
       '(',
-      field('ResourceUsage', $.ResourceTypeKeyword),
+      field('ResourceUsage', $.ResourceTypeKeyword), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('MemType', optional($.MemTypeKeyword)), ',',
+      field('ReadWriteType', optional($.ReadWriteKeyword)), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('TypeSpecificAttributes', optional($.IntegerLiteral)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('MemoryRangeType', optional($.AddressKeyword)), ',',
+      field('TranslationType', optional($.TypeKeyword)),
       ')',
     ),
 
@@ -2168,7 +2238,19 @@ module.exports = grammar({
     ExtendedSpaceTerm: $ => seq(
       field('Term', 'ExtendedSpace'),
       '(',
-      field('ResourceType', $.IntegerLiteral),
+      field('ResourceType', $.IntegerLiteral), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('TypeSpecificFlags', $.IntegerLiteral), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('TypeSpecificAttributes', optional($.IntegerLiteral)), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2182,7 +2264,9 @@ module.exports = grammar({
       field('Term', 'FixedDMA'),
       '(',
       field('DMAReq', $.IntegerLiteral), ',',
-      field('Channel', $.IntegerLiteral),
+      field('Channel', $.IntegerLiteral), ',',
+      field('XferWidth', optional($.TransferWidthKeyword)), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2195,7 +2279,8 @@ module.exports = grammar({
       field('Term', 'FixedIO'),
       '(',
       field('AddressBase', $.IntegerLiteral), ',',
-      field('RangeLength', $.IntegerLiteral),
+      field('RangeLength', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2219,7 +2304,7 @@ module.exports = grammar({
       field('ShareType', optional($.ShareTypeKeyword)), ',',
       field('PinConfig', choice($.PinConfigKeyword, $.IntegerLiteral)), ',',
       field('DeBounceTime', optional($.IntegerLiteral)), ',',
-      field('ResourceSource', optional($.StringData)), ',',
+      field('ResourceSource', $.StringData), ',',
       field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
@@ -2243,11 +2328,22 @@ module.exports = grammar({
     //                                     VendorData // Nothing | RawDataBuffer (_VEN)
     //                                 ) {DWordList} // List of GPIO pins (_PIN)
     GpioIOTerm: $ => seq(
-      field('Term', 'GpioIO'),
+      field('Term', 'GpioIo'),
       '(',
-      field('PinConfig', choice($.PinConfigKeyword, $.IntegerLiteral)), ',',
-      field('DeBounceTime', optional($.IntegerLiteral)),
+      field('ShareType', optional($.ShareTypeKeyword)), ',',
+      field('PinConfig', $.PinConfigKeyword), ',',
+      field('DeBounceTime', optional($.IntegerLiteral)), ',',
+      field('DriveStrength', optional($.IntegerLiteral)), ',',
+      field('IORestriction', optional($.IORestrictionKeyword)), ',',
+      field('ResourceSource', $.StringData), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
+      '{',
+      field('PinList', $.PackageList),
+      '}',
     ),
 
     // I2CSerialBusTerm            :=	I2CSerialBusV2 (
@@ -2269,7 +2365,7 @@ module.exports = grammar({
       field('SlaveMode', optional($.SlaveModeKeyword)), ',',
       field('ConnectionSpeed', $.IntegerLiteral), ',',
       field('AddressingMode', optional($.AddressingModeKeyword)), ',',
-      field('ResourceSource', optional($.StringData)), ',',
+      field('ResourceSource', $.StringData), ',',
       field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
@@ -2347,8 +2443,12 @@ module.exports = grammar({
       '(',
       field('InterruptType', $.InterruptTypeKeyword), ',',
       field('InterruptLevel', $.InterruptLevelKeyword), ',',
-      field('ShareType', $.ShareTypeKeyword),
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
+      '{',
+      field('InterruptList', $.ByteList),
+      '}'
     ),
 
     // Memory24Term                :=	Memory24 (
@@ -2362,7 +2462,12 @@ module.exports = grammar({
     Memory24Term: $ => seq(
       field('Term', 'Memory24'),
       '(',
-      field('ReadWriteType', $.ReadWriteKeyword),
+      field('ReadWriteType', $.ReadWriteKeyword), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('Alignment', $.IntegerLiteral), ',',
+      field('RangeLength', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2393,7 +2498,12 @@ module.exports = grammar({
     Memory32Term: $ => seq(
       field('Term', 'Memory32'),
       '(',
-      field('ReadWriteType', $.ReadWriteKeyword),
+      field('ReadWriteType', $.ReadWriteKeyword), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('Alignment', $.IntegerLiteral), ',',
+      field('RangeLength', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2410,8 +2520,18 @@ module.exports = grammar({
     PinConfigTerm: $ => seq(
       field('Term', 'PinConfig'),
       '(',
-      field('ShareType', $.ShareTypeKeyword),
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('PinConfigType', $.IntegerLiteral), ',',
+      field('PinConfigValue', $.IntegerLiteral), ',',
+      field('ResourceSource', $.StringData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
+      '{',
+      field('PinList', $.PackageList),
+      '}'
     ),
 
     // PinFunctionTerm             :=	PinFunction (
@@ -2427,8 +2547,18 @@ module.exports = grammar({
     PinFunctionTerm: $ => seq(
       field('Term', 'PinFunction'),
       '(',
-      field('ShareType', $.ShareTypeKeyword),
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('PinPullConfiguration', choice($.PinConfigKeyword, $.IntegerLiteral)), ',',
+      field('FunctionNumber', $.IntegerLiteral), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
+      '{',
+      field('PinList', $.PackageList),
+      '}'
     ),
 
     // PinGroupTerm                :=	PinGroup (
@@ -2440,8 +2570,14 @@ module.exports = grammar({
     PinGroupTerm: $ => seq(
       field('Term', 'PinGroup'),
       '(',
-      field('ResourceLabel', $.NameString),
+      field('ResourceLabel', $.NameString), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
+      '{',
+      field('PinList', $.PackageList),
+      '}'
     ),
 
     // PinGroupConfigTerm          :=	PinGroupConfig (
@@ -2458,7 +2594,15 @@ module.exports = grammar({
     PinGroupConfigTerm: $ => seq(
       field('Term', 'PinGroupConfig'),
       '(',
-      field('ShareType', $.ShareTypeKeyword),
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('PinConfigType', $.IntegerLiteral), ',',
+      field('PinConfigValue', $.IntegerLiteral), ',',
+      field('ResourceSource', $.StringData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSourceLabel', $.StringData), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
     ),
 
@@ -2475,7 +2619,14 @@ module.exports = grammar({
     PinGroupFunctionTerm: $ => seq(
       field('Term', 'PinGroupFunction'),
       '(',
-      field('ShareType', $.ShareTypeKeyword),
+      field('ShareType', $.ShareTypeKeyword), ',',
+      field('FunctionNumber', $.IntegerLiteral), ',',
+      field('ResourceSource', $.StringData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSourceLabel', $.StringData), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
     ),
 
@@ -2499,7 +2650,19 @@ module.exports = grammar({
     QWordIOTerm: $ => seq(
       field('Term', 'QWordIO'),
       '(',
-      field('ResourceUsage', $.ResourceTypeKeyword),
+      field('ResourceUsage', $.ResourceTypeKeyword), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('RangeType', optional($.RangeTypeKeyword)), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2562,7 +2725,20 @@ module.exports = grammar({
     QWordSpaceTerm: $ => seq(
       field('Term', 'QWordSpace'),
       '(',
-      field('ResourceType', $.IntegerLiteral),
+      field('ResourceType', $.IntegerLiteral), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('TypeSpecificFlags', $.IntegerLiteral), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2577,7 +2753,12 @@ module.exports = grammar({
     RegisterTerm: $ => seq(
       field('Term', 'Register'),
       '(',
-      field('AddressSpaceID', $.AddressSpaceKeyword),
+      field('AddressSpaceID', $.AddressSpaceKeyword), ',',
+      field('RegisterBitWidth', $.IntegerLiteral), ',',
+      field('RegisterOffset', $.IntegerLiteral), ',',
+      field('RegisterAddress', $.IntegerLiteral), ',',
+      field('AccessSize', $.IntegerLiteral), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
     ),
 
@@ -2599,9 +2780,22 @@ module.exports = grammar({
     //                                     VendorData // Nothing | RawDataBuffer (_VEN)
     //                                 )
     SPISerialBusTerm: $ => seq(
-      field('Term', 'SPISerialBusV2'),
+      field('Term', 'SpiSerialBusV2'),
       '(',
-      field('DeviceSelection', $.IntegerLiteral),
+      field('DeviceSelection', $.IntegerLiteral), ',',
+      field('DeviceSelectionPolarity', $.PolarityKeyword), ',',
+      field('WireMode', optional($.WireModeKeyword)), ',',
+      field('DataBitLength', $.IntegerLiteral), ',',
+      field('SlaveMode', optional($.SlaveModeKeyword)), ',',
+      field('ConnectionSpeed', $.IntegerLiteral), ',',
+      field('ClockPolarity', $.ClockPolarityKeyword), ',',
+      field('ClockPhase', $.ClockPhaseKeyword), ',',
+      field('ResourceSource', $.StringLiteral), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('ShareType', optional($.ShareTypeKeyword)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
     ),
 
@@ -2610,6 +2804,9 @@ module.exports = grammar({
       field('Term', 'StartDependentFnNoPri'),
       '(',
       ')',
+      '{',
+      field('ResourceMacroList', $.ResourceMacroList),
+      '}'
     ),
 
     // StartDependentFnTerm        :=	StartDependentFn (
@@ -2622,6 +2819,9 @@ module.exports = grammar({
       field('CompatPriority', $.IntegerLiteral), ',',
       field('PerfRobustPriority', $.IntegerLiteral),
       ')',
+      '{',
+      field('ResourceMacroList', $.ResourceMacroList),
+      '}'
     ),
 
     // UARTSerialBusTerm           :=	UARTSerialBusV2 (
@@ -2642,9 +2842,23 @@ module.exports = grammar({
     //                                     VendorData // Nothing | Object (_VEN)
     //                                 )
     UARTSerialBusTerm: $ => seq(
-      field('Term', 'UARTSerialBusV2'),
+      field('Term', 'UartSerialBusV2'),
       '(',
-      field('InitialBaudRate', $.IntegerLiteral),
+      field('InitialBaudRate', $.IntegerLiteral), ',',
+      field('BitsPerByte', optional($.DataBitsKeyword)), ',',
+      field('StopBits', optional($.StopBitsKeyword)), ',',
+      field('LinesInUse', $.IntegerLiteral), ',',
+      field('IsBigEndian', optional($.EndianessKeyword)), ',',
+      field('Parity', optional($.ParityTypeKeyword)), ',',
+      field('FlowControl', optional($.FlowControlKeyword)), ',',
+      field('ReceiveBufferSize', $.IntegerLiteral), ',',
+      field('TransmitBufferSize', $.IntegerLiteral), ',',
+      field('ResourceSource', $.StringData), ',',
+      field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('ShareType', optional($.ShareTypeKeyword)), ',',
+      field('VendorData', optional($.SuperName)),
       ')',
     ),
 
@@ -2654,7 +2868,7 @@ module.exports = grammar({
     VendorLongTerm: $ => seq(
       field('Term', 'VendorLong'),
       '(',
-      field('DescriptorName', $.NameString),
+      field('DescriptorName', optional($.NameString)),
       ')',
       '{',
       field('Body', $.ByteList),
@@ -2667,7 +2881,7 @@ module.exports = grammar({
     VendorShortTerm: $ => seq(
       field('Term', 'VendorShort'),
       '(',
-      field('DescriptorName', $.NameString),
+      field('DescriptorName', optional($.NameString)),
       ')',
       '{',
       field('Body', $.ByteList),
@@ -2726,7 +2940,21 @@ module.exports = grammar({
     WordIOTerm: $ => seq(
       field('Term', 'WordIO'),
       '(',
-      field('ResourceUsage', $.ResourceTypeKeyword),
+      field('ResourceUsage', $.ResourceTypeKeyword), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('RangeType', optional($.RangeTypeKeyword)), ',',
+      field('AddressGranularity', $.IntegerData), ',',
+      field('MinAddress', $.IntegerData), ',',
+      field('MaxAddress', $.IntegerData), ',',
+      field('AddressTranslation', $.IntegerData), ',',
+      field('AddressLength', $.IntegerData), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)), ',',
+      field('TranslationType', optional($.TypeKeyword)), ',',
+      field('TranslationDensity', optional($.TranslationKeyword)),
       ')'
     ),
 
@@ -2749,7 +2977,20 @@ module.exports = grammar({
     WordSpaceTerm: $ => seq(
       field('Term', 'WordSpace'),
       '(',
-      field('ResourceType', $.IntegerLiteral),
+      field('ResourceType', $.IntegerLiteral), ',',
+      field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
+      field('Decode', optional($.DecodeKeyword)), ',',
+      field('MinType', optional($.MinKeyword)), ',',
+      field('MaxType', optional($.MaxKeyword)), ',',
+      field('TypeSpecificFlags', $.IntegerLiteral), ',',
+      field('AddressGranularity', $.IntegerLiteral), ',',
+      field('MinAddress', $.IntegerLiteral), ',',
+      field('MaxAddress', $.IntegerLiteral), ',',
+      field('AddressTranslation', $.IntegerLiteral), ',',
+      field('AddressLength', $.IntegerLiteral), ',',
+      field('ResourceSourceIndex', optional($.IntegerData)), ',',
+      field('ResourceSource', optional($.StringData)), ',',
+      field('DescriptorName', optional($.NameString)),
       ')'
     ),
 
@@ -2764,7 +3005,8 @@ module.exports = grammar({
       '(',
       field('DMAType', $.NameString), ',',
       field('BusMaster', $.BusMasterKeyword), ',',
-      field('XferType', $.XferTypeKeyword),
+      field('XferType', $.XferTypeKeyword), ',',
+      field('DescriptorName', optional($.NameString)),
       ')',
       '{',
       field('Body', $.ByteList),
@@ -2835,7 +3077,7 @@ module.exports = grammar({
       field('MinType', optional($.MinKeyword)), ',',
       field('MaxType', optional($.MaxKeyword)), ',',
       field('MemType', optional($.MemTypeKeyword)), ',',
-      field('ReadWriteType', optional($.ReadWriteKeyword)), ',',
+      field('ReadWriteType', $.ReadWriteKeyword), ',',
       field('AddressGranularity', $.IntegerData), ',',
       field('MinAddress', $.IntegerData), ',',
       field('MaxAddress', $.IntegerData), ',',
@@ -3261,5 +3503,68 @@ module.exports = grammar({
 
     // NoOpTerm                    :=	NoOp
     NoOpTerm: $ => 'NoOp',
+
+    // DataBitsKeyword            :=	DataBitsFive | DataBitsSix | DataBitsSeven | DataBitsEight | DataBitsNine
+    DataBitsKeyword: $ => choice(
+      'DataBitsFive',
+      'DataBitsSix',
+      'DataBitsSeven',
+      'DataBitsEight',
+      'DataBitsNine'
+    ),
+
+    // EndianessKeyword            :=	BigEndianing | LittleEndian
+    EndianessKeyword: $ => choice(
+      'BigEndianing',
+      'LittleEndian'
+    ),
+
+    // ParityTypeKeyword          :=	ParityTypeNone | ParityTypeSpace | ParityTypeMark | ParityTypeOdd | ParityTypeEven
+    ParityTypeKeyword: $ => choice(
+      'ParityTypeNone',
+      'ParityTypeSpace',
+      'ParityTypeMark',
+      'ParityTypeOdd',
+      'ParityTypeEven'
+    ),
+
+    // IORestrictionKeyword
+    IORestrictionKeyword: $ => choice(
+      'IoRestrictionNone',
+      'IoRestrictionInputOnly',
+      'IoRestrictionOutputOnly',
+      'IoRestrictionNoneAndPreserve'
+    ),
+
+    // PLDKeyword
+    PLDKeyword: $ => choice(
+      'PLD_Revision',
+      'PLD_IgnoreColor',
+      'PLD_Red',
+      'PLD_Green',
+      'PLD_Blue',
+      'PLD_Width',
+      'PLD_Height',
+      'PLD_UserVisible',
+      'PLD_Dock',
+      'PLD_Lid',
+      'PLD_Panel',              
+      'PLD_VerticalPosition',   
+      'PLD_HorizontalPosition', 
+      'PLD_Shape',              
+      'PLD_GroupOrientation',
+      'PLD_GroupToken',
+      'PLD_GroupPosition',
+      'PLD_Bay',
+      'PLD_Ejectable',
+      'PLD_EjectRequired',
+      'PLD_CabinetNumber',
+      'PLD_CardCageNumber',
+      'PLD_Reference',
+      'PLD_Rotation',
+      'PLD_Order',
+      'PLD_VerticalOffset',
+      'PLD_HorizontalOffset',
+    ),
   }
 });

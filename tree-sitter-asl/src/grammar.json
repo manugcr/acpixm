@@ -218,6 +218,17 @@
           "type": "PREC",
           "value": 1,
           "content": {
+            "type": "REPEAT1",
+            "content": {
+              "type": "STRING",
+              "value": "^"
+            }
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 0,
+          "content": {
             "type": "STRING",
             "value": "\\"
           }
@@ -244,6 +255,10 @@
           {
             "type": "PATTERN",
             "value": "One"
+          },
+          {
+            "type": "PATTERN",
+            "value": "Ones"
           },
           {
             "type": "PATTERN",
@@ -315,11 +330,11 @@
       "members": [
         {
           "type": "SYMBOL",
-          "name": "DataObject"
+          "name": "ExpressionOpcode"
         },
         {
           "type": "SYMBOL",
-          "name": "ExpressionOpcode"
+          "name": "DataObject"
         },
         {
           "type": "SYMBOL",
@@ -328,6 +343,10 @@
         {
           "type": "SYMBOL",
           "name": "LocalTerm"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "TimerTerm"
         },
         {
           "type": "SYMBOL",
@@ -375,6 +394,53 @@
           }
         ]
       }
+    },
+    "PLDKeywordList": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "SYMBOL",
+          "name": "PLDKeyword"
+        },
+        {
+          "type": "STRING",
+          "value": "="
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SYMBOL",
+              "name": "StringLiteral"
+            },
+            {
+              "type": "SYMBOL",
+              "name": "IntegerLiteral"
+            }
+          ]
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "SYMBOL",
+                  "name": "PLDKeywordList"
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
+        }
+      ]
     },
     "CaseTermList": {
       "type": "CHOICE",
@@ -1486,6 +1552,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "ToPLDTerm"
+          },
+          {
+            "type": "SYMBOL",
             "name": "ToUUIDTerm"
           },
           {
@@ -1728,12 +1798,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "TermList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "TermList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "TermList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3165,16 +3243,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3247,16 +3338,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3273,18 +3377,6 @@
           "content": {
             "type": "STRING",
             "value": "Timer"
-          }
-        },
-        {
-          "type": "STRING",
-          "value": "=>"
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "IntegerLiteral"
           }
         }
       ]
@@ -3313,16 +3405,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3366,16 +3471,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3419,16 +3537,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3472,16 +3603,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3624,16 +3768,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3677,16 +3834,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3730,16 +3900,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3783,16 +3966,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -4448,16 +4644,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -4489,16 +4698,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -5261,8 +5483,16 @@
           "type": "FIELD",
           "name": "Body",
           "content": {
-            "type": "SYMBOL",
-            "name": "PackageList"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "PackageList"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -5362,6 +5592,35 @@
           "content": {
             "type": "SYMBOL",
             "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
+        }
+      ]
+    },
+    "ToPLDTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "ToPLD"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "PLDKeywordList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PLDKeywordList"
           }
         },
         {
@@ -5819,16 +6078,29 @@
           }
         },
         {
-          "type": "STRING",
-          "value": ","
-        },
-        {
-          "type": "FIELD",
-          "name": "Result",
-          "content": {
-            "type": "SYMBOL",
-            "name": "Target"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -6054,7 +6326,7 @@
         },
         {
           "type": "FIELD",
-          "name": "num_args",
+          "name": "NumArgs",
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
@@ -6066,7 +6338,7 @@
         },
         {
           "type": "FIELD",
-          "name": "serialize_rule",
+          "name": "SerializeRule",
           "content": {
             "type": "SYMBOL",
             "name": "SerializeRuleKeyword"
@@ -6175,7 +6447,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "SuperName"
+            "name": "TermArg"
           }
         },
         {
@@ -6228,7 +6500,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "NameSeg"
+            "name": "TermArg"
           }
         },
         {
@@ -6293,7 +6565,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "NameSeg"
+            "name": "TermArg"
           }
         },
         {
@@ -6346,7 +6618,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "NameSeg"
+            "name": "TermArg"
           }
         },
         {
@@ -7107,12 +7379,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "TermList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "TermList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "TermList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -7330,6 +7610,226 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RangeType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "RangeTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificAttributes",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TranslationType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TranslationDensity",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TranslationKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -7359,6 +7859,246 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MemType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MemTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ReadWriteType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ReadWriteKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificAttributes",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MemoryRangeType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "AddressKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TranslationType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -7384,6 +8124,198 @@
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificFlags",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificAttributes",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -7429,6 +8361,46 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "XferWidth",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TransferWidthKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -7466,6 +8438,26 @@
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -7578,16 +8570,8 @@
           "type": "FIELD",
           "name": "ResourceSource",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "StringData"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "StringData"
           }
         },
         {
@@ -7700,7 +8684,7 @@
           "name": "Term",
           "content": {
             "type": "STRING",
-            "value": "GpioIO"
+            "value": "GpioIo"
           }
         },
         {
@@ -7709,19 +8693,30 @@
         },
         {
           "type": "FIELD",
-          "name": "PinConfig",
+          "name": "ShareType",
           "content": {
             "type": "CHOICE",
             "members": [
               {
                 "type": "SYMBOL",
-                "name": "PinConfigKeyword"
+                "name": "ShareTypeKeyword"
               },
               {
-                "type": "SYMBOL",
-                "name": "IntegerLiteral"
+                "type": "BLANK"
               }
             ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinConfig",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PinConfigKeyword"
           }
         },
         {
@@ -7746,7 +8741,155 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DriveStrength",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "IORestriction",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IORestrictionKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "PinList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PackageList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -7833,16 +8976,8 @@
           "type": "FIELD",
           "name": "ResourceSource",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "StringData"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "StringData"
           }
         },
         {
@@ -8299,7 +9434,43 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "InterruptList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ByteList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -8324,6 +9495,74 @@
           "content": {
             "type": "SYMBOL",
             "name": "ReadWriteKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Alignment",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RangeLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -8430,6 +9669,74 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Alignment",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RangeLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -8459,7 +9766,139 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinConfigType",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinConfigValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "PinList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PackageList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -8488,7 +9927,156 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinPullConfiguration",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "PinConfigKeyword"
+              },
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "FunctionNumber",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "PinList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PackageList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -8517,7 +10105,83 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "PinList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PackageList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -8542,6 +10206,134 @@
           "content": {
             "type": "SYMBOL",
             "name": "ShareTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinConfigType",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "PinConfigValue",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceLabel",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -8575,6 +10367,122 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "FunctionNumber",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceLabel",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -8600,6 +10508,206 @@
           "content": {
             "type": "SYMBOL",
             "name": "ResourceTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RangeType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "RangeTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -8922,6 +11030,218 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificFlags",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -8951,6 +11271,74 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RegisterBitWidth",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RegisterOffset",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RegisterAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AccessSize",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -8963,7 +11351,7 @@
           "name": "Term",
           "content": {
             "type": "STRING",
-            "value": "SPISerialBusV2"
+            "value": "SpiSerialBusV2"
           }
         },
         {
@@ -8976,6 +11364,218 @@
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DeviceSelectionPolarity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "PolarityKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "WireMode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "WireModeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DataBitLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "SlaveMode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SlaveModeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ConnectionSpeed",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ClockPolarity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ClockPolarityKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ClockPhase",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ClockPhaseKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ShareType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ShareTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9002,6 +11602,22 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceMacroList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ResourceMacroList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -9043,6 +11659,22 @@
         {
           "type": "STRING",
           "value": ")"
+        },
+        {
+          "type": "STRING",
+          "value": "{"
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceMacroList",
+          "content": {
+            "type": "SYMBOL",
+            "name": "ResourceMacroList"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "}"
         }
       ]
     },
@@ -9054,7 +11686,7 @@
           "name": "Term",
           "content": {
             "type": "STRING",
-            "value": "UARTSerialBusV2"
+            "value": "UartSerialBusV2"
           }
         },
         {
@@ -9067,6 +11699,254 @@
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "BitsPerByte",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DataBitsKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "StopBits",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StopBitsKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "LinesInUse",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "IsBigEndian",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "EndianessKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Parity",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ParityTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "FlowControl",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "FlowControlKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ReceiveBufferSize",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TransmitBufferSize",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "SYMBOL",
+            "name": "StringData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ShareType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ShareTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "VendorData",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "SuperName"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9094,8 +11974,16 @@
           "type": "FIELD",
           "name": "DescriptorName",
           "content": {
-            "type": "SYMBOL",
-            "name": "NameString"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9139,8 +12027,16 @@
           "type": "FIELD",
           "name": "DescriptorName",
           "content": {
-            "type": "SYMBOL",
-            "name": "NameString"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9407,6 +12303,246 @@
         },
         {
           "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "RangeType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "RangeTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerData"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TranslationType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TranslationDensity",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "TranslationKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
           "value": ")"
         }
       ]
@@ -9432,6 +12568,218 @@
           "content": {
             "type": "SYMBOL",
             "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceUsage",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "ResourceTypeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Decode",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "DecodeKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MinKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxType",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "MaxKeyword"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "TypeSpecificFlags",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressGranularity",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MinAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "MaxAddress",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressTranslation",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "AddressLength",
+          "content": {
+            "type": "SYMBOL",
+            "name": "IntegerLiteral"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSourceIndex",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "ResourceSource",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "StringData"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9485,6 +12833,26 @@
           "content": {
             "type": "SYMBOL",
             "name": "XferTypeKeyword"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "DescriptorName",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "NameString"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
@@ -9897,16 +13265,8 @@
           "type": "FIELD",
           "name": "ReadWriteType",
           "content": {
-            "type": "CHOICE",
-            "members": [
-              {
-                "type": "SYMBOL",
-                "name": "ReadWriteKeyword"
-              },
-              {
-                "type": "BLANK"
-              }
-            ]
+            "type": "SYMBOL",
+            "name": "ReadWriteKeyword"
           }
         },
         {
@@ -11116,6 +14476,203 @@
     "NoOpTerm": {
       "type": "STRING",
       "value": "NoOp"
+    },
+    "DataBitsKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "DataBitsFive"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsSix"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsSeven"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsEight"
+        },
+        {
+          "type": "STRING",
+          "value": "DataBitsNine"
+        }
+      ]
+    },
+    "EndianessKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "BigEndianing"
+        },
+        {
+          "type": "STRING",
+          "value": "LittleEndian"
+        }
+      ]
+    },
+    "ParityTypeKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "ParityTypeNone"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeSpace"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeMark"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeOdd"
+        },
+        {
+          "type": "STRING",
+          "value": "ParityTypeEven"
+        }
+      ]
+    },
+    "IORestrictionKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "IoRestrictionNone"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionInputOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionOutputOnly"
+        },
+        {
+          "type": "STRING",
+          "value": "IoRestrictionNoneAndPreserve"
+        }
+      ]
+    },
+    "PLDKeyword": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "PLD_Revision"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_IgnoreColor"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Red"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Green"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Blue"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Width"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Height"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_UserVisible"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Dock"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Lid"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Panel"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_VerticalPosition"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_HorizontalPosition"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Shape"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_GroupOrientation"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_GroupToken"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_GroupPosition"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Bay"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Ejectable"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_EjectRequired"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_CabinetNumber"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_CardCageNumber"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Reference"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Rotation"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_Order"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_VerticalOffset"
+        },
+        {
+          "type": "STRING",
+          "value": "PLD_HorizontalOffset"
+        }
+      ]
     }
   },
   "extras": [
