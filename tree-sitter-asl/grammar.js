@@ -29,7 +29,7 @@ module.exports = grammar({
     // 1. Root Terms
     // ------------------------------------------------
     // RootTerm                    := DefinitionBlockTerm
-    source_file: $ => $.DefinitionBlockTerm,
+    SourceFile: $ => $.DefinitionBlockTerm,
 
     // DefinitionBlockTerm         := DefinitionBlock (...) {TermList}
     DefinitionBlockTerm: $ => seq(
@@ -43,7 +43,7 @@ module.exports = grammar({
       field('OEMRevision', $.IntegerLiteral),
       ')',
       '{',
-      field("TermList", $.TermList),
+      field("TermList", $._TermList),
       '}',
     ),
 
@@ -109,28 +109,28 @@ module.exports = grammar({
     // 3. Major Terms
     // ------------------------------------------------
     // SuperName                   :=	NameString | ArgTerm | LocalTerm | DebugTerm | ReferenceTypeOpcode | MethodInvocationTerm
-    SuperName: $ => choice(
+    _SuperName: $ => choice(
       $.NameString,                 
       $.ArgTerm,                    
       $.LocalTerm,                  
       $.DebugTerm,                  
-      $.ReferenceTypeOpcode,        
+      $._ReferenceTypeOpcode,        
     ),
 
     // Target                      :=	Nothing | SuperName
-    Target: $ => seq(
-      $.SuperName                   
+    _Target: $ => seq(
+      $._SuperName                   
     ),
     
     // TermArg                     :=	ExpressionOpcode | DataObject | ArgTerm | LocalTerm | NameString | SymbolicExpression
-    TermArg: $ => choice(
-      $.ExpressionOpcode,
-      $.DataObject,
+    _TermArg: $ => choice(
+      $._ExpressionOpcode,
+      $._DataObject,
       $.ArgTerm,
       $.LocalTerm,
       $.TimerTerm,
       $.NameString,
-      // $.SymbolicExpressionTerm
+      // $._SymbolicExpressionTerm
     ),
 
     // MethodInvocationTerm        :=	NameString ( // NameString => Method
@@ -174,24 +174,24 @@ module.exports = grammar({
     ),
 
     // ArgList                     :=	Nothing | <TermArg ArgListTail>
-    ArgList: $ => sepBy1(',', $.TermArg),
+    ArgList: $ => sepBy1(',', $._TermArg),
 
     // TermList                    := Nothing | <Term SemiColonDelimiter TermList>
-    TermList: $ => repeat1($.Term),
+    _TermList: $ => repeat1($._Term),
 
     // Term                        := Object | StatementOpcode | ExpressionOpcode | SymbolicExpression
-    Term: $ => choice(
-      $.Object,
-      $.StatementOpcode,
-      $.ExpressionOpcode,
-      // $.SymbolicExpressionTerm
+    _Term: $ => choice(
+      $._Object,
+      $._StatementOpcode,
+      $._ExpressionOpcode,
+      // $._SymbolicExpressionTerm
     ),
 
     // Object                      := CompilerDirective | NamedObject | NameSpaceModifier
-    Object: $ => choice(
-      $.CompilerDirective,          
-      $.NamedObject,
-      $.NameSpaceModifier,          
+    _Object: $ => choice(
+      $._CompilerDirective,          
+      $._NamedObject,
+      $._NameSpaceModifier,          
     ),
     
     // ByteList                    :=	Nothing | <ByteConstExpr ByteListTail>
@@ -207,7 +207,7 @@ module.exports = grammar({
 
     // PackageElement              :=	DataObject | NameString
     PackageElement: $ => choice(
-      $.DataObject,                 
+      $._DataObject,                 
       $.NameString                  
     ),
 
@@ -279,7 +279,7 @@ module.exports = grammar({
     ),
 
     // DataObject                  :=	BufferData | PackageData | IntegerData | StringData
-    DataObject: $ => choice(
+    _DataObject: $ => choice(
       $.IntegerLiteral,
       $.StringLiteral,
       $.BufferData,
@@ -289,13 +289,13 @@ module.exports = grammar({
 
     // DataRefObject               :=	DataObject | ObjectReference
     DataRefObject: $ => choice(
-      $.DataObject,                 
+      $._DataObject,                 
       $.IntegerLiteral             
     ),
 
     // IntegerData                 :=	IntegerTypeOpcode | Integer | ConstTerm
     IntegerData: $ => choice(
-      $.IntegerTypeOpcode,          
+      $._IntegerTypeOpcode,          
       $.IntegerLiteral,             
     ),
 
@@ -315,13 +315,13 @@ module.exports = grammar({
     // 6. ASL Opcode Terms
     // ------------------------------------------------
     // CompilerDirective           :=	IncludeTerm | ExternalTerm
-    CompilerDirective: $ => choice(
+    _CompilerDirective: $ => choice(
       $.IncludeTerm,                
       $.ExternalTerm                
     ),
 
     // NamedObject                 :=	BankFieldTerm | CreateBitFieldTerm | CreateByteFieldTerm | CreateDWordFieldTerm | CreateFieldTerm | CreateQWordFieldTerm | CreateWordFieldTerm | DataRegionTerm | DeviceTerm | EventTerm | FieldTerm | FunctionTerm | IndexFieldTerm | MethodTerm | MutexTerm | OpRegionTerm | PowerResTerm | ProcessorTerm | ThermalZoneTerm
-    NamedObject: $ => choice(
+    _NamedObject: $ => choice(
       $.CreateBitFieldTerm,         
       $.CreateByteFieldTerm,        
       $.CreateDWordFieldTerm,       
@@ -343,14 +343,14 @@ module.exports = grammar({
     ),
 
     // NameSpaceModifier           :=	AliasTerm | NameTerm | ScopeTerm
-    NameSpaceModifier: $ => choice(
+    _NameSpaceModifier: $ => choice(
       $.AliasTerm,  
       $.NameTerm,   
       $.ScopeTerm   
     ),
 
     // StatementOpcode             :=	BreakTerm | BreakPointTerm | ContinueTerm | FatalTerm | ForTerm | IfElseTerm | NoOpTerm | NotifyTerm | ReleaseTerm | ResetTerm | ReturnTerm | SignalTerm | SleepTerm | StallTerm | SwitchTerm | UnloadTerm | WhileTerm
-    StatementOpcode: $ => choice(
+    _StatementOpcode: $ => choice(
       $.BreakTerm,
       $.BreakPointTerm,
       $.ContinueTerm,
@@ -371,7 +371,7 @@ module.exports = grammar({
     ),
 
     // ExpressionOpcode            :=	AcquireTerm | AddTerm | AndTerm | ConcatTerm | ConcatResTerm | CondRefOfTerm | CopyObjectTerm | DecTerm | DerefOfTerm | DivideTerm | FindSetLeftBitTerm | FindSetRightBitTerm | FprintfTerm | FromBCDTerm | IncTerm | IndexTerm | LAndTerm | LEqualTerm | LGreaterTerm | LGreaterEqualTerm | LLessTerm | LLessEqualTerm | LNotTerm | LNotEqualTerm | LOrTerm | MatchTerm | MidTerm | ModTerm | MultiplyTerm | NAndTerm | NOrTerm | NotTerm | ObjectTypeTerm | OrTerm | PrintfTerm | RefOfTerm | ShiftLeftTerm | ShiftRightTerm | SizeOfTerm | StoreTerm | SubtractTerm | TimerTerm | ToBCDTerm | ToBufferTerm | ToDecimalStringTerm | ToHexStringTerm | ToIntegerTerm | ToStringTerm | WaitTerm | XorTerm | MethodInvocationTerm | SymbolicExpressionTerm | SymbolicAssignmentTerm
-    ExpressionOpcode: $ => prec(1, choice(
+    _ExpressionOpcode: $ => prec(1, choice(
       $.AcquireTerm,
       $.AddTerm,
       $.AndTerm,
@@ -423,12 +423,12 @@ module.exports = grammar({
       $.WaitTerm,
       // $.XorTerm,
       $.MethodInvocationTerm,
-      $.SymbolicExpressionTerm,
-      $.SymbolicAssignmentTerm,
+      $._SymbolicExpressionTerm,
+      $._SymbolicAssignmentTerm,
     )),
 
     // IntegerTypeOpcode           :=	AddTerm | AndTerm | DecTerm | DerefOfTerm | DivideTerm | EISAIDTerm | FindSetLeftBitTerm | FindSetRightBitTerm | FromBCDTerm | IncTerm | LAndTerm | LEqualTerm | LGreaterTerm | LGreaterEqualTerm | LLessTerm | LLessEqualTerm | LNotTerm | LNotEqualTerm | MatchTerm | ModTerm | MultiplyTerm | NAndTerm | NOrTerm | NotTerm | OrTerm | ShiftLeftTerm | ShiftRightTerm | SubtractTerm | ToBCDTerm | ToIntegerTerm | XorTerm | SymbolicExpressionTerm
-    IntegerTypeOpcode: $ => prec(2, choice(
+    _IntegerTypeOpcode: $ => prec(2, choice(
       $.AddTerm,
       $.AndTerm,
       $.DecTerm,
@@ -459,7 +459,7 @@ module.exports = grammar({
       $.SubtractTerm,
       $.ToBCDTerm,
       $.ToIntegerTerm,
-      $.SymbolicExpressionTerm,
+      $._SymbolicExpressionTerm,
       // $.XorTerm,
     )),
 
@@ -489,7 +489,7 @@ module.exports = grammar({
     )),
 
     // ReferenceTypeOpcode         :=	RefOfTerm | DerefOfTerm | IndexTerm | IndexSymbolicTerm | UserTermObj
-    ReferenceTypeOpcode: $ => prec(5, choice(
+    _ReferenceTypeOpcode: $ => prec(5, choice(
       $.RefOfTerm,                    
       $.DerefOfTerm,                
       $.IndexTerm,                  
@@ -498,8 +498,8 @@ module.exports = grammar({
     )),
 
     // SymbolicExpressionTerm      :=	( TermArg ) | AddSymbolicTerm | AndSymbolicTerm | DecSymbolicTerm | DivideSymbolicTerm | IncSymbolicTerm | LAndSymbolicTerm | LEqualSymbolicTerm | LGreaterEqualSymbolicTerm | LGreaterSymbolicTerm | LLessEqualSymbolicTerm | LLessSymbolicTerm | LNotEqualSymbolicTerm | LNotSymbolicTerm | LOrSymbolicTerm | ModSymbolicTerm | MultiplySymbolicTerm | NotSymbolicTerm | OrSymbolicTerm | ShiftLeftSymbolicTerm | ShiftRightSymbolicTerm | SubtractSymbolicTerm | XorSymbolicTerm
-    SymbolicExpressionTerm: $ => choice(
-      seq('(', $.TermArg, ')'),
+    _SymbolicExpressionTerm: $ => choice(
+      seq('(', $._TermArg, ')'),
       $.AddSymbolicTerm,
       $.AndSymbolicTerm,
       $.DecSymbolicTerm,
@@ -525,7 +525,7 @@ module.exports = grammar({
     ),
 
     // SymbolicAssignmentTerm      :=	StoreSymbolicTerm | AddCompoundTerm | AndCompoundTerm | DivideCompoundTerm | ModCompoundTerm | MultiplyCompoundTerm | OrCompoundTerm | ShiftLeftCompoundTerm | ShiftRightCompoundTerm | SubtractCompoundTerm | XorCompoundTerm
-    SymbolicAssignmentTerm: $ => choice(
+    _SymbolicAssignmentTerm: $ => choice(
       $.StoreSymbolicTerm,
       $.AddCompoundTerm,
       $.AndCompoundTerm,
@@ -546,7 +546,7 @@ module.exports = grammar({
     DefaultTerm: $ => seq(
       'Default',
       '{',
-      field('TermList', $.TermList),
+      field('TermList', $._TermList),
       '}'
     ),
 
@@ -556,10 +556,10 @@ module.exports = grammar({
     CaseTerm: $ => seq(
       'Case',
       '(',
-      field('Value', $.DataObject),
+      field('Value', $._DataObject),
       ')',
       '{',
-      optional(field('TermList', $.TermList)),
+      optional(field('TermList', $._TermList)),
       '}'
     ),
 
@@ -569,7 +569,7 @@ module.exports = grammar({
     SwitchTerm: $ => seq(
       'Switch',
       '(',
-      field('Predicate', $.TermArg),
+      field('Predicate', $._TermArg),
       ')',
       '{',
       field('CaseTermList', $.CaseTermList),
@@ -582,10 +582,10 @@ module.exports = grammar({
     WhileTerm: $ => seq(
       field('Term', 'While'),
       '(',
-      field('Predicate', $.TermArg),
+      field('Predicate', $._TermArg),
       ')',
       '{',
-      field('TermList', $.TermList),
+      field('TermList', $._TermList),
       '}'
     ),
 
@@ -594,9 +594,9 @@ module.exports = grammar({
     //                                 Subtrahend // TermArg => Integer
     //                                 => Integer
     SubtractCompoundTerm: $ => prec.left(10, seq(
-      field('Minuend', $.TermArg),
+      field('Minuend', $._TermArg),
       '-=',
-      field('Subtrahend', $.TermArg)
+      field('Subtrahend', $._TermArg)
     )),
 
     // ShiftRightCompoundTerm      :=	Source-Result // TermArg => Integer => Target
@@ -604,9 +604,9 @@ module.exports = grammar({
     //                                 ShiftCount // TermArg => Integer
     //                                 => Integer
     ShiftRightCompoundTerm: $ => prec.left(10, seq(
-      field('Source', $.TermArg),
+      field('Source', $._TermArg),
       '>>=',
-      field('ShiftCount', $.TermArg)
+      field('ShiftCount', $._TermArg)
     )),
 
     // ShiftLeftCompoundTerm       :=	Source-Result // TermArg => Integer => Target
@@ -614,9 +614,9 @@ module.exports = grammar({
     //                                 ShiftCount // TermArg => Integer
     //                                 => Integer
     ShiftLeftCompoundTerm: $ => prec.left(10, seq(
-      field('Source', $.TermArg),
+      field('Source', $._TermArg),
       '<<=',
-      field('ShiftCount', $.TermArg)
+      field('ShiftCount', $._TermArg)
     )),
 
     // OrCompoundTerm              :=	Source1-Result // TermArg => Integer => Target
@@ -624,9 +624,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     OrCompoundTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '|=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // XorCompoundTerm              :=	Source1-Result // TermArg => Integer => Target
@@ -634,9 +634,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     XorCompoundTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '^=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // MultiplyCompoundTerm        :=	Multiplicand-Result // TermArg => Integer => Target
@@ -644,9 +644,9 @@ module.exports = grammar({
     //                             Multiplier // TermArg => Integer
     //                             => Integer
     MultiplyCompoundTerm: $ => prec.left(10, seq(
-      field('Multiplicand', $.TermArg),
+      field('Multiplicand', $._TermArg),
       '*=',
-      field('Multiplier', $.TermArg)
+      field('Multiplier', $._TermArg)
     )),
 
     // ModCompoundTerm             :=	Dividend-Result // TermArg => Integer => Target
@@ -654,16 +654,16 @@ module.exports = grammar({
     //                                 Divisor // TermArg => Integer
     //                                 => Integer
     ModCompoundTerm: $ => prec.left(10, seq(
-      field('Dividend', $.TermArg),
+      field('Dividend', $._TermArg),
       '%=',
-      field('Divisor', $.TermArg)
+      field('Divisor', $._TermArg)
     )),
 
     // DivideCompoundTerm          := | Dividend-Result // TermArg => Integer => Target | /= | Divisor // TermArg => Integer | => Integer
     DivideCompoundTerm: $ => prec.left(10, seq(
-      field('Dividend', $.TermArg),
+      field('Dividend', $._TermArg),
       '/=',
-      field('Divisor', $.TermArg)
+      field('Divisor', $._TermArg)
     )),
 
     // AndCompoundTerm             :=	Source1-Result // TermArg => Integer => Target
@@ -671,16 +671,16 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     AndCompoundTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '&=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // AddCompoundTerm             :=	Addend1-Result // TermArg => Integer => Target += Addend2 // TermArg => Integer => Integer
     AddCompoundTerm: $ => prec.left(10, seq(
-      field('Addend1', $.TermArg),
+      field('Addend1', $._TermArg),
       '+=',
-      field('Result', $.TermArg)
+      field('Result', $._TermArg)
     )),
 
     // StoreSymbolicTerm           :=	Destination // SuperName
@@ -688,9 +688,9 @@ module.exports = grammar({
     //                                 Source // TermArg => DataRefObject
     //                                 => DataRefObject
     StoreSymbolicTerm: $ => prec.left(10, seq(
-      field('Destination', $.SuperName),
+      field('Destination', $._SuperName),
       '=',
-      field('Source', $.TermArg)
+      field('Source', $._TermArg)
     )),
 
     // XorSymbolicTerm             :=	Source1 // TermArg => Integer
@@ -698,18 +698,18 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     XorSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '^',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // SubtractSymbolicTerm        :=	Minuend // TermArg => Integer
     //                                 Subtrahend // TermArg => Integer
     //                                 => Integer
     SubtractSymbolicTerm: $ => prec.left(10, seq(
-      field('Minuend', $.TermArg),
+      field('Minuend', $._TermArg),
       '-',
-      field('Subtrahend', $.TermArg)
+      field('Subtrahend', $._TermArg)
     )),
 
     // ShiftRightSymbolicTerm      :=	Source // TermArg => Integer
@@ -717,9 +717,9 @@ module.exports = grammar({
     //                             ShiftCount // TermArg => Integer
     //                             => Integer
     ShiftRightSymbolicTerm: $ => prec.left(10, seq(
-      field('Source', $.TermArg),
+      field('Source', $._TermArg),
       '>>',
-      field('ShiftCount', $.TermArg)
+      field('ShiftCount', $._TermArg)
     )),
 
     // ShiftLeftSymbolicTerm       :=	Source // TermArg => Integer
@@ -727,9 +727,9 @@ module.exports = grammar({
     //                                 ShiftCount // TermArg => Integer
     //                                 => Integer
     ShiftLeftSymbolicTerm: $ => prec.left(10, seq(
-      field('Source', $.TermArg),
+      field('Source', $._TermArg),
       '<<',
-      field('ShiftCount', $.TermArg)
+      field('ShiftCount', $._TermArg)
     )),
 
     // OrSymbolicTerm              :=	Source1 // TermArg => Integer
@@ -737,9 +737,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     OrSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '|',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // NotSymbolicTerm             :=	~
@@ -747,7 +747,7 @@ module.exports = grammar({
     //                                 => Integer
     NotSymbolicTerm: $ => prec.left(10, seq(
       '~',
-      field('Source', $.TermArg)
+      field('Source', $._TermArg)
     )),
 
     // MultiplySymbolicTerm        :=	Multiplicand // TermArg => Integer
@@ -755,9 +755,9 @@ module.exports = grammar({
     //                                 Multiplier // TermArg => Integer
     //                                 => Integer
     MultiplySymbolicTerm: $ => prec.left(10, seq(
-      field('Multiplicand', $.TermArg),
+      field('Multiplicand', $._TermArg),
       '*',
-      field('Multiplier', $.TermArg)
+      field('Multiplier', $._TermArg)
     )),
 
     // ModSymbolicTerm             :=	Dividend // TermArg => Integer
@@ -765,9 +765,9 @@ module.exports = grammar({
     //                                 Divisor // TermArg => Integer
     //                                 => Integer
     ModSymbolicTerm: $ => prec.left(10, seq(
-      field('Dividend', $.TermArg),
+      field('Dividend', $._TermArg),
       '%',
-      field('Divisor', $.TermArg)
+      field('Divisor', $._TermArg)
     )),
 
     // LOrSymbolicTerm             :=	Source1 // TermArg => Integer
@@ -775,9 +775,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Boolean
     LOrSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '||',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LNotSymbolicTerm            :=	!
@@ -785,7 +785,7 @@ module.exports = grammar({
     //                                 => Boolean
     LNotSymbolicTerm: $ => prec.left(10, seq(
       '!',
-      field('Source', $.TermArg)
+      field('Source', $._TermArg)
     )),
 
     // LNotEqualSymbolicTerm       :=	Source1 // TermArg => ComputationalData
@@ -793,9 +793,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LNotEqualSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '!=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LLessSymbolicTerm           :=	Source1 // TermArg => ComputationalData
@@ -803,9 +803,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LLessSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '<',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LLessEqualSymbolicTerm      :=	Source1 // TermArg => ComputationalData
@@ -813,9 +813,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LLessEqualSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '<=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LGreaterSymbolicTerm        :=	Source1 // TermArg => ComputationalData
@@ -823,9 +823,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LGreaterSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '>',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LGreaterEqualSymbolicTerm   :=	Source1 // TermArg => ComputationalData
@@ -833,9 +833,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LGreaterEqualSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '>=',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LEqualSymbolicTerm          :=	Source1 // TermArg => ComputationalData
@@ -843,9 +843,9 @@ module.exports = grammar({
     //                                 Source2 // TermArg => ComputationalData
     //                                 => Boolean
     LEqualSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '==',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // LAndSymbolicTerm            :=	Source1 // TermArg => Integer
@@ -853,16 +853,16 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Boolean
     LAndSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '&&',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // IncSymbolicTerm             :=	Addend // SuperName => Integer
     //                                 ++
     //                                 => Integer
     IncSymbolicTerm: $ => prec.left(10, seq(
-      field('Addend', $.SuperName),
+      field('Addend', $._SuperName),
       '++',
     )),
 
@@ -871,16 +871,16 @@ module.exports = grammar({
     //                                 Divisor // TermArg => Integer
     //                                 => Integer
     DivideSymbolicTerm: $ => prec.left(10, seq(
-      field('Dividend', $.TermArg),
+      field('Dividend', $._TermArg),
       '/',
-      field('Divisor', $.TermArg)
+      field('Divisor', $._TermArg)
     )),
 
     // DecSymbolicTerm             :=	Minuend // SuperName => Integer
     //                             –
     //                             => Integer
     DecSymbolicTerm: $ => prec.left(10, seq(
-      field('Minuend', $.SuperName),
+      field('Minuend', $._SuperName),
       '--',
     )),
 
@@ -889,16 +889,16 @@ module.exports = grammar({
     //                                 Source2 // TermArg => Integer
     //                                 => Integer
     AndSymbolicTerm: $ => prec.left(10, seq(
-      field('Source1', $.TermArg),
+      field('Source1', $._TermArg),
       '&',
-      field('Source2', $.TermArg)
+      field('Source2', $._TermArg)
     )),
 
     // AddSymbolicTerm             :=	Addend1 // TermArg => Integer + Addend2 // TermArg => Integer => Integer
     AddSymbolicTerm: $ => prec.left(10, seq(
-      field('Addend1', $.TermArg),
+      field('Addend1', $._TermArg),
       '+',
-      field('Addend2', $.TermArg)
+      field('Addend2', $._TermArg)
     )),
 
     // ElseIfTerm                  :=	ElseIf (
@@ -907,10 +907,10 @@ module.exports = grammar({
     ElseIfTerm: $ => seq(
       field('Term', 'ElseIf'),
       '(',
-      field('Predicate', $.TermArg),
+      field('Predicate', $._TermArg),
       ')',
       '{',
-      optional(field('TermList', $.TermList)),
+      optional(field('TermList', $._TermList)),
       '}',
       optional(field('ElseTerm', $.ElseTerm))
     ),
@@ -920,7 +920,7 @@ module.exports = grammar({
       seq(
         field('Term', 'Else'),
         '{',
-        optional(field('TermList', $.TermList)),
+        optional(field('TermList', $._TermList)),
         '}'
       ),
       $.ElseIfTerm,
@@ -932,10 +932,10 @@ module.exports = grammar({
     IfTerm: $ => seq(
       field('Term', 'If'),
       '(',
-      field('Predicate', $.TermArg),
+      field('Predicate', $._TermArg),
       ')',
       '{',
-      optional(field('TermList', $.TermList)),
+      optional(field('TermList', $._TermList)),
       '}'
     ),
 
@@ -947,12 +947,12 @@ module.exports = grammar({
     ForTerm: $ => seq(
       field('Term', 'For'),
       '(',
-      field('Initialize', $.TermArg), ',',
-      field('Predicate', $.TermArg), ',',
-      field('Update', $.TermArg),
+      field('Initialize', $._TermArg), ',',
+      field('Predicate', $._TermArg), ',',
+      field('Update', $._TermArg),
       ')',
       '{',
-      field('TermList', $.TermList),
+      field('TermList', $._TermList),
       '}'
     ),
 
@@ -963,8 +963,8 @@ module.exports = grammar({
     StoreTerm: $ => seq(
       field('Term', 'Store'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Destination', $.SuperName),
+      field('Source', $._TermArg), ',',
+      field('Destination', $._SuperName),
       ')'
     ),
 
@@ -974,7 +974,7 @@ module.exports = grammar({
     SizeOfTerm: $ => seq(
       field('Term', 'SizeOf'),
       '(',
-      field('DataObject', $.SuperName),
+      field('DataObject', $._SuperName),
       ')',
     ),
 
@@ -995,8 +995,8 @@ module.exports = grammar({
     WaitTerm: $ => seq(
       field('Term', 'Wait'),
       '(',
-      field('SyncObject', $.SuperName), ',',
-      field('TimeoutValue', $.TermArg),
+      field('SyncObject', $._SuperName), ',',
+      field('TimeoutValue', $._TermArg),
       ')'
     ),
 
@@ -1008,9 +1008,9 @@ module.exports = grammar({
     XOrTerm: $ => seq(
       field('Term', 'XOr'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1021,7 +1021,7 @@ module.exports = grammar({
     ToIntegerTerm: $ => seq(
       field('Term', 'ToInteger'),
       '(',
-      field('Data', $.TermArg),
+      field('Data', $._TermArg),
       ')'
     ),
 
@@ -1033,9 +1033,9 @@ module.exports = grammar({
     SubtractTerm: $ => seq(
       field('Term', 'Subtract'),
       '(',
-      field('Minuend', $.TermArg), ',',
-      field('Subtrahend', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Minuend', $._TermArg), ',',
+      field('Subtrahend', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1051,8 +1051,8 @@ module.exports = grammar({
     ToBCDTerm: $ => seq(
       field('Term', 'ToBCD'),
       '(',
-      field('Value', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Value', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1064,9 +1064,9 @@ module.exports = grammar({
     ShiftLeftTerm: $ => seq(
       field('Term', 'ShiftLeft'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('ShiftCount', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source', $._TermArg), ',',
+      field('ShiftCount', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1078,9 +1078,9 @@ module.exports = grammar({
     ShiftRightTerm: $ => seq(
       field('Term', 'ShiftRight'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('ShiftCount', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source', $._TermArg), ',',
+      field('ShiftCount', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1092,9 +1092,9 @@ module.exports = grammar({
     OrTerm: $ => seq(
       field('Term', 'Or'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1105,8 +1105,8 @@ module.exports = grammar({
     NotTerm: $ => seq(
       field('Term', 'Not'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1128,9 +1128,9 @@ module.exports = grammar({
     NAndTerm: $ => seq(
       field('Term', 'NAnd'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1142,9 +1142,9 @@ module.exports = grammar({
     NOrTerm: $ => seq(
       field('Term', 'NOr'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1156,9 +1156,9 @@ module.exports = grammar({
     MultiplyTerm: $ => seq(
       field('Term', 'Multiply'),
       '(',
-      field('Multiplicand', $.TermArg), ',',
-      field('Multiplier', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Multiplicand', $._TermArg), ',',
+      field('Multiplier', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1172,7 +1172,7 @@ module.exports = grammar({
       '(',
       field('Dividend', $.IntegerLiteral), ',',
       field('Divisor', $.IntegerLiteral),
-      optional(seq(',', field('Result', $.Target))),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1187,7 +1187,7 @@ module.exports = grammar({
     MatchTerm : $ => seq(
       field('Term', 'Match'),
       '(',
-      field('SearchPackage', $.TermArg), ',',
+      field('SearchPackage', $._TermArg), ',',
       field('Op1', $.MatchOpKeyword), ',',
       field('MatchObject1', $.ComputationalData), ',',
       field('Op2', $.MatchOpKeyword), ',',
@@ -1311,8 +1311,8 @@ module.exports = grammar({
     ToDecimalStringTerm: $ => seq(
       field('Term', 'ToDecimalString'),
       '(',
-      field('Data', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Data', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1323,8 +1323,8 @@ module.exports = grammar({
     ToHexStringTerm: $ => seq(
       field('Term', 'ToHexString'),
       '(',
-      field('Data', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Data', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1336,8 +1336,8 @@ module.exports = grammar({
     ToStringTerm: $ => seq(
       field('Term', 'ToString'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1347,7 +1347,7 @@ module.exports = grammar({
     IncTerm: $ => seq(
       field('Term', 'Increment'),
       '(',
-      field('Addend', $.SuperName),
+      field('Addend', $._SuperName),
       ')'
     ),
 
@@ -1358,8 +1358,8 @@ module.exports = grammar({
     FromBCDTerm: $ => seq(
       field('Term', 'FromBCD'),
       '(',
-      field('BCDValue', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('BCDValue', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1370,8 +1370,8 @@ module.exports = grammar({
     FindSetLeftBitTerm: $ => seq(
       field('Term', 'FindSetLeftBit'),
       '(',
-      field('Source', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
     
@@ -1382,8 +1382,8 @@ module.exports = grammar({
     FindSetRightBitTerm: $ => seq(
       field('Term', 'FindSetRightBit'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1396,10 +1396,10 @@ module.exports = grammar({
     DivideTerm: $ => seq(
       field('Term', 'Divide'),
       '(',
-      field('Dividend', $.TermArg), ',',
-      field('Divisor', $.TermArg), ',',
-      field('Remainder', $.Target), ',',
-      field('Result', $.Target),
+      field('Dividend', $._TermArg), ',',
+      field('Divisor', $._TermArg), ',',
+      field('Remainder', $._Target), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1411,9 +1411,9 @@ module.exports = grammar({
     AndTerm: $ => seq(
       field('Term', 'And'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1425,9 +1425,9 @@ module.exports = grammar({
     AddTerm: $ => seq(
       field('Term', 'Add'),
       '(',
-      field('Addend1', $.TermArg), ',',
-      field('Addend2', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Addend1', $._TermArg), ',',
+      field('Addend2', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1438,7 +1438,7 @@ module.exports = grammar({
     CopyObjectTerm: $ => seq(
       field('Term', 'CopyObject'),
       '(',
-      field('Source', $.TermArg), ',',
+      field('Source', $._TermArg), ',',
       field('Result', choice($.NameString, $.LocalTerm, $.ArgTerm)),
       ')'
     ),
@@ -1449,7 +1449,7 @@ module.exports = grammar({
     DecTerm: $ => seq(
       field('Term', 'Decrement'),
       '(',
-      field('Minuend', $.SuperName),
+      field('Minuend', $._SuperName),
       ')'
     ),
 
@@ -1459,7 +1459,7 @@ module.exports = grammar({
     UnloadTerm: $ => seq(
       field('Term', 'Unload'),
       '(',
-      field('DDBHandle', $.SuperName),
+      field('DDBHandle', $._SuperName),
       ')'
     ),
 
@@ -1469,7 +1469,7 @@ module.exports = grammar({
     SleepTerm: $ => seq(
       field('Term', 'Sleep'),
       '(',
-      field('MilliSeconds', $.TermArg),
+      field('MilliSeconds', $._TermArg),
       ')'
     ),
 
@@ -1479,7 +1479,7 @@ module.exports = grammar({
     StallTerm: $ => seq(
       field('Term', 'Stall'),
       '(',
-      field('MicroSeconds', $.TermArg),
+      field('MicroSeconds', $._TermArg),
       ')'
     ),
 
@@ -1489,7 +1489,7 @@ module.exports = grammar({
     SignalTerm: $ => seq(
       field('Term', 'Signal'),
       '(',
-      field('SyncObject', $.SuperName),
+      field('SyncObject', $._SuperName),
       ')'
     ),
 
@@ -1499,7 +1499,7 @@ module.exports = grammar({
     ResetTerm: $ => seq(
       field('Term', 'Reset'),
       '(',
-      field('SyncObject', $.SuperName),
+      field('SyncObject', $._SuperName),
       ')'
     ),
 
@@ -1509,7 +1509,7 @@ module.exports = grammar({
     ReleaseTerm: $ => seq(
       field('Term', 'Release'),
       '(',
-      field('SyncObject', $.SuperName),
+      field('SyncObject', $._SuperName),
       ')'
     ),
 
@@ -1520,8 +1520,8 @@ module.exports = grammar({
     NotifyTerm: $ => seq(
       field('Term', 'Notify'),
       '(',
-      field('Object', $.SuperName), ',',
-      field('NotificationValue', $.TermArg),
+      field('Object', $._SuperName), ',',
+      field('NotificationValue', $._TermArg),
       ')'
     ),
 
@@ -1535,7 +1535,7 @@ module.exports = grammar({
       '(',
       field('Type', $.IntegerLiteral), ',',
       field('Code', $.IntegerLiteral), ',',
-      field('Arg', $.TermArg),
+      field('Arg', $._TermArg),
       ')'
     ),
 
@@ -1546,7 +1546,7 @@ module.exports = grammar({
     AcquireTerm: $ => seq(
       field('Term', 'Acquire'),
       '(',
-      field('SyncObject', $.SuperName), ',',
+      field('SyncObject', $._SuperName), ',',
       field('TimeoutValue', $.IntegerLiteral),
       ')'
     ),
@@ -1557,7 +1557,7 @@ module.exports = grammar({
     ReturnTerm: $ => seq(
       field('Term', 'Return'),
       '(',
-      field('Arg', optional($.TermArg)),
+      field('Arg', optional($._TermArg)),
       ')'
     ),
 
@@ -1602,7 +1602,7 @@ module.exports = grammar({
     BufferTerm: $ => seq(
       field('Term', 'Buffer'),
       '(',
-      field('BuffSize', optional($.TermArg)),
+      field('BuffSize', optional($._TermArg)),
       ')',
       '{',
       field('Body', optional(choice($.StringData, $.ByteList))),
@@ -1646,8 +1646,8 @@ module.exports = grammar({
     ToBufferTerm: $ => seq(
       field('Term', 'ToBuffer'),
       '(',
-      field('Data', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Data', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -1670,10 +1670,10 @@ module.exports = grammar({
     MidTerm: $ => seq(
       field('Term', 'Mid'),
       '(',
-      field('Source', $.TermArg), ',',
-      field('Index', $.TermArg), ',',
-      field('Length', $.TermArg), ',',
-      field('Result', $.Target),
+      field('Source', $._TermArg), ',',
+      field('Index', $._TermArg), ',',
+      field('Length', $._TermArg), ',',
+      field('Result', $._Target),
       ')'
     ),
 
@@ -1681,9 +1681,9 @@ module.exports = grammar({
     //                                 [Index] // TermArg => Integer
     //                                 => ObjectReference
     IndexSymbolicTerm: $ => seq(
-      field('Source', $.TermArg),
+      field('Source', $._TermArg),
       '[',
-      field('Index', $.TermArg),
+      field('Index', $._TermArg),
       ']'
     ),
 
@@ -1695,9 +1695,9 @@ module.exports = grammar({
     IndexTerm: $ => seq(
       field('Term', 'Index'),
       '(',
-      field('Source', $.TermArg), ',',
+      field('Source', $._TermArg), ',',
       field('Index', $.IntegerLiteral), ',',
-      field('Destination', $.Target),
+      field('Destination', $._Target),
       ')'
     ),
 
@@ -1746,9 +1746,9 @@ module.exports = grammar({
     ConcatResTerm: $ => seq(
       field('Term', 'ConcatenateResTemplate'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')',
     ),
 
@@ -1760,9 +1760,9 @@ module.exports = grammar({
     ConcatTerm: $ => seq(
       field('Term', 'Concatenate'),
       '(',
-      field('Source1', $.TermArg), ',',
-      field('Source2', $.TermArg),
-      optional(seq(',', field('Result', $.Target))),
+      field('Source1', $._TermArg), ',',
+      field('Source2', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')',
     ),
 
@@ -1799,7 +1799,7 @@ module.exports = grammar({
       field('Term', 'CreateBitField'),
       '(',
       field('SourceBuffer', $.NameSeg), ',',
-      field('BitIndex', $.TermArg), ',',
+      field('BitIndex', $._TermArg), ',',
       field('BitFieldName', $.NameString),
       ')'
     ),
@@ -1820,7 +1820,7 @@ module.exports = grammar({
       field('SerializeRule', $.SerializeRuleKeyword),
       ')',
       '{',
-      optional(field('body', $.TermList)),
+      optional(field('body', $._TermList)),
       '}'
     ),
 
@@ -1832,8 +1832,8 @@ module.exports = grammar({
     CreateByteFieldTerm: $ => seq(
       field('Term', 'CreateByteField'),
       '(',
-      field('SourceBuffer', $.SuperName), ',',
-      field('ByteIndex', $.TermArg), ',',
+      field('SourceBuffer', $._SuperName), ',',
+      field('ByteIndex', $._TermArg), ',',
       field('ByteFieldName', $.NameString),
       ')'
     ),
@@ -1846,8 +1846,8 @@ module.exports = grammar({
     CreateDWordFieldTerm: $ => seq(
       field('Term', 'CreateDWordField'),
       '(',
-      field('SourceBuffer', $.TermArg), ',',
-      field('ByteIndex', $.TermArg), ',',
+      field('SourceBuffer', $._TermArg), ',',
+      field('ByteIndex', $._TermArg), ',',
       field('DWordFieldName', $.NameString),
       ')'
     ),
@@ -1861,9 +1861,9 @@ module.exports = grammar({
     CreateFieldTerm: $ => seq(
       field('Term', 'CreateField'),
       '(',
-      field('SourceBuffer', $.TermArg), ',',
-      field('BitIndex', $.TermArg), ',',
-      field('NumBits', $.TermArg), ',',
+      field('SourceBuffer', $._TermArg), ',',
+      field('BitIndex', $._TermArg), ',',
+      field('NumBits', $._TermArg), ',',
       field('FieldName', $.NameString),
       ')'
     ),
@@ -1876,8 +1876,8 @@ module.exports = grammar({
     CreateQWordFieldTerm: $ => seq(
       field('Term', 'CreateQWordField'),
       '(',
-      field('SourceBuffer', $.TermArg), ',',
-      field('ByteIndex', $.TermArg), ',',
+      field('SourceBuffer', $._TermArg), ',',
+      field('ByteIndex', $._TermArg), ',',
       field('QWordFieldName', $.NameString),
       ')'
     ),
@@ -1890,8 +1890,8 @@ module.exports = grammar({
     CreateWordFieldTerm: $ => seq(
       field('Term', 'CreateWordField'),
       '(',
-      field('SourceBuffer', $.TermArg), ',',
-      field('ByteIndex', $.TermArg), ',',
+      field('SourceBuffer', $._TermArg), ',',
+      field('ByteIndex', $._TermArg), ',',
       field('WordFieldName', $.NameString),
       ')'
     ),
@@ -1921,7 +1921,7 @@ module.exports = grammar({
       field('DeviceName', $.NameString),
       ')',
       '{',
-      field("TermList", $.TermList),
+      field("TermList", $._TermList),
       '}'
     ),
 
@@ -1998,8 +1998,8 @@ module.exports = grammar({
       '(',
       field('RegionName', $.NameString), ',',
       field('RegionSpace', $.RegionSpaceKeyword), ',',
-      field('Offset', $.TermArg), ',',
-      field('Length', $.TermArg),
+      field('Offset', $._TermArg), ',',
+      field('Length', $._TermArg),
       ')'
     ),
 
@@ -2016,7 +2016,7 @@ module.exports = grammar({
       field('ResourceOrder', $.IntegerLiteral),
       ')',
       '{',
-      field("TermList", $.TermList),
+      field("TermList", $._TermList),
       '}'
     ),
 
@@ -2035,7 +2035,7 @@ module.exports = grammar({
       field('PblockLength', $.IntegerLiteral),
       ')',
       '{',
-      field("TermList", $.TermList),
+      field("TermList", $._TermList),
       '}'
     ),
 
@@ -2048,7 +2048,7 @@ module.exports = grammar({
       field('ThermalZoneName', $.NameString),
       ')',
       '{',
-      field("TermList", $.TermList),
+      field("TermList", $._TermList),
       '}'
     ),
 
@@ -2073,7 +2073,7 @@ module.exports = grammar({
       field('Term', 'Name'),
       '(',
       field('ObjectName', $.NameString), ',',
-      field('Object', $.DataObject),
+      field('Object', $._DataObject),
       ')',
     ),
 
@@ -2086,7 +2086,7 @@ module.exports = grammar({
       field('Location', $.NameString),
       ')',
       '{',
-      optional(field("TermList", $.TermList)),
+      optional(field("TermList", $._TermList)),
       '}'
     ),
 
@@ -2308,7 +2308,7 @@ module.exports = grammar({
       field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
       '{',
       field('PinList', $.PackageList),
@@ -2339,7 +2339,7 @@ module.exports = grammar({
       field('ResourceSourceIndex', optional($.IntegerLiteral)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
       '{',
       field('PinList', $.PackageList),
@@ -2370,7 +2370,7 @@ module.exports = grammar({
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
       field('ShareType', optional($.ShareTypeKeyword)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
     ),
 
@@ -2527,7 +2527,7 @@ module.exports = grammar({
       field('ResourceSourceIndex', optional($.IntegerData)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
       '{',
       field('PinList', $.PackageList),
@@ -2554,7 +2554,7 @@ module.exports = grammar({
       field('ResourceSourceIndex', optional($.IntegerData)), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
       '{',
       field('PinList', $.PackageList),
@@ -2573,7 +2573,7 @@ module.exports = grammar({
       field('ResourceLabel', $.NameString), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
       '{',
       field('PinList', $.PackageList),
@@ -2602,7 +2602,7 @@ module.exports = grammar({
       field('ResourceSourceLabel', $.StringData), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
     ),
 
@@ -2626,7 +2626,7 @@ module.exports = grammar({
       field('ResourceSourceLabel', $.StringData), ',',
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
     ),
 
@@ -2795,7 +2795,7 @@ module.exports = grammar({
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
       field('ShareType', optional($.ShareTypeKeyword)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
     ),
 
@@ -2858,7 +2858,7 @@ module.exports = grammar({
       field('ResourceUsage', optional($.ResourceTypeKeyword)), ',',
       field('DescriptorName', optional($.NameString)), ',',
       field('ShareType', optional($.ShareTypeKeyword)), ',',
-      field('VendorData', optional($.SuperName)),
+      field('VendorData', optional($._SuperName)),
       ')',
     ),
 
