@@ -1,0 +1,44 @@
+==================
+DefinitionBlock
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+   
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    body: (block)))
+
+
+==================
+DefinitionBlock with comment
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002) /* Comment Here */ 
+{
+  // Comment Here
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    body: (block)))

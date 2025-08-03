@@ -1,0 +1,116 @@
+==================
+Field
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Field (MCHT, ByteAcc, NoLock, Preserve)
+  {
+      Offset (0x5994),
+      RPSL, 8,
+      Offset (0x5998),
+      RPSL, 8
+  }
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    body: (block
+      (field_stmt
+        parameters: (parameters_list
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs))
+        body: (field_block
+          (field_element
+            (field_offset
+              parameters: (parameters_list
+                params: (number))))
+          (field_element
+            (field_named_entry
+              name: (name_segs)
+              size: (number)))
+          (field_element
+            (field_offset
+              parameters: (parameters_list
+                params: (number))))
+          (field_element
+            (field_named_entry
+              name: (name_segs)
+              size: (number))))))))
+
+
+==================
+Field Blank Spaces
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Field (HBUS, DWordAcc, NoLock, Preserve)
+  {
+    Offset (0x40),
+    EPEN,   1,
+        ,   11,
+    EPBR,   20,
+    Offset (0x48),
+        ,   7,
+    HTSE,   1
+  }
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (field_stmt
+        parameters: (parameters_list
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs)
+          params: (name_segs))
+        (field_element
+          (field_offset
+            parameters: (parameters_list
+              params: (number))))
+        (field_element
+          (field_named_entry
+            name: (name_segs)
+            size: (number)))
+        (field_element
+          (field_empty_entry
+            size: (number)))
+        (field_element
+          (field_named_entry
+            name: (name_segs)
+            size: (number)))
+        (field_element
+          (field_offset
+            parameters: (parameters_list
+              params: (number))))
+        (field_element
+          (field_empty_entry
+            size: (number)))
+        (field_element
+          (field_named_entry
+            name: (name_segs)
+            size: (number)))))))
+
+

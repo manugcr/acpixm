@@ -1,0 +1,28 @@
+---
+id: match-specific-opregion
+language: asl
+message: OperationRegion with specific offset
+severity: warning
+
+rule:
+  kind: OpRegionTerm
+  has:
+    kind: IntegerLiteral
+    pattern: "0x5D50C000"
+
+
+# `pattern`, `kind`, `regex`, `nthChild`, `range`, `inside`, `has`,
+# `precedes`, `follows`, `all`, `any`, `not`, `matches`
+# (Term [1622, 4] - [1622, 60]
+#   (Object [1622, 4] - [1622, 60]
+#     (NamedObject [1622, 4] - [1622, 60]
+#       (OpRegionTerm [1622, 4] - [1622, 60]
+#         RegionName: (NameString [1622, 21] - [1622, 25]
+#           (NameSeg [1622, 21] - [1622, 25]))
+#         RegionSpace: (RegionSpaceKeyword [1622, 27] - [1622, 39])
+#         Offset: (TermArg [1622, 41] - [1622, 51]
+#           (DataObject [1622, 41] - [1622, 51]
+#             (IntegerLiteral [1622, 41] - [1622, 51])))
+#         Length: (TermArg [1622, 53] - [1622, 59]
+#           (DataObject [1622, 53] - [1622, 59]
+#             (IntegerLiteral [1622, 53] - [1622, 59])))))))

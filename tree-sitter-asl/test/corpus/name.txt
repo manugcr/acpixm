@@ -1,0 +1,213 @@
+==================
+Name Integer
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (OBJ0, 0x1234)
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (number))
+      )
+    )
+  )
+)
+
+==================
+Name String
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (OBJ0, "Hello World")
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (string))))))
+
+==================
+Name Buffer
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (BUF1, Buffer (){0x00, 0x01, 0x02})
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (buffer_initializer
+            parameters: (parameters_list)
+            (number)
+            (number)
+            (number)))))))
+
+==================
+Name Buffers
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (RXEV, Package (0x12)
+  {
+      Buffer (0x1A){}, 
+      Buffer (0x10){}
+  })
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (package_initializer
+            parameters: (parameters_list
+              params: (number))
+            (buffer_initializer
+              parameters: (parameters_list
+                params: (number)))
+            (buffer_initializer
+              parameters: (parameters_list
+                params: (number)))))))))
+
+
+==================
+Name Package
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (BUF1, Package (){0x00, 0x01, 0x02})
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (package_initializer
+            parameters: (parameters_list)
+            (number)
+            (number)
+            (number)))))))
+
+==================
+Name Packages
+==================
+
+DefinitionBlock ("", "DSDT", 2, "DELL  ", "Dell Inc", 0x00000002)
+{
+  Name (PD05, Package (0x04)
+  {
+      Package (0x04)
+      {
+          0xFFFF, 
+          Zero, 
+          Zero, 
+          0x0A
+      }, 
+
+      Package (0x04)
+      {
+          0xFFFF, 
+          0x03, 
+          Zero, 
+          0x0B
+      }
+  })
+} 
+
+---
+
+(source_file
+  (definition_block
+    parameters: (parameters_list
+      params: (string)
+      params: (string)
+      params: (number)
+      params: (string)
+      params: (string)
+      params: (number))
+    (block
+      (name_stmt
+        parameters: (name_parameters
+          variable: (name_segs)
+          expression: (package_initializer
+            parameters: (parameters_list
+              params: (number))
+            (package_initializer
+              parameters: (parameters_list
+                params: (number))
+              (number)
+              (identifier)
+              (identifier)
+              (number))
+            (package_initializer
+              parameters: (parameters_list
+                params: (number))
+              (number)
+              (number)
+              (identifier)
+              (number))))))))
