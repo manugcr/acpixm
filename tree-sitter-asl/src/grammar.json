@@ -1301,6 +1301,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "LoadTerm"
+          },
+          {
+            "type": "SYMBOL",
             "name": "StoreTerm"
           },
           {
@@ -3064,6 +3068,47 @@
         {
           "type": "STRING",
           "value": "}"
+        }
+      ]
+    },
+    "LoadTerm": {
+      "type": "SEQ",
+      "members": [
+        {
+          "type": "FIELD",
+          "name": "Term",
+          "content": {
+            "type": "STRING",
+            "value": "Load"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": "("
+        },
+        {
+          "type": "FIELD",
+          "name": "Object",
+          "content": {
+            "type": "SYMBOL",
+            "name": "NameString"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ","
+        },
+        {
+          "type": "FIELD",
+          "name": "Result",
+          "content": {
+            "type": "SYMBOL",
+            "name": "_SuperName"
+          }
+        },
+        {
+          "type": "STRING",
+          "value": ")"
         }
       ]
     },

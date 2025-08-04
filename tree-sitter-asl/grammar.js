@@ -411,6 +411,7 @@ module.exports = grammar({
       $.ShiftLeftTerm,
       $.ShiftRightTerm,
       $.SizeOfTerm,
+      $.LoadTerm,
       $.StoreTerm,
       $.SubtractTerm,
       $.TimerTerm,
@@ -954,6 +955,18 @@ module.exports = grammar({
       '{',
       field('TermList', $._TermList),
       '}'
+    ),
+
+    // LoadTerm                    :=	Load (
+    //                                     Object, // NameString
+    //                                     Result // SuperName => Boolean - True (non-zero) // means the table was successfully loaded
+    //                                 ) => Boolean // True (Ones) means the table was successfully loaded
+    LoadTerm: $ => seq(
+      field('Term', 'Load'),
+      '(',
+      field('Object', $.NameString), ',',
+      field('Result', $._SuperName),
+      ')'
     ),
 
     // StoreTerm                   :=	Store (
