@@ -1,0 +1,24 @@
+---
+ast:
+  id: match-specific-opregion
+  language: asl
+  message: OperationRegion pointing to suspicious spaces
+  severity: warning
+
+  rule:
+    kind: OpRegionTerm
+    all:
+      - has:
+          kind: RegionSpaceKeyword
+          has:
+            any:
+              - regex: "GeneralPurposeIO"
+              - regex: "IPMI"
+              - regex: "SystemCMOS"
+
+#     TermList: (OpRegionTerm [3, 4] - [3, 60]
+#       RegionName: (NameString [3, 21] - [3, 25]
+#         (NameSeg [3, 21] - [3, 25]))
+#       RegionSpace: (RegionSpaceKeyword [3, 27] - [3, 39])
+#       Offset: (IntegerLiteral [3, 41] - [3, 51])
+#       Length: (IntegerLiteral [3, 53] - [3, 59]))
