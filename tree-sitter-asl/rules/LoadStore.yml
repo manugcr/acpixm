@@ -4,7 +4,6 @@ language: asl
 message: Suspicious use of Load/Unload terms
 severity: warning
 
-
 rule:
   any:
     - kind: UnloadTerm

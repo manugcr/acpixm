@@ -1963,7 +1963,7 @@ module.exports = grammar({
       field('UpdateRule', $.UpdateRuleKeyword),
       ')',
       '{',
-      field("FieldUnitList", $.FieldUnitList),
+      optional(field("FieldUnitList", $.FieldUnitList)),
       '}'
     ),
 
@@ -2048,7 +2048,7 @@ module.exports = grammar({
       field('PblockLength', $.IntegerLiteral),
       ')',
       '{',
-      field("TermList", $._TermList),
+      optional(field("TermList", $._TermList)),
       '}'
     ),
 
@@ -2770,7 +2770,7 @@ module.exports = grammar({
       field('RegisterBitWidth', $.IntegerLiteral), ',',
       field('RegisterOffset', $.IntegerLiteral), ',',
       field('RegisterAddress', $.IntegerLiteral), ',',
-      field('AccessSize', $.IntegerLiteral), ',',
+      field('AccessSize', optional($.IntegerLiteral)), ',',
       field('DescriptorName', optional($.NameString)),
       ')',
     ),

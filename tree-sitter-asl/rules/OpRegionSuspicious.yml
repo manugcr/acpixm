@@ -11,9 +11,9 @@ rule:
         kind: RegionSpaceKeyword
         has:
           any:
-            - pattern: "GeneralPurposeIO"
-            - pattern: "IPMI"
-            - pattern: "SystemCMOS"
+            - regex: "GeneralPurposeIO"
+            - regex: "IPMI"
+            - regex: "SystemCMOS"
 
 #     TermList: (OpRegionTerm [3, 4] - [3, 60]
 #       RegionName: (NameString [3, 21] - [3, 25]

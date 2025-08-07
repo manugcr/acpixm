@@ -19672,7 +19672,7 @@
       },
       "FieldUnitList": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "FieldUnitList",
@@ -46706,7 +46706,7 @@
       },
       "TermList": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "(",
@@ -47769,7 +47769,7 @@
     "fields": {
       "AccessSize": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "IntegerLiteral",

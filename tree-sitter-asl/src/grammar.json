@@ -6903,12 +6903,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "FieldUnitList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "FieldUnitList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "FieldUnitList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "FieldUnitList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -7252,12 +7260,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "TermList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_TermList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_TermList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -11358,8 +11374,16 @@
           "type": "FIELD",
           "name": "AccessSize",
           "content": {
-            "type": "SYMBOL",
-            "name": "IntegerLiteral"
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "SYMBOL",
+                "name": "IntegerLiteral"
+              },
+              {
+                "type": "BLANK"
+              }
+            ]
           }
         },
         {
