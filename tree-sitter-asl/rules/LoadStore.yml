@@ -1,0 +1,11 @@
+---
+id: match-suspicious-tables-managment
+language: asl
+message: Suspicious use of Load/Unload terms
+severity: warning
+
+rule:
+  any:
+    - kind: UnloadTerm
+    - kind: LoadTerm
+    - kind: StoreTerm

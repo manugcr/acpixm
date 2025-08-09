@@ -411,6 +411,7 @@ module.exports = grammar({
       $.ShiftLeftTerm,
       $.ShiftRightTerm,
       $.SizeOfTerm,
+      $.LoadTerm,
       $.StoreTerm,
       $.SubtractTerm,
       $.TimerTerm,
@@ -954,6 +955,18 @@ module.exports = grammar({
       '{',
       field('TermList', $._TermList),
       '}'
+    ),
+
+    // LoadTerm                    :=	Load (
+    //                                     Object, // NameString
+    //                                     Result // SuperName => Boolean - True (non-zero) // means the table was successfully loaded
+    //                                 ) => Boolean // True (Ones) means the table was successfully loaded
+    LoadTerm: $ => seq(
+      field('Term', 'Load'),
+      '(',
+      field('Object', $.NameString), ',',
+      field('Result', $._SuperName),
+      ')'
     ),
 
     // StoreTerm                   :=	Store (
@@ -1950,7 +1963,7 @@ module.exports = grammar({
       field('UpdateRule', $.UpdateRuleKeyword),
       ')',
       '{',
-      field("FieldUnitList", $.FieldUnitList),
+      optional(field("FieldUnitList", $.FieldUnitList)),
       '}'
     ),
 
@@ -2035,7 +2048,7 @@ module.exports = grammar({
       field('PblockLength', $.IntegerLiteral),
       ')',
       '{',
-      field("TermList", $._TermList),
+      optional(field("TermList", $._TermList)),
       '}'
     ),
 
@@ -2757,7 +2770,7 @@ module.exports = grammar({
       field('RegisterBitWidth', $.IntegerLiteral), ',',
       field('RegisterOffset', $.IntegerLiteral), ',',
       field('RegisterAddress', $.IntegerLiteral), ',',
-      field('AccessSize', $.IntegerLiteral), ',',
+      field('AccessSize', optional($.IntegerLiteral)), ',',
       field('DescriptorName', optional($.NameString)),
       ')',
     ),

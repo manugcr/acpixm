@@ -310,6 +310,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -673,6 +677,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -1048,6 +1056,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -1411,6 +1423,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -1786,6 +1802,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -2149,6 +2169,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -2633,6 +2657,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -2996,6 +3024,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -3371,6 +3403,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -3734,6 +3770,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -4147,6 +4187,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -4510,6 +4554,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -4884,6 +4932,10 @@
         },
         {
           "type": "LOrTerm",
+          "named": true
+        },
+        {
+          "type": "LoadTerm",
           "named": true
         },
         {
@@ -5293,6 +5345,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -5822,6 +5878,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -6397,6 +6457,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -6760,6 +6824,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -7183,6 +7251,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -7546,6 +7618,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -7987,6 +8063,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -8376,6 +8456,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -8778,6 +8862,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -9201,6 +9289,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -9574,6 +9666,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -9959,6 +10055,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -10335,6 +10435,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -10698,6 +10802,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -11083,6 +11191,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -11456,6 +11568,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -11841,6 +11957,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -12204,6 +12324,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -13277,6 +13401,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -13894,6 +14022,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -14488,6 +14620,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -14936,6 +15072,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -15299,6 +15439,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -15674,6 +15818,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -16037,6 +16185,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -16412,6 +16564,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -16775,6 +16931,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -17272,6 +17432,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -17725,6 +17889,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -18263,6 +18431,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -19275,6 +19447,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -19496,7 +19672,7 @@
       },
       "FieldUnitList": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "FieldUnitList",
@@ -19835,6 +20011,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -20255,6 +20435,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -20747,6 +20931,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -21110,6 +21298,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -21569,6 +21761,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -22011,6 +22207,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -22380,6 +22580,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -23466,6 +23670,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -23919,6 +24127,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -24570,6 +24782,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -24933,6 +25149,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -25356,6 +25576,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -25727,6 +25951,10 @@
         },
         {
           "type": "LOrTerm",
+          "named": true
+        },
+        {
+          "type": "LoadTerm",
           "named": true
         },
         {
@@ -26207,6 +26435,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -26570,6 +26802,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -26981,6 +27217,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -27344,6 +27584,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -27755,6 +27999,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -28118,6 +28366,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -28529,6 +28781,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -28892,6 +29148,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -29303,6 +29563,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -29666,6 +29930,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -30077,6 +30345,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -30440,6 +30712,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -30851,6 +31127,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -31214,6 +31494,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -31625,6 +31909,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -32023,6 +32311,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -32389,6 +32681,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -32594,6 +32890,70 @@
         "types": [
           {
             "type": "LOr",
+            "named": false
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "LoadTerm",
+    "named": true,
+    "fields": {
+      "Object": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "NameString",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DebugTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "IndexSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "Load",
             "named": false
           }
         ]
@@ -32849,6 +33209,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -33608,6 +33972,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -34056,6 +34424,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -34419,6 +34791,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -34826,6 +35202,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -35213,6 +35593,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -35576,6 +35960,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -35951,6 +36339,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -36314,6 +36706,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -36763,6 +37159,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -37126,6 +37526,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -37501,6 +37905,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -37864,6 +38272,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -38239,6 +38651,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -38602,6 +39018,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -39099,6 +39519,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -39462,6 +39886,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -39885,6 +40313,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -40248,6 +40680,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -40700,6 +41136,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -41110,6 +41550,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -41489,6 +41933,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -41993,6 +42441,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -42356,6 +42808,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -42761,6 +43217,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -43124,6 +43584,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -43499,6 +43963,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -43862,6 +44330,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -44275,6 +44747,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -44638,6 +45114,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -45915,6 +46395,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -46222,7 +46706,7 @@
       },
       "TermList": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "(",
@@ -46490,6 +46974,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -47281,7 +47769,7 @@
     "fields": {
       "AccessSize": {
         "multiple": false,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "IntegerLiteral",
@@ -47862,6 +48350,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -48531,6 +49023,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -48989,6 +49485,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -49352,6 +49852,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -49727,6 +50231,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -50090,6 +50598,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -50503,6 +51015,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -50866,6 +51382,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -51251,6 +51771,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -51614,6 +52138,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -51989,6 +52517,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -52352,6 +52884,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -52765,6 +53301,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -53128,6 +53668,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -53626,6 +54170,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -54021,6 +54569,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -54521,6 +55073,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -54928,6 +55484,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -55372,6 +55932,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -55735,6 +56299,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -56110,6 +56678,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -56473,6 +57045,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -56845,6 +57421,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -57252,6 +57832,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -57641,6 +58225,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -58103,6 +58691,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -58628,6 +59220,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -58997,6 +59593,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -59420,6 +60020,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -59840,6 +60444,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -60257,6 +60865,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -60703,6 +61315,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -61528,6 +62144,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -61897,6 +62517,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -62353,6 +62977,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -63272,6 +63900,10 @@
             "named": true
           },
           {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
             "type": "LocalTerm",
             "named": true
           },
@@ -63635,6 +64267,10 @@
           },
           {
             "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
             "named": true
           },
           {
@@ -64503,6 +65139,10 @@
   },
   {
     "type": "LittleEndian",
+    "named": false
+  },
+  {
+    "type": "Load",
     "named": false
   },
   {
