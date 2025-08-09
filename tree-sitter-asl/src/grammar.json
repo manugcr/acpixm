@@ -160,6 +160,14 @@
           "type": "PREC",
           "value": 2,
           "content": {
+            "type": "STRING",
+            "value": "\\"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 3,
+          "content": {
             "type": "SEQ",
             "members": [
               {
@@ -223,14 +231,6 @@
               "type": "STRING",
               "value": "^"
             }
-          }
-        },
-        {
-          "type": "PREC",
-          "value": 0,
-          "content": {
-            "type": "STRING",
-            "value": "\\"
           }
         }
       ]
@@ -329,8 +329,20 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_ExpressionOpcode"
+          "type": "PREC",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_SymbolicExpressionTerm"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ExpressionOpcode"
+          }
         },
         {
           "type": "SYMBOL",
@@ -565,6 +577,10 @@
         {
           "type": "SYMBOL",
           "name": "_ExpressionOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_SymbolicExpressionTerm"
         }
       ]
     },
@@ -1345,6 +1361,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "XorTerm"
+          },
+          {
+            "type": "SYMBOL",
             "name": "MethodInvocationTerm"
           },
           {
@@ -1487,6 +1507,10 @@
           {
             "type": "SYMBOL",
             "name": "_SymbolicExpressionTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "XorTerm"
           }
         ]
       }
@@ -1761,12 +1785,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "TermList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_TermList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_TermList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3252,7 +3284,7 @@
         }
       ]
     },
-    "XOrTerm": {
+    "XorTerm": {
       "type": "SEQ",
       "members": [
         {
@@ -3340,6 +3372,31 @@
             "type": "SYMBOL",
             "name": "_TermArg"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -13994,6 +14051,10 @@
         {
           "type": "STRING",
           "value": "BuffFieldObj"
+        },
+        {
+          "type": "STRING",
+          "value": "ProcessorObj"
         }
       ]
     },
@@ -14544,7 +14605,7 @@
     },
     "NoOpTerm": {
       "type": "STRING",
-      "value": "NoOp"
+      "value": "Noop"
     },
     "DataBitsKeyword": {
       "type": "CHOICE",

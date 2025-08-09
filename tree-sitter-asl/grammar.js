@@ -72,18 +72,26 @@ module.exports = grammar({
     //   )),
     //   prec(1, '\\') // standalone root
     // ),
+    // NameString: $ => choice(
+    //   // Highest priority: root or parent prefix + NameSeg (actual named path)
+    //   prec(2, seq(
+    //     optional(choice('\\', repeat1('^'))),
+    //     sepBy1('.', $.NameSeg)
+    //   )),
+
+    //   // Medium priority: just one or more '^'s (like ^ or ^^)
+    //   prec(1, repeat1('^')),
+
+    //   // Lowest priority: just root '\'
+    //   prec(0, '\\'),
+    // ),
     NameString: $ => choice(
-      // Highest priority: root or parent prefix + NameSeg (actual named path)
-      prec(2, seq(
+      prec(2, '\\'),                                  // bare root
+      prec(3, seq(                                    // prefer this when a path follows
         optional(choice('\\', repeat1('^'))),
-        sepBy1('.', $.NameSeg)
+         sepBy1('.', $.NameSeg)
       )),
-
-      // Medium priority: just one or more '^'s (like ^ or ^^)
-      prec(1, repeat1('^')),
-
-      // Lowest priority: just root '\'
-      prec(0, '\\'),
+      prec(1, repeat1('^'))                           // bare '^', '^^', ...
     ),
 
     // Integer := DecimalConst | OctalConst | HexConst
@@ -124,13 +132,13 @@ module.exports = grammar({
     
     // TermArg                     :=	ExpressionOpcode | DataObject | ArgTerm | LocalTerm | NameString | SymbolicExpression
     _TermArg: $ => choice(
-      $._ExpressionOpcode,
+      prec(2, $._SymbolicExpressionTerm),
+      prec(1, $._ExpressionOpcode),
       $._DataObject,
       $.ArgTerm,
       $.LocalTerm,
       $.TimerTerm,
       $.NameString,
-      // $._SymbolicExpressionTerm
     ),
 
     // MethodInvocationTerm        :=	NameString ( // NameString => Method
@@ -184,7 +192,7 @@ module.exports = grammar({
       $._Object,
       $._StatementOpcode,
       $._ExpressionOpcode,
-      // $._SymbolicExpressionTerm
+      $._SymbolicExpressionTerm
     ),
 
     // Object                      := CompilerDirective | NamedObject | NameSpaceModifier
@@ -367,7 +375,7 @@ module.exports = grammar({
       $.StallTerm,
       $.SwitchTerm,
       $.UnloadTerm,
-      $.WhileTerm
+      $.WhileTerm,
     ),
 
     // ExpressionOpcode            :=	AcquireTerm | AddTerm | AndTerm | ConcatTerm | ConcatResTerm | CondRefOfTerm | CopyObjectTerm | DecTerm | DerefOfTerm | DivideTerm | FindSetLeftBitTerm | FindSetRightBitTerm | FprintfTerm | FromBCDTerm | IncTerm | IndexTerm | LAndTerm | LEqualTerm | LGreaterTerm | LGreaterEqualTerm | LLessTerm | LLessEqualTerm | LNotTerm | LNotEqualTerm | LOrTerm | MatchTerm | MidTerm | ModTerm | MultiplyTerm | NAndTerm | NOrTerm | NotTerm | ObjectTypeTerm | OrTerm | PrintfTerm | RefOfTerm | ShiftLeftTerm | ShiftRightTerm | SizeOfTerm | StoreTerm | SubtractTerm | TimerTerm | ToBCDTerm | ToBufferTerm | ToDecimalStringTerm | ToHexStringTerm | ToIntegerTerm | ToStringTerm | WaitTerm | XorTerm | MethodInvocationTerm | SymbolicExpressionTerm | SymbolicAssignmentTerm
@@ -422,7 +430,7 @@ module.exports = grammar({
       $.ToIntegerTerm,
       $.ToStringTerm,
       $.WaitTerm,
-      // $.XorTerm,
+      $.XorTerm,
       $.MethodInvocationTerm,
       $._SymbolicExpressionTerm,
       $._SymbolicAssignmentTerm,
@@ -461,7 +469,7 @@ module.exports = grammar({
       $.ToBCDTerm,
       $.ToIntegerTerm,
       $._SymbolicExpressionTerm,
-      // $.XorTerm,
+      $.XorTerm,
     )),
 
     // StringTypeOpcode            :=	ConcatTerm | DerefOfTerm | FprintfTerm | MidTerm | PrintfTerm | ToDecimalStringTerm | ToHexStringTerm | ToStringTerm
@@ -547,7 +555,7 @@ module.exports = grammar({
     DefaultTerm: $ => seq(
       'Default',
       '{',
-      field('TermList', $._TermList),
+      optional(field('TermList', $._TermList)),
       '}'
     ),
 
@@ -1018,7 +1026,7 @@ module.exports = grammar({
     //                                     Source2, // TermArg => Integer
     //                                     Result // Target
     //                                 ) => Integer
-    XOrTerm: $ => seq(
+    XorTerm: $ => seq(
       field('Term', 'XOr'),
       '(',
       field('Source1', $._TermArg), ',',
@@ -1035,6 +1043,7 @@ module.exports = grammar({
       field('Term', 'ToInteger'),
       '(',
       field('Data', $._TermArg),
+      optional(seq(',', field('Result', $._Target))),
       ')'
     ),
 
@@ -3311,7 +3320,8 @@ module.exports = grammar({
       'OpRegionObj',
       'PowerResObj',
       'ThermalZoneObj',
-      'BuffFieldObj'
+      'BuffFieldObj',
+      'ProcessorObj'
     ),
 
     // ParityKeyword               :=	ParityTypeNone | ParityTypeSpace | ParityTypeMark | ParityTypeOdd | ParityTypeEven
@@ -3515,7 +3525,7 @@ module.exports = grammar({
     ContinueTerm: $ => 'Continue',
 
     // NoOpTerm                    :=	NoOp
-    NoOpTerm: $ => 'NoOp',
+    NoOpTerm: $ => 'Noop',
 
     // DataBitsKeyword            :=	DataBitsFive | DataBitsSix | DataBitsSeven | DataBitsEight | DataBitsNine
     DataBitsKeyword: $ => choice(

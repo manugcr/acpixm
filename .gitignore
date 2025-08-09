@@ -3,6 +3,7 @@ output/
 notes.md
 .vscode/
 tmp/
+docs/output*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
