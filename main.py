@@ -11,7 +11,7 @@ def main() -> None:
     tmp_dir                 = root / "tmp"
     output_dir              = root / "output"
     grammar_path            = root / "tree-sitter-asl" / "asl.so"
-    rule_file               = root / "examples" / "LoadStore.yml"
+    rule_file               = root / "examples" / "OpRegionCritical.yml"
     target_file             = root / "examples" / "snippets" / "rootkit3.asl"
     output_file             = root / "tmp" / "output.json"
     output_normalized_file  = root / "tmp" / "output_normalized.json"

