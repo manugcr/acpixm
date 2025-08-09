@@ -484,6 +484,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -853,6 +857,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -1230,6 +1238,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -1599,6 +1611,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -1976,6 +1992,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -2345,6 +2365,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -2831,6 +2855,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -3200,6 +3228,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -3577,6 +3609,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -3946,6 +3982,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -4361,6 +4401,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -4730,6 +4774,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -5108,6 +5156,10 @@
         },
         {
           "type": "XorCompoundTerm",
+          "named": true
+        },
+        {
+          "type": "XorTerm",
           "named": true
         }
       ]
@@ -5521,6 +5573,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -6131,6 +6187,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -6631,6 +6691,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -7000,6 +7064,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -7425,6 +7493,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -7794,6 +7866,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -8237,6 +8313,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -8632,6 +8712,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -9038,6 +9122,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -9463,6 +9551,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -9842,6 +9934,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -10229,6 +10325,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -10609,6 +10709,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -10978,6 +11082,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -11365,6 +11473,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -11744,6 +11856,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -12131,6 +12247,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -12500,6 +12620,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -13130,7 +13254,7 @@
     "fields": {
       "TermList": {
         "multiple": true,
-        "required": true,
+        "required": false,
         "types": [
           {
             "type": "(",
@@ -13650,6 +13774,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -14272,6 +14400,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -14870,6 +15002,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -15246,6 +15382,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -15615,6 +15755,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -15992,6 +16136,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -16361,6 +16509,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -16738,6 +16890,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -17107,6 +17263,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -17605,6 +17765,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -18141,6 +18305,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -18683,6 +18851,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -19621,6 +19793,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -20188,6 +20364,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -20611,6 +20791,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -21105,6 +21289,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -21474,6 +21662,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -22011,6 +22203,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -22380,6 +22576,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -22756,6 +22956,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -23844,6 +24048,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -24379,6 +24587,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -24956,6 +25168,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -25325,6 +25541,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -25750,6 +25970,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -26127,6 +26351,10 @@
         },
         {
           "type": "XorCompoundTerm",
+          "named": true
+        },
+        {
+          "type": "XorTerm",
           "named": true
         }
       ]
@@ -26609,6 +26837,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -26978,6 +27210,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -27391,6 +27627,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -27760,6 +28000,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -28173,6 +28417,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -28542,6 +28790,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -28955,6 +29207,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -29324,6 +29580,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -29737,6 +29997,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -30106,6 +30370,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -30519,6 +30787,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -30888,6 +31160,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -31301,6 +31577,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -31670,6 +31950,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -32083,6 +32367,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -32485,6 +32773,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -32854,6 +33146,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -33385,6 +33681,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -34222,6 +34522,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -34598,6 +34902,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -34967,6 +35275,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -35376,6 +35688,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -35767,6 +36083,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -36136,6 +36456,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -36513,6 +36837,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -36882,6 +37210,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -37333,6 +37665,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -37702,6 +38038,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -38079,6 +38419,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -38448,6 +38792,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -38825,6 +39173,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -39194,6 +39546,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -39693,6 +40049,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -40062,6 +40422,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -40487,6 +40851,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -40856,6 +41224,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -41310,6 +41682,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -41724,6 +42100,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -42109,6 +42489,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -42615,6 +42999,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -42984,6 +43372,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -43391,6 +43783,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -43760,6 +44156,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -44137,6 +44537,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -44506,6 +44910,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -44921,6 +45329,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -45290,6 +45702,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -46645,6 +47061,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -47226,6 +47646,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -48527,6 +48951,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -49273,6 +49701,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -49659,6 +50091,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -50028,6 +50464,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -50405,6 +50845,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -50774,6 +51218,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -51189,6 +51637,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -51558,6 +52010,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -51945,6 +52401,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -52314,6 +52774,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -52691,6 +53155,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -53060,6 +53528,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -53475,6 +53947,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -53844,6 +54320,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -54344,6 +54824,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -54745,6 +55229,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -55247,6 +55735,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -55660,6 +56152,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -56106,6 +56602,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -56475,6 +56975,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -56852,6 +57356,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -57221,6 +57729,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -57597,6 +58109,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -58006,6 +58522,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -58401,6 +58921,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -58944,6 +59468,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -59394,6 +59922,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -59769,6 +60301,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -60194,6 +60730,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -60618,6 +61158,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -61041,6 +61585,48 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
+          }
+        ]
+      },
+      "Result": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DebugTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "IndexSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
             "named": true
           }
         ]
@@ -61491,6 +62077,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -62318,6 +62908,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       }
@@ -62693,6 +63287,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -63229,6 +63827,10 @@
           },
           {
             "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
             "named": true
           }
         ]
@@ -64074,6 +64676,10 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
           }
         ]
       },
@@ -64444,6 +65050,812 @@
           {
             "type": "XorCompoundTerm",
             "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
+          }
+        ]
+      }
+    }
+  },
+  {
+    "type": "XorTerm",
+    "named": true,
+    "fields": {
+      "Result": {
+        "multiple": false,
+        "required": false,
+        "types": [
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "DebugTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "IndexSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          }
+        ]
+      },
+      "Source1": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "AcquireTerm",
+            "named": true
+          },
+          {
+            "type": "AddCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "AddSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "AddTerm",
+            "named": true
+          },
+          {
+            "type": "AndCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "AndSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "AndTerm",
+            "named": true
+          },
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "BufferData",
+            "named": true
+          },
+          {
+            "type": "ConcatResTerm",
+            "named": true
+          },
+          {
+            "type": "ConcatTerm",
+            "named": true
+          },
+          {
+            "type": "CondRefOfTerm",
+            "named": true
+          },
+          {
+            "type": "CopyObjectTerm",
+            "named": true
+          },
+          {
+            "type": "DecSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "DecTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "DivideCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "DivideSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "DivideTerm",
+            "named": true
+          },
+          {
+            "type": "EISAIDTerm",
+            "named": true
+          },
+          {
+            "type": "FindSetLeftBitTerm",
+            "named": true
+          },
+          {
+            "type": "FindSetRightBitTerm",
+            "named": true
+          },
+          {
+            "type": "FromBCDTerm",
+            "named": true
+          },
+          {
+            "type": "IncSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "IncTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          },
+          {
+            "type": "LAndSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LAndTerm",
+            "named": true
+          },
+          {
+            "type": "LEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterTerm",
+            "named": true
+          },
+          {
+            "type": "LLessEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LLessEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LLessSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LLessTerm",
+            "named": true
+          },
+          {
+            "type": "LNotEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LNotEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LNotSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LNotTerm",
+            "named": true
+          },
+          {
+            "type": "LOrSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "MatchTerm",
+            "named": true
+          },
+          {
+            "type": "MethodInvocationTerm",
+            "named": true
+          },
+          {
+            "type": "MidTerm",
+            "named": true
+          },
+          {
+            "type": "ModCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ModSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ModTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplyCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplySymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplyTerm",
+            "named": true
+          },
+          {
+            "type": "NAndTerm",
+            "named": true
+          },
+          {
+            "type": "NOrTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "NotSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "NotTerm",
+            "named": true
+          },
+          {
+            "type": "ObjectTypeTerm",
+            "named": true
+          },
+          {
+            "type": "OrCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "OrSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "OrTerm",
+            "named": true
+          },
+          {
+            "type": "PackageData",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightTerm",
+            "named": true
+          },
+          {
+            "type": "SizeOfTerm",
+            "named": true
+          },
+          {
+            "type": "StoreSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "StoreTerm",
+            "named": true
+          },
+          {
+            "type": "StringLiteral",
+            "named": true
+          },
+          {
+            "type": "SubtractCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "SubtractSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "SubtractTerm",
+            "named": true
+          },
+          {
+            "type": "TimerTerm",
+            "named": true
+          },
+          {
+            "type": "ToBCDTerm",
+            "named": true
+          },
+          {
+            "type": "ToBufferTerm",
+            "named": true
+          },
+          {
+            "type": "ToDecimalStringTerm",
+            "named": true
+          },
+          {
+            "type": "ToHexStringTerm",
+            "named": true
+          },
+          {
+            "type": "ToIntegerTerm",
+            "named": true
+          },
+          {
+            "type": "ToStringTerm",
+            "named": true
+          },
+          {
+            "type": "WaitTerm",
+            "named": true
+          },
+          {
+            "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
+          }
+        ]
+      },
+      "Source2": {
+        "multiple": true,
+        "required": true,
+        "types": [
+          {
+            "type": "(",
+            "named": false
+          },
+          {
+            "type": ")",
+            "named": false
+          },
+          {
+            "type": "AcquireTerm",
+            "named": true
+          },
+          {
+            "type": "AddCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "AddSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "AddTerm",
+            "named": true
+          },
+          {
+            "type": "AndCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "AndSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "AndTerm",
+            "named": true
+          },
+          {
+            "type": "ArgTerm",
+            "named": true
+          },
+          {
+            "type": "BufferData",
+            "named": true
+          },
+          {
+            "type": "ConcatResTerm",
+            "named": true
+          },
+          {
+            "type": "ConcatTerm",
+            "named": true
+          },
+          {
+            "type": "CondRefOfTerm",
+            "named": true
+          },
+          {
+            "type": "CopyObjectTerm",
+            "named": true
+          },
+          {
+            "type": "DecSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "DecTerm",
+            "named": true
+          },
+          {
+            "type": "DerefOfTerm",
+            "named": true
+          },
+          {
+            "type": "DivideCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "DivideSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "DivideTerm",
+            "named": true
+          },
+          {
+            "type": "EISAIDTerm",
+            "named": true
+          },
+          {
+            "type": "FindSetLeftBitTerm",
+            "named": true
+          },
+          {
+            "type": "FindSetRightBitTerm",
+            "named": true
+          },
+          {
+            "type": "FromBCDTerm",
+            "named": true
+          },
+          {
+            "type": "IncSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "IncTerm",
+            "named": true
+          },
+          {
+            "type": "IndexTerm",
+            "named": true
+          },
+          {
+            "type": "IntegerLiteral",
+            "named": true
+          },
+          {
+            "type": "LAndSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LAndTerm",
+            "named": true
+          },
+          {
+            "type": "LEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LGreaterTerm",
+            "named": true
+          },
+          {
+            "type": "LLessEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LLessEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LLessSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LLessTerm",
+            "named": true
+          },
+          {
+            "type": "LNotEqualSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LNotEqualTerm",
+            "named": true
+          },
+          {
+            "type": "LNotSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LNotTerm",
+            "named": true
+          },
+          {
+            "type": "LOrSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "LOrTerm",
+            "named": true
+          },
+          {
+            "type": "LoadTerm",
+            "named": true
+          },
+          {
+            "type": "LocalTerm",
+            "named": true
+          },
+          {
+            "type": "MatchTerm",
+            "named": true
+          },
+          {
+            "type": "MethodInvocationTerm",
+            "named": true
+          },
+          {
+            "type": "MidTerm",
+            "named": true
+          },
+          {
+            "type": "ModCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ModSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ModTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplyCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplySymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "MultiplyTerm",
+            "named": true
+          },
+          {
+            "type": "NAndTerm",
+            "named": true
+          },
+          {
+            "type": "NOrTerm",
+            "named": true
+          },
+          {
+            "type": "NameString",
+            "named": true
+          },
+          {
+            "type": "NotSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "NotTerm",
+            "named": true
+          },
+          {
+            "type": "ObjectTypeTerm",
+            "named": true
+          },
+          {
+            "type": "OrCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "OrSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "OrTerm",
+            "named": true
+          },
+          {
+            "type": "PackageData",
+            "named": true
+          },
+          {
+            "type": "RefOfTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftLeftTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "ShiftRightTerm",
+            "named": true
+          },
+          {
+            "type": "SizeOfTerm",
+            "named": true
+          },
+          {
+            "type": "StoreSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "StoreTerm",
+            "named": true
+          },
+          {
+            "type": "StringLiteral",
+            "named": true
+          },
+          {
+            "type": "SubtractCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "SubtractSymbolicTerm",
+            "named": true
+          },
+          {
+            "type": "SubtractTerm",
+            "named": true
+          },
+          {
+            "type": "TimerTerm",
+            "named": true
+          },
+          {
+            "type": "ToBCDTerm",
+            "named": true
+          },
+          {
+            "type": "ToBufferTerm",
+            "named": true
+          },
+          {
+            "type": "ToDecimalStringTerm",
+            "named": true
+          },
+          {
+            "type": "ToHexStringTerm",
+            "named": true
+          },
+          {
+            "type": "ToIntegerTerm",
+            "named": true
+          },
+          {
+            "type": "ToStringTerm",
+            "named": true
+          },
+          {
+            "type": "WaitTerm",
+            "named": true
+          },
+          {
+            "type": "XorCompoundTerm",
+            "named": true
+          },
+          {
+            "type": "XorTerm",
+            "named": true
+          }
+        ]
+      },
+      "Term": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "XOr",
+            "named": false
           }
         ]
       }
@@ -65534,6 +66946,10 @@
     "named": false
   },
   {
+    "type": "ProcessorObj",
+    "named": false
+  },
+  {
     "type": "PullDefault",
     "named": false
   },
@@ -65863,6 +67279,10 @@
   },
   {
     "type": "WriteCombining",
+    "named": false
+  },
+  {
+    "type": "XOr",
     "named": false
   },
   {
