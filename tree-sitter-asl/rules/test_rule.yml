@@ -1,0 +1,8 @@
+---
+id: opregion-kernel-space
+language: asl
+message: OperationRegion pointing to kernel space
+severity: warning
+
+rule:
+  pattern: OperationRegion($GREET)

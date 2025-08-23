@@ -5,6 +5,7 @@ import tree_sitter_asl
 
 
 class TestLanguage(TestCase):
+
     def test_can_load_grammar(self):
         try:
             tree_sitter.Language(tree_sitter_asl.language())

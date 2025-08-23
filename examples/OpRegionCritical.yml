@@ -24,6 +24,9 @@ logic:
     add: [variable_2, variable_3]
   - id: suspicious-range
     in-range: [address, [0x00000000, 0xC000FFFF]]
+return:
+  - found: suspicious-range
+  - not-found: otherwise
 
 
 # OperationRegion (KRNL, SystemMemory, 0xC0000000, 0x1000)

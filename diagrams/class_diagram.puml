@@ -1,0 +1,42 @@
+@startuml ACPI Toolkit
+allow_mixing
+
+package ACPITables {
+  class ACPIDumper {
+    - output_dir: Path
+    + dump_acpi(output_file: str = "acpidump.bin"): Path
+  }
+
+  class ACPIExtractor {
+    - output_dir: Path
+    + extract_tables(dump_file: Path): List<Path>
+  }
+
+  class ACPIDisassembler {
+    - output_dir: Path
+    + disassemble_tables(table_files: List<Path>): List<Path>
+  }
+
+  class ACPIToolchain {
+    - dumper: ACPIDumper
+    - extractor: ACPIExtractor
+    - disassembler: ACPIDisassembler
+    + run(): void
+  }
+}
+
+package ASTTool {
+  class ASTGrepMatcher {}
+  class JSONTransform {}
+  class LogicEngine {}
+  class YamlProcessor {}
+}
+
+ACPIToolchain --> ACPIDumper
+ACPIToolchain --> ACPIExtractor
+ACPIToolchain --> ACPIDisassembler
+
+ACPITables --> ASTTool
+
+
+@enduml

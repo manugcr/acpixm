@@ -10,3 +10,6 @@ ast:
       - kind: UnloadTerm
       - kind: LoadTerm
       - kind: StoreTerm
+return:
+  - found: ast
+  - not-found: otherwise
