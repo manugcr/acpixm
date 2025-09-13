@@ -5,18 +5,18 @@
  */
 
 
-
-function sepBy(sep, rule) {
-  return optional(sepBy1(sep, rule));
-}
-
 function sepBy1(sep, rule) {
   return seq(rule, repeat(seq(sep, rule)));
 }
 
+const META_IDENT = /\$[A-Z][A-Z0-9_]*/;
 
 module.exports = grammar({
   name: 'asl',
+
+  conflicts: $ => [
+    [ $.NameString, $.IntegerLiteral ],
+  ],
 
   extras: $ => [
     /\s/,       // Skip whitespace
@@ -29,7 +29,10 @@ module.exports = grammar({
     // 1. Root Terms
     // ------------------------------------------------
     // RootTerm                    := DefinitionBlockTerm
-    SourceFile: $ => $.DefinitionBlockTerm,
+    SourceFile: $ => repeat1(choice(
+      $.DefinitionBlockTerm,
+      $._Term // For ast-grep single node matching.
+    )),
 
     // DefinitionBlockTerm         := DefinitionBlock (...) {TermList}
     DefinitionBlockTerm: $ => seq(
@@ -47,6 +50,9 @@ module.exports = grammar({
       '}',
     ),
 
+    // To handle meta-variables in ast-grep
+    MetaVarIdent: $ => token(META_IDENT),
+
     // Comment handling (make them private to skip them in the tree)
     _comment: $ => token(choice(
       seq('//', /[^\n]*/),
@@ -62,48 +68,35 @@ module.exports = grammar({
     // 2. Names and Paths
     // ------------------------------------------------
     // NameSeg:= <LeadNameChar> | <LeadNameChar NameChar> | <LeadNameChar NameChar NameChar> | <LeadNameChar NameChar NameChar NameChar>
-    NameSeg: $ => /[A-Za-z0-9_][A-Za-z0-9_]{0,3}/,
+    // NameSeg: $ => choice(
+    //   token(/[A-Za-z0-9_][A-Za-z0-9_]{0,3}/),
+    //   alias($.MetaVarIdent, $.NameSeg),
+    // ),
 
     // NameString := <RootChar NamePath> | <ParentPrefixChar PrefixPath NamePath> | NonEmptyNamePath
-    // NameString: $ => choice(
-    //   prec(2, seq(
-    //     optional(choice('\\', repeat1('^'))),
-    //     sepBy1('.', $.NameSeg)
-    //   )),
-    //   prec(1, '\\') // standalone root
-    // ),
-    // NameString: $ => choice(
-    //   // Highest priority: root or parent prefix + NameSeg (actual named path)
-    //   prec(2, seq(
-    //     optional(choice('\\', repeat1('^'))),
-    //     sepBy1('.', $.NameSeg)
-    //   )),
-
-    //   // Medium priority: just one or more '^'s (like ^ or ^^)
-    //   prec(1, repeat1('^')),
-
-    //   // Lowest priority: just root '\'
-    //   prec(0, '\\'),
-    // ),
     NameString: $ => choice(
       prec(2, '\\'),                                  // bare root
       prec(3, seq(                                    // prefer this when a path follows
         optional(choice('\\', repeat1('^'))),
-         sepBy1('.', $.NameSeg)
+         sepBy1('.', token(/[A-Za-z0-9_][A-Za-z0-9_]{0,3}/))
       )),
-      prec(1, repeat1('^'))                           // bare '^', '^^', ...
+      prec(1, repeat1('^')),                          // bare '^', '^^', ...
+      alias($.MetaVarIdent, $.NameString),
     ),
 
     // Integer := DecimalConst | OctalConst | HexConst
-    IntegerLiteral: $ => token(choice(
-      /0[xX][0-9a-fA-F]+/, // hex
-      /[0-9]+/,            // decimal
-      /Zero/,
-      /One/,
-      /Ones/,
-      /True/,
-      /False/
-    )),
+    IntegerLiteral: $ => choice(
+      token(choice(
+        /0[xX][0-9a-fA-F]+/,  // hex
+        /[0-9]+/,             // decimal
+        /Zero/,
+        /One/,
+        /Ones/,
+        /True/,
+        /False/
+      )),
+      alias($.MetaVarIdent, $.IntegerLiteral), // keep this
+    ),
 
     // String :=  '"' Utf8CharList '"'
     StringLiteral: $ => seq(
@@ -221,7 +214,7 @@ module.exports = grammar({
 
     // FieldUnitEntry              :=	<Nothing | NameSeg> CommaChar Integer
     FieldUnitEntry: $ => seq(
-      optional($.NameSeg),
+      optional($.NameString),
       ',',
       $.IntegerLiteral
     ),
@@ -1820,7 +1813,7 @@ module.exports = grammar({
     CreateBitFieldTerm: $ => seq(
       field('Term', 'CreateBitField'),
       '(',
-      field('SourceBuffer', $.NameSeg), ',',
+      field('SourceBuffer', $.NameString), ',',
       field('BitIndex', $._TermArg), ',',
       field('BitFieldName', $.NameString),
       ')'
@@ -3372,19 +3365,22 @@ module.exports = grammar({
       'IPMI',
       'GeneralPurposeIO',
       'GenericSerialBus',
-      'PCC'
+      'PCC',
+      alias($.MetaVarIdent, $.RegionSpaceKeyword),
     ),
 
     // ResourceTypeKeyword         :=	ResourceConsumer | ResourceProducer
     ResourceTypeKeyword: $ => choice(
       'ResourceConsumer',
-      'ResourceProducer'
+      'ResourceProducer',
+      alias($.MetaVarIdent, $.ResourceTypeKeyword),
     ),
 
     // SerializeRuleKeyword        :=	Serialized | NotSerialized
     SerializeRuleKeyword: $ => choice(
       'Serialized',
-      'NotSerialized'
+      'NotSerialized',
+      alias($.MetaVarIdent, $.SerializeRuleKeyword),
     ),
 
     // ShareTypeKeyword            :=	Shared | Exclusive | SharedAndWake | ExclusiveAndWake
@@ -3392,13 +3388,15 @@ module.exports = grammar({
       'Shared',
       'Exclusive',
       'SharedAndWake',
-      'ExclusiveAndWake'
+      'ExclusiveAndWake',
+      alias($.MetaVarIdent, $.ShareTypeKeyword),
     ),
 
     // SlaveModeKeyword            :=	ControllerInitiated | DeviceInitiated
     SlaveModeKeyword: $ => choice(
       'ControllerInitiated',
-      'DeviceInitiated'
+      'DeviceInitiated',
+      alias($.MetaVarIdent, $.SlaveModeKeyword),
     ),
 
     // StopBitsKeyword             :=	StopBitsZero | StopBitsOne | StopBitsOnePlusHalf | StopBitsTwo

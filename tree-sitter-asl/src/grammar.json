@@ -3,8 +3,20 @@
   "name": "asl",
   "rules": {
     "SourceFile": {
-      "type": "SYMBOL",
-      "name": "DefinitionBlockTerm"
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "DefinitionBlockTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_Term"
+          }
+        ]
+      }
     },
     "DefinitionBlockTerm": {
       "type": "SEQ",
@@ -111,6 +123,13 @@
         }
       ]
     },
+    "MetaVarIdent": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\$[A-Z][A-Z0-9_]*"
+      }
+    },
     "_comment": {
       "type": "TOKEN",
       "content": {
@@ -148,10 +167,6 @@
           }
         ]
       }
-    },
-    "NameSeg": {
-      "type": "PATTERN",
-      "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
     },
     "NameString": {
       "type": "CHOICE",
@@ -198,8 +213,11 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "NameSeg"
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
+                    }
                   },
                   {
                     "type": "REPEAT",
@@ -211,8 +229,11 @@
                           "value": "."
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "NameSeg"
+                          "type": "TOKEN",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
+                          }
                         }
                       ]
                     }
@@ -232,44 +253,67 @@
               "value": "^"
             }
           }
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "NameString"
         }
       ]
     },
     "IntegerLiteral": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "0[xX][0-9a-fA-F]+"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[0-9]+"
-          },
-          {
-            "type": "PATTERN",
-            "value": "Zero"
-          },
-          {
-            "type": "PATTERN",
-            "value": "One"
-          },
-          {
-            "type": "PATTERN",
-            "value": "Ones"
-          },
-          {
-            "type": "PATTERN",
-            "value": "True"
-          },
-          {
-            "type": "PATTERN",
-            "value": "False"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "0[xX][0-9a-fA-F]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "Zero"
+              },
+              {
+                "type": "PATTERN",
+                "value": "One"
+              },
+              {
+                "type": "PATTERN",
+                "value": "Ones"
+              },
+              {
+                "type": "PATTERN",
+                "value": "True"
+              },
+              {
+                "type": "PATTERN",
+                "value": "False"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "IntegerLiteral"
+        }
+      ]
     },
     "StringLiteral": {
       "type": "SEQ",
@@ -671,7 +715,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "NameSeg"
+              "name": "NameString"
             },
             {
               "type": "BLANK"
@@ -6366,7 +6410,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "NameSeg"
+            "name": "NameString"
           }
         },
         {
@@ -14193,6 +14237,15 @@
         {
           "type": "STRING",
           "value": "PCC"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "RegionSpaceKeyword"
         }
       ]
     },
@@ -14206,6 +14259,15 @@
         {
           "type": "STRING",
           "value": "ResourceProducer"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "ResourceTypeKeyword"
         }
       ]
     },
@@ -14219,6 +14281,15 @@
         {
           "type": "STRING",
           "value": "NotSerialized"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "SerializeRuleKeyword"
         }
       ]
     },
@@ -14240,6 +14311,15 @@
         {
           "type": "STRING",
           "value": "ExclusiveAndWake"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "ShareTypeKeyword"
         }
       ]
     },
@@ -14253,6 +14333,15 @@
         {
           "type": "STRING",
           "value": "DeviceInitiated"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "SlaveModeKeyword"
         }
       ]
     },
@@ -14815,7 +14904,12 @@
       "name": "_comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "NameString",
+      "IntegerLiteral"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],
