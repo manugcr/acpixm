@@ -1,42 +1,81 @@
 @startuml ACPI Toolkit
-allow_mixing
 
-package ACPITables {
-  class ACPIDumper {
-    - output_dir: Path
+class ACPIAnalyzer {
+  + run(rulePath: Path, target: List[Path] = None): DetectionResult
+}
+
+package ACPIProvider {
+  class Dumper {
     + dump_acpi(output_file: str = "acpidump.bin"): Path
   }
 
-  class ACPIExtractor {
-    - output_dir: Path
-    + extract_tables(dump_file: Path): List<Path>
+  class Extractor {
+    + extract_tables(dump_file: Path): List[Path]
   }
 
-  class ACPIDisassembler {
-    - output_dir: Path
-    + disassemble_tables(table_files: List<Path>): List<Path>
+  class Disassembler {
+    + disassemble_tables(table_files: List[Path]): List[Path]
   }
 
-  class ACPIToolchain {
-    - dumper: ACPIDumper
-    - extractor: ACPIExtractor
-    - disassembler: ACPIDisassembler
-    + run(): void
+  class ProviderPipeline {
+    - dumper: Dumper
+    - extractor: Extractor
+    - disassembler: Disassembler
+    + run(): List[Path]
   }
 }
 
-package ASTTool {
-  class ASTGrepMatcher {}
-  class JSONTransform {}
-  class LogicEngine {}
-  class YamlProcessor {}
+package "ACPIMatcher" {
+  class MatcherPipeline {
+    - yaml: YamlProcessor
+    - grep: ASTGrepMatcher
+    - norm: JsonNormalizer
+    - logic: LogicEngine
+    - ret: ReturnEngine
+    + execute(rulePath: Path, targets: List[Path]): bool
+  }
+
+  class YamlProcessor {
+    - rule_file: Path
+    + parse(): Rule
+    + get_ast(rule: Rule): AstRule
+    + get_logic(rule: Rule): LogicRule
+    + get_return(rule: Rule): ReturnRule
+    + validate(rule: Rule): bool
+  }
+
+  class ASTGrepMatcher {
+    + run(ast_rule: AstRule, target: Path): RawJson
+  }
+
+  class JsonNormalizer {
+    + normalize(raw: RawJson): NormalizedMatch
+    + set_value(match: NormalizedMatch, key: str, value: Any): None
+    + get_value(match: NormalizedMatch, key: str): Any
+  }
+
+  class LogicEngine {
+    + evaluate(logic_rule: LogicRule, matches: List[NormalizedMatch], json: JsonNormalizer): void
+  }
+
+  class ReturnEngine {
+    + evaluate(return_rule: ReturnRule, matches: List[NormalizedMatch]): bool
+  }
 }
 
-ACPIToolchain --> ACPIDumper
-ACPIToolchain --> ACPIExtractor
-ACPIToolchain --> ACPIDisassembler
+ACPIAnalyzer --> ACPIProvider.ProviderPipeline : uses
+ProviderPipeline *-- Dumper
+ProviderPipeline *-- Extractor
+ProviderPipeline *-- Disassembler
 
-ACPITables --> ASTTool
+ACPIAnalyzer --> ACPIMatcher.MatcherPipeline : runs
+ACPIMatcher.MatcherPipeline *-- ACPIMatcher.YamlProcessor
+ACPIMatcher.MatcherPipeline *-- ACPIMatcher.ASTGrepMatcher
+ACPIMatcher.MatcherPipeline *-- ACPIMatcher.JsonNormalizer
+ACPIMatcher.MatcherPipeline *-- ACPIMatcher.LogicEngine
+ACPIMatcher.MatcherPipeline *-- ACPIMatcher.ReturnEngine
+
+ACPIMatcher.LogicEngine ..> ACPIMatcher.JsonNormalizer : mutates via set/get
 
 
 @enduml

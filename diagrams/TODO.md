@@ -1,0 +1,4 @@
+- [ ] Logging instead of prints
+- [ ] External tool validation (ast-grep, iasl, acpixtract)
+- [ ] Clean path handling
+- [ ] run_cmd wrapper 

@@ -7,9 +7,9 @@ ast:
 
   rule:
     any:
-      - kind: UnloadTerm
-      - kind: LoadTerm
-      - kind: StoreTerm
+      - pattern: Load ($OBJECT, $RESULT)
+      - pattern: Store ($SOURCE, $DEST)
+      - pattern: Unload ($OBJECT)
 return:
   - found: ast
   - not-found: otherwise

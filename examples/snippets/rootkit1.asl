@@ -13,7 +13,7 @@ DefinitionBlock ("SSDT", "SSDT", 1, "OEMID", "TABLEID", 0x00000001)
     }
 
     // When this ACPI table is loaded. This is our trigger.
-    Method (_INI)
+    Method (_INI, 1, NotSerialized)
     {
         // Create a buffer containing 16 bytes of NOP (0x90) instructions.
         Name (NOPS, Buffer(0x10)

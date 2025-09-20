@@ -52,7 +52,7 @@ class JsonNormalizer:
             # Parse positional variables
             for idx, cap in enumerate(
                     meta.get("multi", {}).get("secondary", [])):
-                record[f"variable_{idx}"] = self.parse_value(cap.get("text"))
+                record[f"VAR{idx}"] = self.parse_value(cap.get("text"))
 
             # Add useful metadata
             record["file"] = match.get("file")
