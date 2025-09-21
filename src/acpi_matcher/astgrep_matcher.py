@@ -1,19 +1,25 @@
+"""Module for running ast-grep on ASL files using custom grammar and rules."""
+
+# pylint: disable=too-few-public-methods
 from pathlib import Path
 import json
 import subprocess
 import tempfile
-import yaml  # type: ignore
+import yaml
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class ASTGrepMatcher:
-    """Runs ast-grep over one ASL file using a custom grammar and rule."""
+    """Runs ast-grep over one ASL file using a custom grammar and a provided rule."""
 
     def __init__(self, grammar_path: Path) -> None:
         self.config_file = self._create_tmp_yml({
             "ruleDirs": ["rules"],
             "customLanguages": {
                 "asl": {
-                    "libraryPath": str(grammar_path),
+                    "libraryPath": str(Path(grammar_path).resolve()),
                     "extensions": ['dsl', 'asl'],
                 }
             },
@@ -31,24 +37,14 @@ class ASTGrepMatcher:
     @staticmethod
     def _parse_output(raw_output: str) -> list[dict]:
         """Parse the JSON output from ast-grep."""
-        matches = []
+        matches: list[dict] = []
         for line in raw_output.strip().splitlines():
             try:
                 matches.append(json.loads(line))
             except json.JSONDecodeError as e:
-                print(f"[!] Failed to parse JSON: {e}")
+                logger.warning("Failed to parse ast-grep JSON line: %s", e)
                 continue
         return matches
-
-    def write_results(self, results: list[dict], output_file: Path) -> None:
-        """Write the results to a JSON file."""
-        try:
-            with open(str(output_file), 'w', encoding='utf-8') as f:
-                json.dump(results, f, indent=2)
-            print(f"[*] Results written to {output_file}")
-        except Exception as e:
-            print(f"[!] Failed to write results: {e}")
-            raise
 
     def run(self, rule: Path, target: Path) -> list[dict]:
         """Run the ast-grep command with the specified rule and target file."""
@@ -57,7 +53,7 @@ class ASTGrepMatcher:
             str(rule), "--config", self.config_file, "--json=stream",
             str(target)
         ]
-        print(f"[*] Running command: {' '.join(command)}")
+        logger.debug("Running: %s", " ".join(command))
 
         try:
             result = subprocess.run(command,
@@ -65,8 +61,8 @@ class ASTGrepMatcher:
                                     text=True,
                                     check=True)
         except subprocess.CalledProcessError as e:
-            print("[!] ast-grep failed:")
-            print(e.stderr)
+            logger.error("ast-grep failed with code %s %s", e.returncode,
+                         e.stderr.strip())
             raise
 
         return self._parse_output(result.stdout)

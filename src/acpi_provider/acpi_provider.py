@@ -1,11 +1,17 @@
+"""ACPI Provider module for dumping, extracting, and disassembling ACPI tables."""
+
+# pylint: disable=too-few-public-methods
 import subprocess
 from pathlib import Path
 from typing import List
 import os
 import shutil
+import logging
+
+logger = logging.getLogger(__name__)
 
 
-class ACPIDumper:
+class Dumper:
     """Handles the dumping of ACPI tables using acpidump."""
 
     def __init__(self, output_dir: Path) -> None:
@@ -18,18 +24,17 @@ class ACPIDumper:
         """Dumps the ACPI tables to a binary file."""
         dump_path = self.output_dir / output_file
         command = ["sudo", "acpidump", "-o", str(dump_path)]
-        print(f"[*] Running command: {' '.join(command)}")
+        logger.debug("Running: %s", " ".join(command))
 
         try:
             subprocess.run(command, check=True)
         except subprocess.CalledProcessError as e:
-            print("[!] acpidump failed:")
-            print(e.stderr)
+            logger.error("acpidump failed: %s", e)
             raise
         return dump_path
 
 
-class ACPIExtractor:
+class Extractor:
     """Handles the extraction of ACPI tables from a dumped file."""
 
     def __init__(self, output_dir: Path) -> None:
@@ -38,20 +43,19 @@ class ACPIExtractor:
     def extract_tables(self, dump_file: Path) -> List[Path]:
         """Extracts ACPI tables from the dumped file using acpixtract."""
         command = ["sudo", "acpixtract", "-a", str(dump_file)]
-        print(f"[*] Running command: {' '.join(command)}")
+        logger.debug("Running: %s", " ".join(command))
         try:
             subprocess.run(command,
                            check=True,
                            cwd=self.output_dir,
                            stdout=subprocess.DEVNULL)
         except subprocess.CalledProcessError as e:
-            print("[!] acpixtract failed:")
-            print(e.stderr)
+            logger.error("acpixtract failed: %s", e)
             raise
         return list(self.output_dir.glob("*.dat"))
 
 
-class ACPIDisassembler:
+class Disassembler:
     """Handles the disassembly of ACPI tables into DSL files."""
 
     def __init__(self, output_dir: Path) -> None:
@@ -62,7 +66,7 @@ class ACPIDisassembler:
         dsl_files = []
         for table in table_files:
             command = ["iasl", "-d", str(table)]
-            print(f"[*] Running command: {' '.join(command)}")
+            logger.debug("Running: %s", " ".join(command))
             try:
                 subprocess.run(command,
                                check=True,
@@ -71,23 +75,24 @@ class ACPIDisassembler:
                                stderr=subprocess.DEVNULL)
                 dsl_files.append(self.output_dir / (table.stem + ".dsl"))
             except subprocess.CalledProcessError as e:
-                print("[!] iasl disassembly failed:")
-                print(e.stderr)
+                logger.error("iasl disassembly failed for %s: %s", table.name,
+                             e)
                 continue  # Skip broken tables
         return dsl_files
 
 
-class ACPIToolchain:
+class ProviderPipeline:
     """Orchestrates the ACPI dump, extraction, and disassembly processes."""
 
     def __init__(self, output_dir: Path) -> None:
-        self.dumper = ACPIDumper(output_dir)
-        self.extractor = ACPIExtractor(output_dir)
-        self.disassembler = ACPIDisassembler(output_dir)
+        self.dumper = Dumper(output_dir)
+        self.extractor = Extractor(output_dir)
+        self.disassembler = Disassembler(output_dir)
 
-    def run(self) -> None:
+    def run(self) -> List[Path]:
         """Executes the full pipeline: dump -> extract -> disassemble."""
         dump_file = self.dumper.dump_acpi()
         table_files = self.extractor.extract_tables(dump_file)
-        self.disassembler.disassemble_tables(table_files)
-        print("[*] ACPI processing complete.")
+        dsl_files = self.disassembler.disassemble_tables(table_files)
+        logger.info("ACPI processing complete: %d DSL file(s)", len(dsl_files))
+        return dsl_files

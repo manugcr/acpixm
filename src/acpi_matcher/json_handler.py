@@ -1,26 +1,24 @@
 import json
+import logging
 from typing import Optional, Any
 from pathlib import Path
 
+logger = logging.getLogger(__name__)
 
-class JsonNormalizer:
-    """ A class to normalize JSON data. """
 
-    def __init__(self, input_file: Path):
-        self.input_file = str(input_file)
-        self.raw_data: list[dict] = self._load_json()
-
-    def _load_json(self) -> list[dict]:
-        """ Load JSON data from the input file. """
-        try:
-            with open(self.input_file, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"[!] Failed to load JSON data: {e}")
-            raise
+class JsonHandler:
+    """ A class to handle JSON data. """
 
     @staticmethod
-    def parse_value(value: Optional[str]) -> Any:
+    def write(data: Any, out_path: Path) -> Path:
+        out_path.parent.mkdir(parents=True, exist_ok=True)
+        with out_path.open("w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        logger.info("Wrote JSON output to: %s", out_path)
+        return out_path
+
+    @staticmethod
+    def _integer_from_string(value: Optional[str]) -> Any:
         """
         Attempts to convert a string value to an integer (hex or decimal).
         Returns the integer if successful, otherwise returns the original string.
@@ -34,25 +32,26 @@ class JsonNormalizer:
         except ValueError:
             return value
 
-    def normalize(self) -> list[dict]:
+    def normalize(self, matches: list[dict]) -> list[dict]:
         """
         Parses and normalizes all matches, converting numeric-looking variables
         to ints, and preserving all other metadata.
         """
         normalized_records: list[dict] = []
 
-        for match in self.raw_data:
+        for match in matches:
             record: dict = {}
             meta = match.get("metaVariables", {})
 
             # Parse named variables
             for name, var in meta.get("single", {}).items():
-                record[name] = self.parse_value(var.get("text"))
+                record[name] = self._integer_from_string(var.get("text"))
 
             # Parse positional variables
             for idx, cap in enumerate(
                     meta.get("multi", {}).get("secondary", [])):
-                record[f"VAR{idx}"] = self.parse_value(cap.get("text"))
+                record[f"VAR{idx}"] = self._integer_from_string(
+                    cap.get("text"))
 
             # Add useful metadata
             record["file"] = match.get("file")
@@ -62,15 +61,5 @@ class JsonNormalizer:
 
             normalized_records.append(record)
 
-        print(f"[*] Normalized {normalized_records} records.")
+        logger.info("Normalized %d record(s).", len(normalized_records))
         return normalized_records
-
-    def write_results(self, results, output_file: Path) -> None:
-        """ Write the normalized results to a JSON file. """
-        try:
-            with open(str(output_file), 'w', encoding='utf-8') as f:
-                json.dump(results, f, indent=2)
-            print(f"[*] Normalized results written to {output_file}")
-        except Exception as e:
-            print(f"[!] Failed to write normalized results: {e}")
-            raise

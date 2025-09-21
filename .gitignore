@@ -4,6 +4,7 @@ notes.md
 .vscode/
 tmp/
 docs/output*
+.acpi_work/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,15 +1,12 @@
-import yaml
+"""YAML processor for ACPI rootkit detection rules, supporting ast, logic, and return sections."""
+
 from pathlib import Path
 from typing import Optional
 from dataclasses import dataclass
+import yaml
+import logging
 
-
-@dataclass
-class RuleSection:
-    """Represents a section of a rule with validation."""
-    ast: dict
-    logic: Optional[list[dict]] = None
-    return_config: Optional[dict] = None
+logger = logging.getLogger(__name__)
 
 
 class YamlProcessor:
@@ -38,13 +35,6 @@ class YamlProcessor:
             raise ValueError("Rule must contain 'ast' section")
 
     @property
-    def rule_section(self) -> RuleSection:
-        """Get the complete rule section with all components."""
-        return RuleSection(ast=self._data["ast"],
-                           logic=self._data.get("logic"),
-                           return_config=self._data.get("return"))
-
-    @property
     def ast_section(self) -> dict:
         """Get the AST section for ast-grep."""
         return self._data["ast"]
@@ -69,12 +59,8 @@ class YamlProcessor:
         with open(tmp_path, "w", encoding="utf-8") as f:
             yaml.safe_dump(self.ast_section, f)
 
+        logger.info("AST-only rule written to: %s", tmp_path)
         return tmp_path
-
-    def reload(self) -> None:
-        """Reload the YAML data from disk."""
-        self._data = self._load_yaml()
-        self._validate_structure()
 
     def get_rule_info(self) -> dict:
         """Get basic information about the rule."""
