@@ -91,8 +91,9 @@ class ProviderPipeline:
 
     def run(self) -> List[Path]:
         """Executes the full pipeline: dump -> extract -> disassemble."""
+        logger.info("Starting ACPI provider pipeline.")
         dump_file = self.dumper.dump_acpi()
         table_files = self.extractor.extract_tables(dump_file)
         dsl_files = self.disassembler.disassemble_tables(table_files)
-        logger.info("ACPI processing complete: %d DSL file(s)", len(dsl_files))
+        logger.info("ACPI provider complete: %d DSL file(s)", len(dsl_files))
         return dsl_files

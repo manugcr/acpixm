@@ -25,7 +25,7 @@ ast:
           pattern: $LENGTH
 logic:
   - id: address
-    add: [$OFFSET, LENGTH]
+    add: [$OFFSET, $LENGTH]
   - id: suspicious-range
     in-range: [address, [0x00000000, 0xFFFFFFFF]]
 return:

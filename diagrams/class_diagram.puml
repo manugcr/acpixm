@@ -1,65 +1,70 @@
 @startuml ACPI Toolkit
 
 class ACPIAnalyzer {
-  + run(rulePath: Path, target: List[Path] = None): DetectionResult
+  + ACPIAnalyzer(provider_out: Path, tmp_dir: Path)
+  + run(rule_path: Path, files: list[Path]): None
+  + dump_tables(): list[Path]
+  - _validate_environment(): None
+  - _determine_targets(): list[Path]
 }
 
 package ACPIProvider {
   class Dumper {
-    + dump_acpi(output_file: str = "acpidump.bin"): Path
+    + Dumper(output_dir: Path)
+    + dump_acpi(output_file: str): Path
   }
-
   class Extractor {
-    + extract_tables(dump_file: Path): List[Path]
+    + Extractor(output_dir: Path)
+    + extract_tables(dump_file: Path): list[Path]
   }
-
   class Disassembler {
-    + disassemble_tables(table_files: List[Path]): List[Path]
+    + Disassembler(output_dir: Path)
+    + disassemble_tables(table_files: list[Path]): list[Path]
   }
-
   class ProviderPipeline {
     - dumper: Dumper
     - extractor: Extractor
     - disassembler: Disassembler
-    + run(): List[Path]
+    + ProviderPipeline(output_dir: Path)
+    + run(): list[Path]
   }
 }
 
-package "ACPIMatcher" {
-  class MatcherPipeline {
-    - yaml: YamlProcessor
-    - grep: ASTGrepMatcher
-    - norm: JsonNormalizer
-    - logic: LogicEngine
-    - ret: ReturnEngine
-    + execute(rulePath: Path, targets: List[Path]): bool
-  }
-
+package ACPIMatcher {
   class YamlProcessor {
-    - rule_file: Path
-    + parse(): Rule
-    + get_ast(rule: Rule): AstRule
-    + get_logic(rule: Rule): LogicRule
-    + get_return(rule: Rule): ReturnRule
-    + validate(rule: Rule): bool
+    + YamlProcessor(rule_file: Path)
+    + ast_section: list[dict]
+    + logic_section: Optional[list[dict]]
+    + return_section: list[dict]
+    + get_rule_info(): dict
+    - _validate(data): None
+    - _load_yaml(file_path: Path): dict
   }
 
   class ASTGrepMatcher {
-    + run(ast_rule: AstRule, target: Path): RawJson
+    + ASTGrepMatcher()
+    + run(ast_rule: dict, targets: list[Path]): list[dict]
+    - _write_tmp_yaml(file_content: dict): Path
   }
 
-  class JsonNormalizer {
-    + normalize(raw: RawJson): NormalizedMatch
-    + set_value(match: NormalizedMatch, key: str, value: Any): None
-    + get_value(match: NormalizedMatch, key: str): Any
+  class JsonHandler {
+    + normalize(raw_matches: list[dict]): list[dict]
+    + write(data: Any, out_path: Path): Path
+  }
+
+  class LogicOps {
+    + registry(): dict[str, Callable]
+    ..pure ops..
   }
 
   class LogicEngine {
-    + evaluate(logic_rule: LogicRule, matches: List[NormalizedMatch], json: JsonNormalizer): void
+    + LogicEngine(logic_steps: list[dict], ops: dict)
+    + evaluate(records: list[dict]): list[dict]
   }
 
-  class ReturnEngine {
-    + evaluate(return_rule: ReturnRule, matches: List[NormalizedMatch]): bool
+  class ReturnEvaluator {
+    + ReturnEvaluator(return_steps: list[dict])
+    + decide(records: list[dict]): dict
   }
 }
 
@@ -68,14 +73,11 @@ ProviderPipeline *-- Dumper
 ProviderPipeline *-- Extractor
 ProviderPipeline *-- Disassembler
 
-ACPIAnalyzer --> ACPIMatcher.MatcherPipeline : runs
-ACPIMatcher.MatcherPipeline *-- ACPIMatcher.YamlProcessor
-ACPIMatcher.MatcherPipeline *-- ACPIMatcher.ASTGrepMatcher
-ACPIMatcher.MatcherPipeline *-- ACPIMatcher.JsonNormalizer
-ACPIMatcher.MatcherPipeline *-- ACPIMatcher.LogicEngine
-ACPIMatcher.MatcherPipeline *-- ACPIMatcher.ReturnEngine
-
-ACPIMatcher.LogicEngine ..> ACPIMatcher.JsonNormalizer : mutates via set/get
-
+ACPIAnalyzer --> ACPIMatcher.YamlProcessor : load/validate rule
+ACPIAnalyzer --> ACPIMatcher.ASTGrepMatcher : run AST matches
+ACPIAnalyzer --> ACPIMatcher.JsonHandler : normalize results
+ACPIAnalyzer --> ACPIMatcher.LogicEngine : derive facts (optional
+ACPIAnalyzer --> ACPIMatcher.ReturnEvaluator : final decision
+ACPIMatcher.LogicEngine --> ACPIMatcher.LogicOps : uses
 
 @enduml

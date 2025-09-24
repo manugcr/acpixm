@@ -1,21 +1,27 @@
+"""Command-line interface for the ACPI Rootkit Detection Tool."""
+
 from pathlib import Path
+import logging
+import typer
+
 from typing import Optional
 from src.acpi_analyzer import ACPIAnalyzer
-import typer
-import logging
 
 ROOT = Path(__file__).parent.resolve()
 TMP_DIR = ROOT / "tmp"
-OUTPUT_DIR = ROOT / "output"  # provider will write here
-GRAMMAR_PATH = ROOT / "tree-sitter-asl" / "asl.so"  # fixed grammar file
+OUTPUT_DIR = ROOT / "output"
 
-logging.basicConfig(
-    level=logging.DEBUG,
-    format="[%(levelname)s] %(name)s: %(message)s",
-)
+logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 logger = logging.getLogger("cli")
 
 app = typer.Typer(help="ACPI Rootkit Detection Tool")
+
+
+@app.callback()
+def main(debug: bool = typer.Option(False, "--debug",
+                                    help="enable debug logs")) -> None:
+    if debug:
+        logging.getLogger().setLevel(logging.DEBUG)
 
 
 @app.command("detect")
@@ -25,33 +31,30 @@ def detect(
                               "-r",
                               exists=True,
                               readable=True,
-                              help="Rule YAML file"),
+                              help="rule YAML file"),
     file: Optional[list[Path]] = typer.Option(
-        None,
-        "--file",
-        "-f",
-        help="One or more .dsl files to scan, if none runs acpi provider."),
-):
-    """Detects ACPI rootkits by analyzing .dsl files using the specified rule."""
-
-    analyzer = ACPIAnalyzer(
-        grammar_path=GRAMMAR_PATH,
-        provider_out=OUTPUT_DIR,
-        tmp_dir=TMP_DIR,
-    )
-
-    analyzer.run(rule_path=rule, files=file)
+        None, "--file", "-f", help="one or more .dsl files to scan"),
+) -> None:
+    """Detect ACPI indicators by scanning .dsl files with the given rule."""
+    analyzer = ACPIAnalyzer(provider_out=OUTPUT_DIR, tmp_dir=TMP_DIR)
+    try:
+        analyzer.run(rule_path=rule, files=file)
+    except Exception as e:
+        logger.error("Detection failed: %s", e)
+        raise typer.Exit(code=1)
 
 
 @app.command("dump")
-def dump():
-    """Dumps the acpi tables by running the provider."""
-    analyzer = ACPIAnalyzer(
-        grammar_path=GRAMMAR_PATH,
-        provider_out=OUTPUT_DIR,
-        tmp_dir=TMP_DIR,
-    )
-    analyzer.dump_tables()
+def dump() -> None:
+    """Dump ACPI tables (acpidump -> acpixtract -> iasl)."""
+    analyzer = ACPIAnalyzer(provider_out=OUTPUT_DIR, tmp_dir=TMP_DIR)
+    try:
+        files = analyzer.dump_tables()
+        for p in files:
+            logger.debug("Dumped: %s", p)
+    except Exception as e:
+        logger.error("Dump failed: %s", e)
+        raise typer.Exit(code=1)
 
 
 if __name__ == "__main__":

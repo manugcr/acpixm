@@ -1,3 +1,7 @@
+
+
+"""Module for handling JSON data with normalization utilities."""
+
 import json
 import logging
 from typing import Optional, Any
@@ -11,6 +15,10 @@ class JsonHandler:
 
     @staticmethod
     def write(data: Any, out_path: Path) -> Path:
+        """
+        Writes the given data as JSON to the specified output path.
+        Return the path to the written JSON file.
+        """
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
@@ -47,13 +55,13 @@ class JsonHandler:
             for name, var in meta.get("single", {}).items():
                 record[name] = self._integer_from_string(var.get("text"))
 
-            # Parse positional variables
+            # Parse positional variables, appends VAR prefix to each variable
             for idx, cap in enumerate(
                     meta.get("multi", {}).get("secondary", [])):
                 record[f"VAR{idx}"] = self._integer_from_string(
                     cap.get("text"))
 
-            # Add useful metadata
+            # Add useful metadata from the match
             record["file"] = match.get("file")
             record["line"] = match.get("range", {}).get("start",
                                                         {}).get("line")
@@ -61,5 +69,5 @@ class JsonHandler:
 
             normalized_records.append(record)
 
-        logger.info("Normalized %d record(s).", len(normalized_records))
+        logger.debug("Normalized %d record(s).", len(normalized_records))
         return normalized_records

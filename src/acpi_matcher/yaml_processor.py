@@ -1,74 +1,67 @@
-"""YAML processor for ACPI rootkit detection rules, supporting ast, logic, and return sections."""
+"""Load and validate ACPI rule YAML; expose sections as plain dicts/lists."""
 
+import logging
 from pathlib import Path
 from typing import Optional
-from dataclasses import dataclass
+
 import yaml
-import logging
+from pydantic import BaseModel, Field, ValidationError
 
 logger = logging.getLogger(__name__)
 
 
-class YamlProcessor:
-    """
-    Enhanced YAML processor for ACPI rootkit detection rules.
-    Handles the three-section format: ast, logic, and return.
-    """
+class RuleSchema(BaseModel):
+    ast: dict
+    logic: Optional[list[dict]] = Field(default=None, alias="logic")
+    return_: list[dict] = Field(alias="return")
 
-    def __init__(self, rule_file: Path):
-        self.rule_file = rule_file
-        self._data = self._load_yaml()
-        self._validate_structure()
+
+class YamlProcessor:
+    """Load, validate, expose rule sections and basic metadata."""
+
+    def __init__(self, rule_path: Path) -> None:
+        self.rule_path = Path(rule_path)
+        self._rule_data = self._load_yaml()
+        self._rule = self._validate(self._rule_data)
 
     def _load_yaml(self) -> dict:
-        """Load YAML data from file."""
+        """Load YAML content from disk."""
         try:
-            with open(self.rule_file, "r", encoding="utf-8") as f:
-                return yaml.safe_load(f)
+            with open(self.rule_path, "r", encoding="utf-8") as f:
+                return yaml.safe_load(f) or {}
         except Exception as e:
             raise ValueError(
-                f"Failed to load YAML file {self.rule_file}: {e}") from e
+                f"failed to load YAML {self.rule_path}: {e}") from e
 
-    def _validate_structure(self) -> None:
-        """Validate the rule structure has required sections."""
-        if "ast" not in self._data:
-            raise ValueError("Rule must contain 'ast' section")
+    @staticmethod
+    def _validate(data: dict) -> RuleSchema:
+        """Validate raw YAML against minimal schema."""
+        try:
+            return RuleSchema.model_validate(data)
+        except ValidationError as e:
+            raise ValueError(f"invalid rule schema: {e}") from e
 
     @property
     def ast_section(self) -> dict:
-        """Get the AST section for ast-grep."""
-        return self._data["ast"]
+        """Return AST section (consumed by the matcher)."""
+        return self._rule.ast
 
     @property
     def logic_section(self) -> Optional[list[dict]]:
-        """Get the logic section if present."""
-        return self._data.get("logic")
+        """Return logic section if present."""
+        return self._rule.logic
 
     @property
-    def return_section(self) -> Optional[dict]:
-        """Get the return section if present."""
-        return self._data.get("return")
-
-    def get_ast_tempfile(self, tmp_dir: Path) -> Path:
-        """
-        Create a temporary file with the AST section for ast-grep.
-        """
-        tmp_dir.mkdir(parents=True, exist_ok=True)
-        tmp_path = tmp_dir / f"ast_rule_{self.rule_file.stem}.yml"
-
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            yaml.safe_dump(self.ast_section, f)
-
-        logger.info("AST-only rule written to: %s", tmp_path)
-        return tmp_path
+    def return_section(self) -> list[dict]:
+        """Return return section."""
+        return self._rule.return_
 
     def get_rule_info(self) -> dict:
-        """Get basic information about the rule."""
+        """Return minimal header for output JSON."""
         ast = self.ast_section
         return {
             "id": ast.get("id"),
             "message": ast.get("message"),
             "severity": ast.get("severity"),
-            "has_logic": self.logic_section is not None,
-            "has_return": self.return_section is not None
+            "language": ast.get("language"),
         }
