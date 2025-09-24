@@ -5,8 +5,8 @@ ReturnEvaluator: apply the YAML 'return' section to decide which records to keep
 Rules:
 - Evaluate clauses in order.
 - 'found: <token>'  -> keep record if token resolves truthy.
-- 'not-found: otherwise' -> catch-all: drop record.
-- If nothing matches, we drop the record (fail-closed).
+- 'not-found: otherwise' -> drop record.
+- If nothing matches, drop (fail-closed).
 """
 
 import logging
@@ -16,9 +16,8 @@ logger = logging.getLogger(__name__)
 
 
 class ReturnEvaluator:
-
     def __init__(self, steps: list[dict]) -> None:
-        self.steps = steps
+        self.steps = steps or []
         self.resolver = TokenResolver()
 
     def evaluate(self, records: list[dict]) -> list[dict]:
@@ -30,32 +29,29 @@ class ReturnEvaluator:
         return kept
 
     def _is_found(self, record: dict) -> bool:
-        """
-        Walk return steps in order and decide.
-        Returns True if a 'found' clause is satisfied.
-        """
+        """Return True if any 'found' clause matches; False on 'otherwise' or no match."""
         logic_values = record.get("logic", {})
         for clause in self.steps:
-            if "found" in clause:
-                token = clause["found"]
-                value = self._resolve(record, logic_values, token)
-                if self._as_bool(value):
-                    return True
-            elif clause.get("not-found") == "otherwise":
+            token = clause.get("found")
+            if token is not None and self._as_bool(self._resolve(record, logic_values, token)):
+                return True
+            if clause.get("not-found") == "otherwise":
                 return False
-
-        # No clause matched -> drop (fail-closed)
-        return False
+        return False  # fail-closed
 
     def _resolve(self, record: dict, logic_values: dict, token):
-        """Resolve $VARS or logic ids using the same resolver used by logic."""
+        """Resolve $vars or logic ids; 'ast' is always True (match existed)."""
+        if token == "ast":
+            return True
         return self.resolver.resolve(record, logic_values, token)
 
     @staticmethod
     def _as_bool(value) -> bool:
-        """Conservative truth test: bools and non-zero numbers are True; strings must be 'true' case-insensitive."""
+        """Truthy if bool True, non-zero number, or 'true'/'yes'/'1' string."""
         if isinstance(value, bool):
             return value
+        if isinstance(value, (int, float)):
+            return value != 0
         if isinstance(value, str):
-            return value.strip().lower() in ("true", "yes", "1")
+            return value.strip().lower() in ("true")
         return False

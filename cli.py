@@ -11,7 +11,7 @@ ROOT = Path(__file__).parent.resolve()
 TMP_DIR = ROOT / "tmp"
 OUTPUT_DIR = ROOT / "output"
 
-logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
+logging.basicConfig(level=logging.INFO, format="[*] %(message)s")
 logger = logging.getLogger("cli")
 
 app = typer.Typer(help="ACPI Rootkit Detection Tool")
@@ -45,9 +45,14 @@ def detect(
 
 
 @app.command("dump")
-def dump() -> None:
+def dump(
+    provider_out: Path = typer.Option(OUTPUT_DIR,
+                                     "--output",
+                                     "-o",
+                                     help="output directory for .dsl files"),
+) -> None:
     """Dump ACPI tables (acpidump -> acpixtract -> iasl)."""
-    analyzer = ACPIAnalyzer(provider_out=OUTPUT_DIR, tmp_dir=TMP_DIR)
+    analyzer = ACPIAnalyzer(provider_out=provider_out, tmp_dir=TMP_DIR)
     try:
         files = analyzer.dump_tables()
         for p in files:

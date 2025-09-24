@@ -20,7 +20,7 @@ class JsonHandler:
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
-        logger.info("Wrote JSON output to: %s", out_path)
+        logger.debug("Wrote JSON output to: %s", out_path)
         return out_path
 
     @staticmethod

@@ -29,13 +29,34 @@ class LogicOps:
         if low > high:
             low, high = high, low
         return low <= value <= high
-
+    
     @staticmethod
     def in_any_range(value: int, ranges: list[tuple]) -> bool:
         for start, end in ranges:
             if start <= value <= end:
                 return True
         return False
+
+    @staticmethod
+    def overlaps(a: list[int], b: list[int]) -> bool:
+        a0, a1 = (min(a[0], a[1]), max(a[0], a[1]))
+        b0, b1 = (min(b[0], b[1]), max(b[0], b[1]))
+        return max(a0, b0) <= min(a1, b1)
+    
+    @staticmethod
+    def make_range(start: int, length: int) -> list[int]:
+        if length <= 0:
+            return [start, start - 1]  # empty range
+        end = start + length - 1
+        return [min(start, end), max(start, end)]
+
+    @staticmethod
+    def and_op(*args: bool) -> bool:
+        return all(args)
+
+    @staticmethod
+    def or_op(*args: bool) -> bool:
+        return any(args)
 
     @staticmethod
     def registry() -> dict[str, Callable]:
@@ -45,4 +66,8 @@ class LogicOps:
             "gt": LogicOps.gt,
             "in-range": LogicOps.in_range,
             "in-any-range": LogicOps.in_any_range,
+            "overlaps": LogicOps.overlaps,
+            "make-range": LogicOps.make_range,
+            "and": LogicOps.and_op,
+            "or": LogicOps.or_op
         }

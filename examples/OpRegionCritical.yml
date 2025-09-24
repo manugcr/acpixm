@@ -6,28 +6,21 @@ ast:
   severity: warning
 
   rule:
-    kind: OpRegionTerm
-    all:
-      - has:
-          kind: NameString
-          pattern: $REGNAME
-      - has:
-          kind: RegionSpaceKeyword
-          regex: "SystemMemory"
-          pattern: $REGSPACE
-      - has:
-          field: Offset
-          kind: IntegerLiteral
-          pattern: $OFFSET
-      - has:
-          field: Length
-          kind: IntegerLiteral
-          pattern: $LENGTH
+    pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
+
 logic:
-  - id: address
-    add: [$OFFSET, $LENGTH]
-  - id: suspicious-range
-    in-range: [address, [0x00000000, 0xFFFFFFFF]]
+  - id: operating-region
+    make-range: [$OFFSET, $LENGTH]
+  - id: kern-code
+    overlaps: [operating-region, [0x546e00000, 0x5482f1b0c]]
+  - id: kern-rodata
+    overlaps: [operating-region, [0x548400000, 0x5492b2fff]]
+  - id: kern-data
+    overlaps: [operating-region, [0x549400000, 0x5498774ff]]
+  - id: kern-bss
+    overlaps: [operating-region, [0x549dab000, 0x54a1fffff]]
+  - id: any-overlap
+    or: [kern-code, kern-rodata, kern-data, kern-bss]
 return:
-  - found: suspicious-range
+  - found: any-overlap
   - not-found: otherwise

@@ -37,13 +37,38 @@ class ACPIAnalyzer:
             logger.info("Using %d provided .dsl file(s)", len(targets))
             return targets
         return self.dump_tables()
+    
+    def _print_summary(self, payload: dict, targets: list[Path], out_path: Path) -> None:
+        rule = payload["rule"]
+        matches = payload["matches"]
+
+        print("\n================== Analysis Summary ==================")
+        print(f" Rule:      {rule['id']} ({rule['severity']})")
+        print(f" Message:   {rule['message']}")
+        print(f" Language:  {rule['language']}")
+        print(f" Scanned:   {len(targets)} file(s)")
+        print(f" Matches:   {len(matches)}")
+
+        if matches:
+            print("\n -- Match Details --")
+            for m in matches:
+                file = Path(m['file']).name
+                line = m['line']
+                text = m.get('text', '').strip()
+                print(f" {file}:{line} | {text}")
+
+        print(f"\n JSON output written to: {out_path}")
+        print("=======================================================\n")
 
     # -------- public --------
 
     def dump_tables(self) -> list[Path]:
         """Run provider pipeline and return produced .dsl files."""
         pipeline = ProviderPipeline(output_dir=self.provider_out)
-        return pipeline.run()
+        results = pipeline.run()
+        logger.info(" ACPI provider complete: %d DSL file(s)", len(results))
+        logger.info(" DSL files located in: %s", self.provider_out)
+        return results
 
     def run(self, rule_path: Path, files: Optional[list[Path]]) -> None:
         """Run full analysis for the given rule and target files."""
@@ -67,26 +92,29 @@ class ACPIAnalyzer:
         matcher = ASTGrepMatcher()
         logger.info("Starting ast-grep matching.")
         raw_matches = matcher.run(ast_rule=ast_rule, targets=targets)
-        logger.info(" Found %d ast-grep matches.", len(raw_matches))
+        logger.debug(" Found %d ast-grep matches.", len(raw_matches))
 
         # 4) normalize
         jsonh = JsonHandler()
         records = jsonh.normalize(raw_matches)
+        jsonh.write(records, self.tmp_dir / f"{rule_path.stem}.raw.json")
 
         # 5) apply optional logic
+        logger.info("Starting logic evaluation.")
         if logic_rule:
-            logger.info("Starting logic evaluation,")
             records = LogicEngine(logic_rule).evaluate(records)
-            logger.info(" Calculated %d logic matches.", len(records))
+            logger.debug(" Calculated %d logic matches.", len(records))
         else:
-            logger.debug("No logic section present; skipping")
+            logger.info("  No logic section present; skipping.")
 
         # 6) run return-evaluator
         logger.info("Starting return evaluation.")
         records = ReturnEvaluator(return_rule).evaluate(records)
-        logger.info(" Found %d final matches", len(records))
+        logger.debug(" Found %d final matches", len(records))
 
         # write output (header + matches)
         out_path = self.tmp_dir / f"{rule_path.stem}.normalized.json"
         payload = {"rule": yp.get_rule_info(), "matches": records}
         jsonh.write(payload, out_path)
+
+        self._print_summary(payload, targets, out_path)
