@@ -81,6 +81,6 @@ class ASTGrepMatcher:
         all_matches: list[dict] = []
         for target in targets:
             matches = self._run_single(ast_rule=rule_path, target=target)
-            logger.info("Found %d matches in %s", len(matches), target)
+            logger.debug("Found %d matches in %s", len(matches), target)
             all_matches.extend(matches)
         return all_matches

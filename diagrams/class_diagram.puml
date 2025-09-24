@@ -57,6 +57,17 @@ package ACPIMatcher {
     ..pure ops..
   }
 
+  class LogicProviders {
+    + registry(): dict[str, Callable]
+    ..provider ops..
+  }
+
+  class TokenResolver {
+    + resolve(record: dict, logic_values: dict, value: Any): Any
+    - _resolve_string() -> Any
+    - _resolve_list() -> list
+  }
+
   class LogicEngine {
     + LogicEngine(logic_steps: list[dict], ops: dict)
     + evaluate(records: list[dict]): list[dict]
@@ -68,16 +79,19 @@ package ACPIMatcher {
   }
 }
 
-ACPIAnalyzer --> ACPIProvider.ProviderPipeline : uses
+ACPIAnalyzer --> ACPIProvider.ProviderPipeline : uses (optional)
 ProviderPipeline *-- Dumper
 ProviderPipeline *-- Extractor
 ProviderPipeline *-- Disassembler
 
-ACPIAnalyzer --> ACPIMatcher.YamlProcessor : load/validate rule
-ACPIAnalyzer --> ACPIMatcher.ASTGrepMatcher : run AST matches
-ACPIAnalyzer --> ACPIMatcher.JsonHandler : normalize results
-ACPIAnalyzer --> ACPIMatcher.LogicEngine : derive facts (optional
-ACPIAnalyzer --> ACPIMatcher.ReturnEvaluator : final decision
+ACPIAnalyzer --> ACPIMatcher.YamlProcessor
+ACPIAnalyzer --> ACPIMatcher.ASTGrepMatcher
+ACPIAnalyzer --> ACPIMatcher.JsonHandler
+ACPIAnalyzer --> ACPIMatcher.LogicEngine : derive facts (optional)
+ACPIAnalyzer --> ACPIMatcher.ReturnEvaluator
 ACPIMatcher.LogicEngine --> ACPIMatcher.LogicOps : uses
+ACPIMatcher.LogicEngine --> ACPIMatcher.TokenResolver : uses
+ACPIMatcher.LogicEngine --> ACPIMatcher.LogicProviders : uses
+ACPIMatcher.ReturnEvaluator --> ACPIMatcher.TokenResolver : uses
 
 @enduml

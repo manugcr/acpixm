@@ -9,6 +9,7 @@ from src.acpi_matcher.yaml_processor import YamlProcessor
 from src.acpi_matcher.astgrep_matcher import ASTGrepMatcher
 from src.acpi_matcher.json_handler import JsonHandler
 from src.acpi_matcher.logic_engine.logic_engine import LogicEngine
+from src.acpi_matcher.return_evaluator import ReturnEvaluator
 
 logger = logging.getLogger(__name__)
 
@@ -64,8 +65,9 @@ class ACPIAnalyzer:
 
         # 3) run ast-grep
         matcher = ASTGrepMatcher()
+        logger.info("Starting ast-grep matching.")
         raw_matches = matcher.run(ast_rule=ast_rule, targets=targets)
-        logger.info("Total raw matches: %d", len(raw_matches))
+        logger.info(" Found %d ast-grep matches.", len(raw_matches))
 
         # 4) normalize
         jsonh = JsonHandler()
@@ -73,12 +75,18 @@ class ACPIAnalyzer:
 
         # 5) apply optional logic
         if logic_rule:
-            logger.info("Applying logic on %d record(s)", len(records))
+            logger.info("Starting logic evaluation,")
             records = LogicEngine(logic_rule).evaluate(records)
+            logger.info(" Calculated %d logic matches.", len(records))
         else:
             logger.debug("No logic section present; skipping")
 
-        # 6) write output (header + matches)
+        # 6) run return-evaluator
+        logger.info("Starting return evaluation.")
+        records = ReturnEvaluator(return_rule).evaluate(records)
+        logger.info(" Found %d final matches", len(records))
+
+        # write output (header + matches)
         out_path = self.tmp_dir / f"{rule_path.stem}.normalized.json"
         payload = {"rule": yp.get_rule_info(), "matches": records}
         jsonh.write(payload, out_path)

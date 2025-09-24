@@ -95,5 +95,5 @@ class ProviderPipeline:
         dump_file = self.dumper.dump_acpi()
         table_files = self.extractor.extract_tables(dump_file)
         dsl_files = self.disassembler.disassemble_tables(table_files)
-        logger.info("ACPI provider complete: %d DSL file(s)", len(dsl_files))
+        logger.info(" ACPI provider complete: %d DSL file(s)", len(dsl_files))
         return dsl_files

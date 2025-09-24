@@ -1,5 +1,3 @@
-
-
 """Module for handling JSON data with normalization utilities."""
 
 import json
