@@ -16,6 +16,7 @@ logger = logging.getLogger(__name__)
 
 
 class ReturnEvaluator:
+
     def __init__(self, steps: list[dict]) -> None:
         self.steps = steps or []
         self.resolver = TokenResolver()
@@ -33,7 +34,8 @@ class ReturnEvaluator:
         logic_values = record.get("logic", {})
         for clause in self.steps:
             token = clause.get("found")
-            if token is not None and self._as_bool(self._resolve(record, logic_values, token)):
+            if token is not None and self._as_bool(
+                    self._resolve(record, logic_values, token)):
                 return True
             if clause.get("not-found") == "otherwise":
                 return False

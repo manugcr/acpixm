@@ -1,7 +1,7 @@
 """TokenResolver module for resolving tokens in acpi rule logic and return sections."""
 
 import logging
-from typing import Any
+from typing import Any, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -18,6 +18,9 @@ class TokenResolver:
           * any other string returned as-is.
       - Numbers, booleans, and other primitive types are returned unchanged.
     """
+
+    def __init__(self, externals: Optional[dict[str, Any]] = None) -> None:
+        self.externals = externals or {}
 
     def resolve(self, record: dict, logic_values: dict, value: Any) -> Any:
         """
@@ -60,7 +63,15 @@ class TokenResolver:
 
         # check record variables prefixed with "$"
         if key.startswith("$"):
-            return record.get(key[1:])
+            name = key[1:]
+            if name in record:
+                return record[name]
+            if name in self.externals:
+                value = self.externals[name]
+                logger.debug("Resolved external %s -> %r", name, value)
+                return value
+            logger.info(" Unresolved token: %s", key)
+            return None  # unresolved → step will fail cleanly
 
         # return literal string unchanged
         return key

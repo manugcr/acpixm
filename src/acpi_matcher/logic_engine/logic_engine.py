@@ -4,7 +4,7 @@ evaluating operations and storing results per record.
 """
 
 import logging
-from typing import Any
+from typing import Any, Optional
 
 from src.acpi_matcher.token_resolver import TokenResolver
 from src.acpi_matcher.logic_engine.logic_ops import LogicOps
@@ -23,10 +23,12 @@ class LogicEngine:
     Only records where all steps succeed are kept.
     """
 
-    def __init__(self, steps: list[dict]):
+    def __init__(self,
+                 steps: list[dict],
+                 externals: Optional[dict[str, Any]] = None):
         self.steps = steps
         self.ops = LogicOps.registry()
-        self.resolver = TokenResolver()
+        self.resolver = TokenResolver(externals)
 
     # ---------- public ----------
 

@@ -8,7 +8,7 @@ class ACPIAnalyzer {
   - _determine_targets(): list[Path]
 }
 
-package ACPIProvider {
+package DataProvider {
   class Dumper {
     + Dumper(output_dir: Path)
     + dump_acpi(output_file: str): Path
@@ -27,6 +27,11 @@ package ACPIProvider {
     - disassembler: Disassembler
     + ProviderPipeline(output_dir: Path)
     + run(): list[Path]
+  }
+  class SystemProvider {
+    + SystemProvider(output_dir: Path)
+    + run(): Path
+    - _collect_kernel_ranges(): dict
   }
 }
 
@@ -57,11 +62,6 @@ package ACPIMatcher {
     ..pure ops..
   }
 
-  class LogicProviders {
-    + registry(): dict[str, Callable]
-    ..provider ops..
-  }
-
   class TokenResolver {
     + resolve(record: dict, logic_values: dict, value: Any): Any
     - _resolve_string() -> Any
@@ -79,7 +79,8 @@ package ACPIMatcher {
   }
 }
 
-ACPIAnalyzer --> ACPIProvider.ProviderPipeline : uses (optional)
+ACPIAnalyzer --> DataProvider.ProviderPipeline : uses (optional)
+ACPIAnalyzer --> DataProvider.SystemProvider : uses (optional)
 ProviderPipeline *-- Dumper
 ProviderPipeline *-- Extractor
 ProviderPipeline *-- Disassembler
@@ -87,11 +88,10 @@ ProviderPipeline *-- Disassembler
 ACPIAnalyzer --> ACPIMatcher.YamlProcessor
 ACPIAnalyzer --> ACPIMatcher.ASTGrepMatcher
 ACPIAnalyzer --> ACPIMatcher.JsonHandler
-ACPIAnalyzer --> ACPIMatcher.LogicEngine : derive facts (optional)
+ACPIAnalyzer --> ACPIMatcher.LogicEngine : uses (optional)
 ACPIAnalyzer --> ACPIMatcher.ReturnEvaluator
-ACPIMatcher.LogicEngine --> ACPIMatcher.LogicOps : uses
-ACPIMatcher.LogicEngine --> ACPIMatcher.TokenResolver : uses
-ACPIMatcher.LogicEngine --> ACPIMatcher.LogicProviders : uses
-ACPIMatcher.ReturnEvaluator --> ACPIMatcher.TokenResolver : uses
+ACPIMatcher.LogicEngine --> ACPIMatcher.LogicOps
+ACPIMatcher.LogicEngine --> ACPIMatcher.TokenResolver
+ACPIMatcher.ReturnEvaluator --> ACPIMatcher.TokenResolver
 
 @enduml

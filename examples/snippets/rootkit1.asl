@@ -27,8 +27,6 @@ DefinitionBlock ("SSDT", "SSDT", 1, "OEMID", "TABLEID", 0x00000001)
             NTCR, 64
         }
 
-        Store (REGS, SYSC)
-
         Scope (\_SB)
         {
             Device (LID0)

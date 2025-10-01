@@ -15,9 +15,7 @@ class Dumper:
     """Handles the dumping of ACPI tables using acpidump."""
 
     def __init__(self, output_dir: Path) -> None:
-        self.output_dir = output_dir
-        if os.path.exists(self.output_dir):
-            shutil.rmtree(self.output_dir)
+        self.output_dir = Path(output_dir).resolve()
         self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def dump_acpi(self, output_file: str = "acpidump.bin") -> Path:
@@ -25,7 +23,6 @@ class Dumper:
         dump_path = self.output_dir / output_file
         command = ["sudo", "acpidump", "-o", str(dump_path)]
         logger.debug("Running: %s", " ".join(command))
-
         try:
             subprocess.run(command, check=True)
         except subprocess.CalledProcessError as e:
@@ -38,7 +35,8 @@ class Extractor:
     """Handles the extraction of ACPI tables from a dumped file."""
 
     def __init__(self, output_dir: Path) -> None:
-        self.output_dir = output_dir
+        self.output_dir = Path(output_dir).resolve()
+        self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def extract_tables(self, dump_file: Path) -> List[Path]:
         """Extracts ACPI tables from the dumped file using acpixtract."""
@@ -59,7 +57,8 @@ class Disassembler:
     """Handles the disassembly of ACPI tables into DSL files."""
 
     def __init__(self, output_dir: Path) -> None:
-        self.output_dir = output_dir
+        self.output_dir = Path(output_dir).resolve()
+        self.output_dir.mkdir(parents=True, exist_ok=True)
 
     def disassemble_tables(self, table_files: List[Path]) -> List[Path]:
         """Disassembles extracted ACPI tables into DSL files using iasl."""
@@ -93,7 +92,12 @@ class ProviderPipeline:
         """Executes the full pipeline: dump -> extract -> disassemble."""
         logger.info("Starting ACPI provider pipeline.")
         dump_file = self.dumper.dump_acpi()
+
         table_files = self.extractor.extract_tables(dump_file)
+        logger.info(" Extracted %d ACPI table(s).", len(table_files))
+
         dsl_files = self.disassembler.disassemble_tables(table_files)
-        logger.debug(" ACPI provider complete: %d DSL file(s)", len(dsl_files))
+        logger.info(" Disassembled %d DSL file(s).", len(dsl_files))
+
+        logger.info(" ACPI provider complete: %d DSL file(s)", len(dsl_files))
         return dsl_files

@@ -38,6 +38,14 @@ class JsonHandler:
         except ValueError:
             return value
 
+    @staticmethod
+    def read(in_path: Path) -> Any:
+        """
+        Reads JSON data from the specified file and returns it as a Python object.
+        """
+        with in_path.open("r", encoding="utf-8") as f:
+            return json.load(f)
+
     def normalize(self, matches: list[dict]) -> list[dict]:
         """
         Parses and normalizes all matches, converting numeric-looking variables

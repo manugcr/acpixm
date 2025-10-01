@@ -32,18 +32,18 @@ end
 
 Analyzer -> Grep : run(ast_rule, targets)
 activate Grep
-Grep --> Analyzer : raw_matches
+Grep --> Analyzer : raw_matches: dict
 deactivate Grep
 
 Analyzer -> JSON : normalize(raw_matches)
 activate JSON
-JSON --> Analyzer : records
+JSON --> Analyzer : records: dict
 deactivate JSON
 
 opt logic exists
   Analyzer -> Logic : evaluate(records)
   activate Logic
-  Logic --> Analyzer : records: mutated with record["logic"]
+  Logic --> Analyzer : records: dict mutated with record["logic"]
   deactivate Logic
 end
 
