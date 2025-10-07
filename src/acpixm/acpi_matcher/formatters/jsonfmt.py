@@ -20,6 +20,6 @@ class JsonFormatter(Formatter):
                 "record": event.decision.record,
             })
 
-    def finalize(self) -> None:
+    def finalize(self, total_files: int = 0) -> None:
         json.dump({"findings": self._items}, sys.stdout, indent=2)
         sys.stdout.write("\n")

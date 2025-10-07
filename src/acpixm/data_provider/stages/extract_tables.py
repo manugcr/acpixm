@@ -3,8 +3,8 @@
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from src.data_provider.commands import SubprocessRunner, CommandSpec
-from src.data_provider.pipeline import PipelineContext, PipelineStage, PipelineArtifact
+from ..commands import SubprocessRunner, CommandSpec
+from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
 logger = logging.getLogger(__name__)
 

@@ -7,8 +7,8 @@ import json
 import re
 import logging
 
-from src.data_provider.commands import SubprocessRunner, CommandSpec
-from src.data_provider.pipeline import PipelineContext, PipelineStage
+from ..commands import SubprocessRunner, CommandSpec
+from ..pipeline import PipelineContext, PipelineStage
 
 logger = logging.getLogger(__name__)
 

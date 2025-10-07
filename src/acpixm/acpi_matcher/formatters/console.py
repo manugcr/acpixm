@@ -45,13 +45,16 @@ class ConsoleFormatter(Formatter):
             rec.setdefault("file", rec.get("file") or str(event.target))
             self.state.kept_matches.append(rec)
 
-    def finalize(self) -> None:
+    def finalize(self, total_files: int = 0) -> None:
         rule = self.state.rule or {}
         matches = self.state.kept_matches
         targets = sorted(self.state.targets)
+        
+        # Use provided total_files count if available, otherwise fall back to targets
+        files_scanned = total_files if total_files > 0 else len(targets)
 
         self._print_header()
-        self._print_rule_box(rule, len(targets), len(matches))
+        self._print_rule_box(rule, files_scanned, len(matches))
         self._print_matches_table(matches)
 
     # ---------- helpers ----------

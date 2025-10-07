@@ -6,8 +6,8 @@ evaluating operations and storing results per record.
 import logging
 from typing import Any, Optional
 
-from src.acpi_matcher.token_resolver import TokenResolver
-from src.acpi_matcher.logic_engine.logic_ops import LogicOps
+from ..token_resolver import TokenResolver
+from .logic_ops import LogicOps
 
 logger = logging.getLogger(__name__)
 

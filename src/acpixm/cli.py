@@ -6,7 +6,7 @@ from typing import Optional
 
 import typer
 
-from src.acpi_analyzer import collect, analyze
+from .acpi_analyzer import collect, analyze
 
 app = typer.Typer(add_completion=True, help="ACPI Rootkit Detection Tool")
 
@@ -41,7 +41,20 @@ def collect_data(
     used for the logic evaluation. Requires sudo privileges for accessing system data.
     """
     _setup_logging(verbose, debug)
-    collect(workdir=output_path)
+    
+    try:
+        collect(workdir=output_path)
+    except FileNotFoundError as e:
+        typer.echo(f"[!] Error: {e}", err=True)
+        raise typer.Exit(1)
+    except PermissionError as e:
+        typer.echo(f"[!] Permission denied: {e}", err=True)
+        raise typer.Exit(1)
+    except Exception as e:
+        typer.echo(f"[!] Unexpected error: {e}", err=True)
+        if debug:
+            raise  # Show full traceback in debug mode
+        raise typer.Exit(1)
 
 
 @app.command("analyze")
@@ -80,7 +93,23 @@ def analyze_cmd(
     potential indicators or patterns of interest.
     """
     _setup_logging(verbose, debug)
-    analyze(rule_path=rule_path, files=files, vars_path=vars_path, fmt=fmt)
+    
+    try:
+        analyze(rule_path=rule_path, files=files, vars_path=vars_path, fmt=fmt)
+    except FileNotFoundError as e:
+        typer.echo(f"[!] File not found: {e}", err=True)
+        raise typer.Exit(1)
+    except ValueError as e:
+        typer.echo(f"[!] Invalid input: {e}", err=True)
+        raise typer.Exit(1)
+    except PermissionError as e:
+        typer.echo(f"[!] Permission denied: {e}", err=True)
+        raise typer.Exit(1)
+    except Exception as e:
+        typer.echo(f"[!] Unexpected error: {e}", err=True)
+        if debug:
+            raise  # Show full traceback in debug mode
+        raise typer.Exit(1)
 
 
 if __name__ == "__main__":

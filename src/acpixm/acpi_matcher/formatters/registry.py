@@ -1,6 +1,6 @@
-from src.acpi_matcher.formatters.console import ConsoleFormatter
-from src.acpi_matcher.formatters.jsonfmt import JsonFormatter
-from src.acpi_matcher.formatters.formatter import Formatter
+from .console import ConsoleFormatter
+from .jsonfmt import JsonFormatter
+from .formatter import Formatter
 
 
 def make_formatter(name: str) -> Formatter:

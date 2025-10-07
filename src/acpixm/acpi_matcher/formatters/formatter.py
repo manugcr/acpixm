@@ -4,7 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from pathlib import Path
 
-from src.acpi_matcher.return_evaluator import ReturnDecision
+from ..return_evaluator import ReturnDecision
 
 
 @dataclass(frozen=True)
@@ -21,5 +21,5 @@ class Formatter(ABC):
         ...
 
     @abstractmethod
-    def finalize(self) -> None:
+    def finalize(self, total_files: int = 0) -> None:
         ...

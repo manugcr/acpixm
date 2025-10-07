@@ -4,21 +4,21 @@ import logging
 from pathlib import Path
 from typing import Optional
 
-from src.data_provider.commands import SubprocessRunner
-from src.data_provider.pipeline import PipelineContext, PipelineRunner, PipelineArtifact
+from .data_provider.commands import SubprocessRunner
+from .data_provider.pipeline import PipelineContext, PipelineRunner, PipelineArtifact
 
-from src.data_provider.stages.dump_acpi import DumpACPI
-from src.data_provider.stages.extract_tables import ExtractTables
-from src.data_provider.stages.disassemble_tables import DisassembleTables
-from src.data_provider.stages.iomem_kernel import GrepIomemKernel
-from src.data_provider.stages.astgrep_scan import AstGrepScan
+from .data_provider.stages.dump_acpi import DumpACPI
+from .data_provider.stages.extract_tables import ExtractTables
+from .data_provider.stages.disassemble_tables import DisassembleTables
+from .data_provider.stages.iomem_kernel import GrepIomemKernel
+from .data_provider.stages.astgrep_scan import AstGrepScan
 
-from src.acpi_matcher.yaml_processor import YamlProcessor
-from src.acpi_matcher.json_handler import JsonHandler
-from src.acpi_matcher.logic_engine.logic_engine import LogicEngine
-from src.acpi_matcher.return_evaluator import ReturnEvaluator
-from src.acpi_matcher.formatters.formatter import MatchEvent
-from src.acpi_matcher.formatters.registry import make_formatter
+from .acpi_matcher.yaml_processor import YamlProcessor
+from .acpi_matcher.json_handler import JsonHandler
+from .acpi_matcher.logic_engine.logic_engine import LogicEngine
+from .acpi_matcher.return_evaluator import ReturnEvaluator
+from .acpi_matcher.formatters.formatter import MatchEvent
+from .acpi_matcher.formatters.registry import make_formatter
 
 logger = logging.getLogger(__name__)
 
@@ -186,4 +186,4 @@ def analyze(rule_path: Path,
     logger.info("Analysis completed: %d total matches across %d files",
                 total_matches, len(targets))
     logger.debug("Finalizing output formatting")
-    formatter.finalize()
+    formatter.finalize(total_files=len(targets))

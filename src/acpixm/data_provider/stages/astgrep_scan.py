@@ -8,11 +8,11 @@ import logging
 import tempfile
 import yaml
 
-from src.data_provider.commands import SubprocessRunner, CommandSpec
-from src.data_provider.pipeline import PipelineContext, PipelineStage, PipelineArtifact
+from ..commands import SubprocessRunner, CommandSpec
+from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
 # This may not be the best approach
-ROOT = Path(__file__).parents[3].resolve()
+ROOT = Path(__file__).parents[4].resolve()
 GRAMMAR_PATH = ROOT / "tree-sitter-asl" / "asl.so"
 
 logger = logging.getLogger(__name__)

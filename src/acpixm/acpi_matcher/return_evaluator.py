@@ -7,7 +7,7 @@ records should be kept as positive matches based on various criteria.
 import logging
 from dataclasses import dataclass
 
-from src.acpi_matcher.token_resolver import TokenResolver
+from .token_resolver import TokenResolver
 
 logger = logging.getLogger(__name__)
 

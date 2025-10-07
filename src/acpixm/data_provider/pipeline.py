@@ -7,7 +7,7 @@ from pathlib import Path
 from enum import Enum
 from typing import MutableMapping, TypedDict
 
-from src.data_provider.commands import SubprocessRunner
+from .commands import SubprocessRunner
 
 logger = logging.getLogger(__name__)
 
