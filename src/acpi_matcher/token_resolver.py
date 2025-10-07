@@ -70,7 +70,7 @@ class TokenResolver:
                 value = self.externals[name]
                 logger.debug("Resolved external %s -> %r", name, value)
                 return value
-            logger.info(" Unresolved token: %s", key)
+            logger.error(" Unresolved token: %s", key)
             return None  # unresolved → step will fail cleanly
 
         # return literal string unchanged

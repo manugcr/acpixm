@@ -9,14 +9,11 @@ logger = logging.getLogger(__name__)
 
 
 class JsonHandler:
-    """ A class to handle JSON data. """
+    """A class to handle JSON data operations for ACPI analysis."""
 
     @staticmethod
     def write(data: Any, out_path: Path) -> Path:
-        """
-        Writes the given data as JSON to the specified output path.
-        Return the path to the written JSON file.
-        """
+        """Write data as JSON to the specified output path."""
         out_path.parent.mkdir(parents=True, exist_ok=True)
         with out_path.open("w", encoding="utf-8") as f:
             json.dump(data, f, indent=2)
@@ -25,10 +22,7 @@ class JsonHandler:
 
     @staticmethod
     def _integer_from_string(value: Optional[str]) -> Any:
-        """
-        Attempts to convert a string value to an integer (hex or decimal).
-        Returns the integer if successful, otherwise returns the original string.
-        """
+        """Attempt to convert a string value to an integer."""
         if not isinstance(value, str):
             return value
         try:
@@ -40,16 +34,21 @@ class JsonHandler:
 
     @staticmethod
     def read(in_path: Path) -> Any:
-        """
-        Reads JSON data from the specified file and returns it as a Python object.
-        """
+        """Read JSON data from a file."""
         with in_path.open("r", encoding="utf-8") as f:
             return json.load(f)
 
     def normalize(self, matches: list[dict]) -> list[dict]:
-        """
-        Parses and normalizes all matches, converting numeric-looking variables
-        to ints, and preserving all other metadata.
+        """Parse and normalize AST-grep matches.
+        
+        Converts numeric-looking variables to integers and preserves
+        all metadata from the original matches.
+        
+        Args:
+            matches: List of raw AST-grep match dictionaries.
+            
+        Returns:
+            List of normalized match records with converted data types.
         """
         normalized_records: list[dict] = []
 

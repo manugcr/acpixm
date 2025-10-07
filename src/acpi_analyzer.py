@@ -1,111 +1,189 @@
-"""ACPI analyzer: orchestrator."""
+"""ACPI analyzer orchestrator module."""
 
 import logging
 from pathlib import Path
-from typing import Optional, Any
+from typing import Optional
+
+from src.data_provider.commands import SubprocessRunner
+from src.data_provider.pipeline import PipelineContext, PipelineRunner, PipelineArtifact
+
+from src.data_provider.stages.dump_acpi import DumpACPI
+from src.data_provider.stages.extract_tables import ExtractTables
+from src.data_provider.stages.disassemble_tables import DisassembleTables
+from src.data_provider.stages.iomem_kernel import GrepIomemKernel
+from src.data_provider.stages.astgrep_scan import AstGrepScan
 
 from src.acpi_matcher.yaml_processor import YamlProcessor
-from src.acpi_matcher.astgrep_matcher import ASTGrepMatcher
 from src.acpi_matcher.json_handler import JsonHandler
 from src.acpi_matcher.logic_engine.logic_engine import LogicEngine
 from src.acpi_matcher.return_evaluator import ReturnEvaluator
-from src.ui.pretty_summary import PrettySummary
+from src.acpi_matcher.formatters.formatter import MatchEvent
+from src.acpi_matcher.formatters.registry import make_formatter
 
 logger = logging.getLogger(__name__)
 
 _VALID_EXTS = {".dsl", ".asl"}
 
-class ACPIAnalyzer:
-    """Top-level orchestrator for provider and rule execution."""
 
-    def __init__(self, workspace_dir: Path) -> None:
-        self.workspace_dir = Path(workspace_dir).resolve()
-        self.tmp_dir = self.workspace_dir / "tmp"
-        self.tmp_dir.mkdir(parents=True, exist_ok=True)
-        self._printer = PrettySummary()
-
-    # -------- internals --------
-
-    def _validate_environment(self, rule_path: Path) -> None:
-        """Ensure base folders exist and required files are present."""
-        if not rule_path.exists():
-            raise FileNotFoundError(f"rule not found: {rule_path}")
-        if not self.tmp_dir.exists():
-            raise FileNotFoundError(f"tmp dir not found: {self.tmp_dir}")
-
-    def _determine_targets(
-        self,
-        files: Optional[list[Path]],
-        directory: Optional[Path],
-    ) -> list[Path]:
-        """Determine target .dsl files from either explicit files or a directory."""
-        if files:
-            targets: list[Path] = []
-            for file in files:
-                file = Path(file).resolve()
-                if file.exists() and file.suffix.lower() in _VALID_EXTS:
-                    targets.append(file)
-            return targets
-
-        assert directory is not None
-        directory = Path(directory).resolve()
-        targets = sorted([*directory.glob("*.dsl"), *directory.glob("*.asl")])
-
-        if not targets:
-            raise ValueError(f"No .dsl/.asl files found in directory: {directory}")
-        return targets
+def _collect_targets(path: Path) -> list[Path]:
+    """Collect target .dsl/.asl files from a given path.
     
-    def run(self, rule_path: Path, files: Optional[list[Path]],
-            files_dir: Optional[Path], vars_path: Optional[Path]) -> None:
-        """Run full analysis for the given rule and target files."""
-        rule_path = Path(rule_path).resolve()
-        self._validate_environment(rule_path)
-        logger.info("Using rule: %s", rule_path)
+    Args:
+        path: Path to either a file or directory containing ACPI files.
+        
+    Returns:
+        List of Path objects pointing to .dsl/.asl files.
+        
+    Raises:
+        FileNotFoundError: If the path does not exist.
+        ValueError: If no valid files are found or invalid extension.
+    """
+    p = path.resolve()
+    if not p.exists():
+        raise FileNotFoundError(f"Path not found: {p}")
 
-        # 1) find targets
-        targets = self._determine_targets(files, files_dir)
+    if p.is_file():
+        if p.suffix.lower() not in _VALID_EXTS:
+            raise ValueError(f"Unsupported file extension: {p}")
+        return [p]
+
+    if p.is_dir():
+        targets = sorted(list(p.glob("*.dsl")) + list(p.glob("*.asl")))
         if not targets:
-            logger.info("No .dsl files to analyze; exiting")
-            return
+            raise ValueError(f"No .dsl/.asl files found in directory: {p}")
+        return targets
 
-        # 2) load rule sections
-        yp = YamlProcessor(rule_path)
-        ast_rule = yp.ast_section
-        logic_rule = yp.logic_section  # may be None
-        return_rule = yp.return_section
+    raise ValueError(f"Invalid input path: {p}")
 
-        # 3) run ast-grep
-        matcher = ASTGrepMatcher()
-        logger.info("Starting ast-grep matching.")
-        raw_matches = matcher.run(ast_rule=ast_rule, targets=targets)
-        logger.debug(" Found %d ast-grep matches.", len(raw_matches))
 
-        # 4) normalize
-        jsonh = JsonHandler()
-        records = jsonh.normalize(raw_matches)
-        # jsonh.write(records, self.tmp_dir / f"{rule_path.stem}.raw.json")
+def _ensure_workdir(path: Path) -> Path:
+    """Ensure the given path exists as a directory.
+    
+    Args:
+        path: Path to create as a directory.
+        
+    Returns:
+        Resolved Path object of the created directory.
+    """
+    wd = path.resolve()
+    wd.mkdir(parents=True, exist_ok=True)
+    return wd
 
-        # Get external variables if provided
-        external_vars = {}
-        if vars_path:
-            external_vars = jsonh.read(vars_path).get("vars", {})
-            logger.info("Loaded external vars from %s", vars_path)
 
-        # 5) apply optional logic
-        logger.info("Starting logic evaluation.")
+def collect(workdir: Path) -> None:
+    """Run ACPI data collection up to disassembled tables.
+    
+    Physical artifacts are written into the specified working directory.
+    
+    Args:
+        workdir: Directory where collected files will be stored.
+    """
+    logger.info("Starting ACPI data collection pipeline")
+    wd = _ensure_workdir(workdir)
+    logger.debug("Using working directory: %s", wd)
+
+    # Initialize pipeline context and runner
+    ctx = PipelineContext(workdir=wd)
+    runner = SubprocessRunner()
+
+    # Configure and run the collection pipeline
+    pipeline = PipelineRunner(runner)
+    pipeline.register(DumpACPI()).register(ExtractTables()).register(
+        GrepIomemKernel()).register(DisassembleTables())
+
+    try:
+        pipeline.run(ctx)
+        logger.info("ACPI data collection completed successfully")
+        logger.info("Artifacts stored in: %s", wd)
+    except Exception as e:
+        logger.error("ACPI data collection failed: %s", e)
+        raise
+
+
+def analyze(rule_path: Path,
+            *,
+            files: Path,
+            vars_path: Optional[Path] = None,
+            fmt: str = "console") -> None:
+    """Analyze ACPI files using specified rules.
+    
+    Args:
+        rule_path: Path to the YAML rule file.
+        files: Path to files or directory containing .dsl/.asl files.
+        vars_path: Optional path to JSON file with external variables.
+    """
+    wd = _ensure_workdir(Path("./tmp"))
+
+    # Resolve targets (either explicit files or a directory of .dsl/.asl)
+    targets = _collect_targets(files)
+    logger.info("Found %d target files to analyze", len(targets))
+
+    # Load rule that is going to be executed and external vars if provided
+    yp = YamlProcessor(Path(rule_path).resolve())
+    ast_rule = yp.ast_section
+    logic_rule = yp.logic_section
+    return_rule = yp.return_section
+    rule_info = yp.get_rule_info()
+    logger.info("Loaded rule: %s", rule_path)
+
+    jsonh = JsonHandler()
+    external_vars = {}
+    if vars_path:
+        external_vars = jsonh.read(vars_path).get("vars", {})
+        logger.info("Loaded external vars from %s: %s", vars_path,
+                    external_vars)
+
+    # Set up runner
+    ctx = PipelineContext(workdir=wd)
+    runner = SubprocessRunner()
+    formatter = make_formatter(fmt)
+
+    # Process each target file through the analysis pipeline
+    total_matches = 0
+    for i, target in enumerate(targets, 1):
+        logger.info("[%d/%d] Processing file: %s", i, len(targets),
+                    target.name)
+
+        # Stage 1: Run AST-grep pattern matching
+        logger.debug("Running AST-grep scan on %s", target.name)
+        stage = AstGrepScan(target=target, ast_rule=ast_rule)
+        stage.run(ctx, runner)
+        raw_matches = ctx.data.get(PipelineArtifact.AST_GREP_MATCHES, [])
+
+        # Stage 2: Normalize AST-grep results
+        logger.debug("Normalizing AST-grep results for %s", target.name)
+        normalized_matches = jsonh.normalize(raw_matches)
+        logger.debug("Normalization resulted in %d records for %s",
+                     len(normalized_matches), target.name)
+
+        # Stage 3: Apply optional logic rules
+        records = normalized_matches
         if logic_rule:
-            records = LogicEngine(logic_rule, external_vars).evaluate(records)
-            logger.debug(" Calculated %d logic matches.", len(records))
+            logger.info("Applying logic rules to %d records from %s",
+                        len(normalized_matches), target.name)
+            records = LogicEngine(logic_rule,
+                                  external_vars).evaluate(normalized_matches)
+            logger.debug("Logic evaluation resulted in %d records for %s",
+                         len(records), target.name)
         else:
-            logger.info("  No logic section present; skipping.")
+            logger.debug("No logic section present; skipping logic evaluation")
 
-        # 6) run return-evaluator
-        logger.info("Starting return evaluation.")
-        records = ReturnEvaluator(return_rule).evaluate(records)
-        logger.debug(" Found %d final matches", len(records))
+        # Stage 4: Return evaluation and formatting
+        logger.debug("Evaluating return rules for %d records from %s",
+                     len(records), target.name)
+        decisions = ReturnEvaluator(return_rule).evaluate(records)
 
-        rule_info: dict[str, Any] = yp.get_rule_info()
-        payload = {"rule": rule_info, "matches": records}
-        jsonh.write(payload, self.tmp_dir / f"{rule_path.stem}.normalized.json")
+        kept_decisions = [d for d in decisions if d.found]
+        total_matches += len(kept_decisions)
+        logger.debug("Return evaluation: %d/%d records kept from %s",
+                     len(kept_decisions), len(decisions), target.name)
 
-        self._printer.print(rule=rule_info, matches=records, targets=targets)
+        for decision in decisions:
+            formatter.feed(
+                MatchEvent(rule=rule_info, target=target, decision=decision))
+
+    # Stage 5: Generate final output summary
+    logger.info("Analysis completed: %d total matches across %d files",
+                total_matches, len(targets))
+    logger.debug("Finalizing output formatting")
+    formatter.finalize()

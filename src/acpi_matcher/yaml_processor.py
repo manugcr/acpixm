@@ -11,13 +11,14 @@ logger = logging.getLogger(__name__)
 
 
 class RuleSchema(BaseModel):
+    """Pydantic schema for ACPI rule validation."""
     ast: dict
     logic: Optional[list[dict]] = Field(default=None, alias="logic")
     return_: list[dict] = Field(alias="return")
 
 
 class YamlProcessor:
-    """Load, validate, expose rule sections and basic metadata."""
+    """Load, validate, and expose ACPI rule YAML sections."""
 
     def __init__(self, rule_path: Path) -> None:
         self.rule_path = Path(rule_path)
