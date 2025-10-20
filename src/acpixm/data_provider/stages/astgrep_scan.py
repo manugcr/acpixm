@@ -13,7 +13,7 @@ from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
 # This may not be the best approach
 ROOT = Path(__file__).parents[4].resolve()
-GRAMMAR_PATH = ROOT / "tree-sitter-asl" / "asl.so"
+GRAMMAR_PATH = (ROOT / "tree-sitter-asl" / "asl.so").resolve()
 
 logger = logging.getLogger(__name__)
 
@@ -89,6 +89,7 @@ class AstGrepScan(PipelineStage):
         rule_file = self._make_rule_file()
 
         # 2) run ast-grep
+        logger.info(f"Grammar: {GRAMMAR_PATH}")
         proc = runner.run(
             CommandSpec(
                 [

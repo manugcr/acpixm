@@ -1,5 +1,6 @@
 # Do not track personal files
 output/
+output*
 notes.md
 .vscode/
 tmp/
