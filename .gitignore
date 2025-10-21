@@ -6,6 +6,7 @@ notes.md
 tmp/
 docs/output*
 .acpi_work/
+docs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
