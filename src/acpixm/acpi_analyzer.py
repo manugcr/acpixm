@@ -79,6 +79,7 @@ def collect(workdir: Path) -> None:
         workdir: Directory where collected files will be stored.
     """
     logger.info("Starting ACPI data collection pipeline")
+    print("[*] Starting ACPI data collection pipeline")
     wd = _ensure_workdir(workdir)
     logger.debug("Using working directory: %s", wd)
 
@@ -95,6 +96,7 @@ def collect(workdir: Path) -> None:
         pipeline.run(ctx)
         logger.info("ACPI data collection completed successfully")
         logger.info("Artifacts stored in: %s", wd)
+        print(f"[*] ACPI data collection completed. Artifacts in: {wd}")
     except Exception as e:
         logger.error("ACPI data collection failed: %s", e)
         raise
