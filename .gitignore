@@ -1,8 +1,11 @@
 # Do not track personal files
 output/
+output*
 notes.md
 .vscode/
 tmp/
+docs/output*
+.acpi_work/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

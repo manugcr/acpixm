@@ -1,0 +1,17 @@
+---
+ast:
+  id: match-suspicious-bytes-mnemonics
+  language: asl
+  message: Suspicious store of bytes that may represent code
+  severity: warning
+
+  rule:
+    pattern: Name ($BUFNAME, Buffer ($BUF) {0x90, 0x90, 0x90, 0x90, 0x90,
+                                            0x90, 0x90, 0x90, 0x90, 0x90,
+                                            0x90, 0x90, 0x90, 0x90, 0x90})
+    precedes:
+      pattern: Store ($BUFNAME, $DEST)
+      stopBy: end
+return:
+  - found: ast
+  - not-found: otherwise

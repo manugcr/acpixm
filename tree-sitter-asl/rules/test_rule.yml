@@ -1,0 +1,35 @@
+---
+id: opregion-kernel-space
+language: asl
+message: OperationRegion pointing to kernel space
+severity: warning
+
+rule:
+  pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
+
+  
+rule:
+  kind: OpRegionTerm
+  all:
+    - has:
+        kind: NameString
+        pattern: $REGNAME
+    - has:
+        kind: RegionSpaceKeyword
+        regex: "SystemMemory"
+        pattern: $REGSPACE
+    - has:
+        field: Offset
+        kind: IntegerLiteral
+        pattern: $OFFSET
+    - has:
+        field: Length
+        kind: IntegerLiteral
+        pattern: $LENGTH
+# rule:
+#   any:
+#     - pattern: Load ($OBJECT, $RESULT)
+#     - pattern: Store ($SOURCE, $DEST)
+#     - pattern: Unload ($OBJECT)
+rule:
+  pattern: Buffer ($BUF) {$DATA}

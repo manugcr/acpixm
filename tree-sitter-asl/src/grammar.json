@@ -3,8 +3,20 @@
   "name": "asl",
   "rules": {
     "SourceFile": {
-      "type": "SYMBOL",
-      "name": "DefinitionBlockTerm"
+      "type": "REPEAT1",
+      "content": {
+        "type": "CHOICE",
+        "members": [
+          {
+            "type": "SYMBOL",
+            "name": "DefinitionBlockTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "_Term"
+          }
+        ]
+      }
     },
     "DefinitionBlockTerm": {
       "type": "SEQ",
@@ -111,6 +123,13 @@
         }
       ]
     },
+    "MetaVarIdent": {
+      "type": "TOKEN",
+      "content": {
+        "type": "PATTERN",
+        "value": "\\$[A-Z][A-Z0-9_]*"
+      }
+    },
     "_comment": {
       "type": "TOKEN",
       "content": {
@@ -149,16 +168,20 @@
         ]
       }
     },
-    "NameSeg": {
-      "type": "PATTERN",
-      "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
-    },
     "NameString": {
       "type": "CHOICE",
       "members": [
         {
           "type": "PREC",
           "value": 2,
+          "content": {
+            "type": "STRING",
+            "value": "\\"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 3,
           "content": {
             "type": "SEQ",
             "members": [
@@ -190,8 +213,11 @@
                 "type": "SEQ",
                 "members": [
                   {
-                    "type": "SYMBOL",
-                    "name": "NameSeg"
+                    "type": "TOKEN",
+                    "content": {
+                      "type": "PATTERN",
+                      "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
+                    }
                   },
                   {
                     "type": "REPEAT",
@@ -203,8 +229,11 @@
                           "value": "."
                         },
                         {
-                          "type": "SYMBOL",
-                          "name": "NameSeg"
+                          "type": "TOKEN",
+                          "content": {
+                            "type": "PATTERN",
+                            "value": "[A-Za-z0-9_][A-Za-z0-9_]{0,3}"
+                          }
                         }
                       ]
                     }
@@ -226,50 +255,65 @@
           }
         },
         {
-          "type": "PREC",
-          "value": 0,
+          "type": "ALIAS",
           "content": {
-            "type": "STRING",
-            "value": "\\"
-          }
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "NameString"
         }
       ]
     },
     "IntegerLiteral": {
-      "type": "TOKEN",
-      "content": {
-        "type": "CHOICE",
-        "members": [
-          {
-            "type": "PATTERN",
-            "value": "0[xX][0-9a-fA-F]+"
-          },
-          {
-            "type": "PATTERN",
-            "value": "[0-9]+"
-          },
-          {
-            "type": "PATTERN",
-            "value": "Zero"
-          },
-          {
-            "type": "PATTERN",
-            "value": "One"
-          },
-          {
-            "type": "PATTERN",
-            "value": "Ones"
-          },
-          {
-            "type": "PATTERN",
-            "value": "True"
-          },
-          {
-            "type": "PATTERN",
-            "value": "False"
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "TOKEN",
+          "content": {
+            "type": "CHOICE",
+            "members": [
+              {
+                "type": "PATTERN",
+                "value": "0[xX][0-9a-fA-F]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "[0-9]+"
+              },
+              {
+                "type": "PATTERN",
+                "value": "Zero"
+              },
+              {
+                "type": "PATTERN",
+                "value": "One"
+              },
+              {
+                "type": "PATTERN",
+                "value": "Ones"
+              },
+              {
+                "type": "PATTERN",
+                "value": "True"
+              },
+              {
+                "type": "PATTERN",
+                "value": "False"
+              }
+            ]
           }
-        ]
-      }
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "IntegerLiteral"
+        }
+      ]
     },
     "StringLiteral": {
       "type": "SEQ",
@@ -329,8 +373,20 @@
       "type": "CHOICE",
       "members": [
         {
-          "type": "SYMBOL",
-          "name": "_ExpressionOpcode"
+          "type": "PREC",
+          "value": 2,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_SymbolicExpressionTerm"
+          }
+        },
+        {
+          "type": "PREC",
+          "value": 1,
+          "content": {
+            "type": "SYMBOL",
+            "name": "_ExpressionOpcode"
+          }
         },
         {
           "type": "SYMBOL",
@@ -565,6 +621,10 @@
         {
           "type": "SYMBOL",
           "name": "_ExpressionOpcode"
+        },
+        {
+          "type": "SYMBOL",
+          "name": "_SymbolicExpressionTerm"
         }
       ]
     },
@@ -655,7 +715,7 @@
           "members": [
             {
               "type": "SYMBOL",
-              "name": "NameSeg"
+              "name": "NameString"
             },
             {
               "type": "BLANK"
@@ -1345,6 +1405,10 @@
           },
           {
             "type": "SYMBOL",
+            "name": "XorTerm"
+          },
+          {
+            "type": "SYMBOL",
             "name": "MethodInvocationTerm"
           },
           {
@@ -1487,6 +1551,10 @@
           {
             "type": "SYMBOL",
             "name": "_SymbolicExpressionTerm"
+          },
+          {
+            "type": "SYMBOL",
+            "name": "XorTerm"
           }
         ]
       }
@@ -1761,12 +1829,20 @@
           "value": "{"
         },
         {
-          "type": "FIELD",
-          "name": "TermList",
-          "content": {
-            "type": "SYMBOL",
-            "name": "_TermList"
-          }
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "FIELD",
+              "name": "TermList",
+              "content": {
+                "type": "SYMBOL",
+                "name": "_TermList"
+              }
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -3252,7 +3328,7 @@
         }
       ]
     },
-    "XOrTerm": {
+    "XorTerm": {
       "type": "SEQ",
       "members": [
         {
@@ -3340,6 +3416,31 @@
             "type": "SYMBOL",
             "name": "_TermArg"
           }
+        },
+        {
+          "type": "CHOICE",
+          "members": [
+            {
+              "type": "SEQ",
+              "members": [
+                {
+                  "type": "STRING",
+                  "value": ","
+                },
+                {
+                  "type": "FIELD",
+                  "name": "Result",
+                  "content": {
+                    "type": "SYMBOL",
+                    "name": "_Target"
+                  }
+                }
+              ]
+            },
+            {
+              "type": "BLANK"
+            }
+          ]
         },
         {
           "type": "STRING",
@@ -6309,7 +6410,7 @@
           "name": "SourceBuffer",
           "content": {
             "type": "SYMBOL",
-            "name": "NameSeg"
+            "name": "NameString"
           }
         },
         {
@@ -13994,6 +14095,10 @@
         {
           "type": "STRING",
           "value": "BuffFieldObj"
+        },
+        {
+          "type": "STRING",
+          "value": "ProcessorObj"
         }
       ]
     },
@@ -14132,6 +14237,15 @@
         {
           "type": "STRING",
           "value": "PCC"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "RegionSpaceKeyword"
         }
       ]
     },
@@ -14145,6 +14259,15 @@
         {
           "type": "STRING",
           "value": "ResourceProducer"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "ResourceTypeKeyword"
         }
       ]
     },
@@ -14158,6 +14281,15 @@
         {
           "type": "STRING",
           "value": "NotSerialized"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "SerializeRuleKeyword"
         }
       ]
     },
@@ -14179,6 +14311,15 @@
         {
           "type": "STRING",
           "value": "ExclusiveAndWake"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "ShareTypeKeyword"
         }
       ]
     },
@@ -14192,6 +14333,15 @@
         {
           "type": "STRING",
           "value": "DeviceInitiated"
+        },
+        {
+          "type": "ALIAS",
+          "content": {
+            "type": "SYMBOL",
+            "name": "MetaVarIdent"
+          },
+          "named": true,
+          "value": "SlaveModeKeyword"
         }
       ]
     },
@@ -14544,7 +14694,7 @@
     },
     "NoOpTerm": {
       "type": "STRING",
-      "value": "NoOp"
+      "value": "Noop"
     },
     "DataBitsKeyword": {
       "type": "CHOICE",
@@ -14754,7 +14904,12 @@
       "name": "_comment"
     }
   ],
-  "conflicts": [],
+  "conflicts": [
+    [
+      "NameString",
+      "IntegerLiteral"
+    ]
+  ],
   "precedences": [],
   "externals": [],
   "inline": [],
