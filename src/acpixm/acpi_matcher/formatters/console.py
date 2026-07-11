@@ -28,7 +28,7 @@ class ConsoleFormatter(Formatter):
     # ---------- streaming API ----------
     def feed(self, event: MatchEvent) -> None:
         """Process a match event and buffer relevant data.
-        
+
         Args:
             event: Match event containing rule, target, and decision information.
         """
@@ -40,8 +40,11 @@ class ConsoleFormatter(Formatter):
         self.state.targets.add(str(event.target))
 
         if event.decision.found:
-            rec = dict(event.decision.record) if isinstance(
-                event.decision.record, dict) else {}
+            rec = (
+                dict(event.decision.record)
+                if isinstance(event.decision.record, dict)
+                else {}
+            )
             rec.setdefault("file", rec.get("file") or str(event.target))
             self.state.kept_matches.append(rec)
 
@@ -49,7 +52,7 @@ class ConsoleFormatter(Formatter):
         rule = self.state.rule or {}
         matches = self.state.kept_matches
         targets = sorted(self.state.targets)
-        
+
         # Use provided total_files count if available, otherwise fall back to targets
         files_scanned = total_files if total_files > 0 else len(targets)
 
@@ -61,7 +64,7 @@ class ConsoleFormatter(Formatter):
     @staticmethod
     def _truncate(s: str, maxlen: int) -> str:
         s = (s or "").replace("\n", " ").strip()
-        return s if len(s) <= maxlen else s[:maxlen - 1] + "…"
+        return s if len(s) <= maxlen else s[: maxlen - 1] + "…"
 
     @staticmethod
     def _pad(s: str, n: int) -> str:
@@ -71,8 +74,9 @@ class ConsoleFormatter(Formatter):
         print()
         print("== ACPI Rootkit Detection ==")
 
-    def _print_rule_box(self, rule: dict[str, Any], n_targets: int,
-                        n_matches: int) -> None:
+    def _print_rule_box(
+        self, rule: dict[str, Any], n_targets: int, n_matches: int
+    ) -> None:
         rid = str(rule.get("id", "?"))
         sev = str(rule.get("severity", "?"))
         lang = str(rule.get("language", "?"))
@@ -85,7 +89,7 @@ class ConsoleFormatter(Formatter):
             f"Scanned : {n_targets} file(s)",
             f"Matches : {n_matches}",
         ]
-        width = max(len(l) for l in lines)
+        width = max(len(line) for line in lines)
         top = "┌" + ("─" * (width + 2)) + "┐"
         bot = "└" + ("─" * (width + 2)) + "┘"
 
@@ -103,9 +107,7 @@ class ConsoleFormatter(Formatter):
         H_FILE, H_LINE, H_SNIP = "FILE", "LINE", "SNIPPET"
 
         # compute column widths (cap file col; keep snippet fixed-ish)
-        file_name_lengths = [
-            len(Path(m.get("file", "")).name) for m in matches
-        ]
+        file_name_lengths = [len(Path(m.get("file", "")).name) for m in matches]
         file_col = max(len(H_FILE), min(max(file_name_lengths or [8]), 32))
         line_lengths = [len(str(m.get("line", ""))) for m in matches]
         line_col = max(len(H_LINE), min(max(line_lengths or [4]), 8))
@@ -113,7 +115,7 @@ class ConsoleFormatter(Formatter):
 
         sep = " | "
         header = f"{self._pad(H_FILE, file_col)}{sep}{self._pad(H_LINE, line_col)}{sep}{H_SNIP}"
-        rule = f"{'-'*file_col}---{'-'*line_col}---{'-'*snip_col}"
+        rule = f"{'-' * file_col}---{'-' * line_col}---{'-' * snip_col}"
 
         print()
         print(header)
@@ -124,7 +126,9 @@ class ConsoleFormatter(Formatter):
             line = str(m.get("line", ""))
             text = (m.get("text", "") or "").strip()
 
-            print(f"{self._pad(self._truncate(file, file_col), file_col)}{sep}"
-                  f"{self._pad(self._truncate(line, line_col), line_col)}{sep}"
-                  f"{self._truncate(text, snip_col)}")
+            print(
+                f"{self._pad(self._truncate(file, file_col), file_col)}{sep}"
+                f"{self._pad(self._truncate(line, line_col), line_col)}{sep}"
+                f"{self._truncate(text, snip_col)}"
+            )
         print()

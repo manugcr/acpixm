@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class DumpACPI(PipelineStage):
     """Pipeline stage for dumping ACPI tables using acpidump."""
+
     output_file: str = "acpidump.bin"
 
     def name(self) -> str:
@@ -19,7 +20,7 @@ class DumpACPI(PipelineStage):
 
     def run(self, ctx: PipelineContext, runner: SubprocessRunner) -> None:
         """Execute the ACPI dump stage.
-        
+
         Args:
             ctx: Pipeline context containing working directory and shared data.
             runner: Command runner for executing subprocess commands.

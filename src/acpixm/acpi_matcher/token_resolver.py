@@ -33,8 +33,7 @@ class TokenResolver:
             return self._resolve_string(record, logic_values, value)
         return value  # numbers, bools, None
 
-    def _resolve_list(self, record: dict, logic_values: dict,
-                      items: list) -> list:
+    def _resolve_list(self, record: dict, logic_values: dict, items: list) -> list:
         """
         Resolve each element of a list and return a new resolved list.
         Example:
@@ -45,8 +44,7 @@ class TokenResolver:
             resolved.append(self.resolve(record, logic_values, item))
         return resolved
 
-    def _resolve_string(self, record: dict, logic_values: dict,
-                        text: str) -> Any:
+    def _resolve_string(self, record: dict, logic_values: dict, text: str) -> Any:
         """
         Resolve a string token into its actual value.
 

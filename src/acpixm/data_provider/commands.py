@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 @dataclass
 class CommandSpec:
     """Specification for a command to be executed.
-    
+
     Attributes:
         argv: Command arguments sequence.
         cwd: Working directory for command execution.
@@ -20,6 +20,7 @@ class CommandSpec:
         capture_output: Whether to capture command output.
         quiet: Whether to suppress command stdout.
     """
+
     argv: Sequence[str]
     cwd: Optional[Path] = None
     sudo: bool = False
@@ -29,7 +30,7 @@ class CommandSpec:
 
 class SubprocessRunner:
     """Simple command executor for pipeline stages.
-    
+
     Stages describe what to run via CommandSpec, and this class handles
     the actual execution with proper logging and error handling.
     """
@@ -42,7 +43,7 @@ class SubprocessRunner:
 
         Returns:
             The result of the executed command.
-            
+
         Raises:
             subprocess.CalledProcessError: If the command fails.
         """
@@ -57,8 +58,10 @@ class SubprocessRunner:
         else:
             stdout = None
 
-        return subprocess.run(argv,
-                              cwd=str(spec.cwd) if spec.cwd else None,
-                              check=True,
-                              capture_output=spec.capture_output,
-                              stdout=stdout)
+        return subprocess.run(
+            argv,
+            cwd=str(spec.cwd) if spec.cwd else None,
+            check=True,
+            capture_output=spec.capture_output,
+            stdout=stdout,
+        )

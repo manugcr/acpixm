@@ -40,13 +40,13 @@ class JsonHandler:
 
     def normalize(self, matches: list[dict]) -> list[dict]:
         """Parse and normalize AST-grep matches.
-        
+
         Converts numeric-looking variables to integers and preserves
         all metadata from the original matches.
-        
+
         Args:
             matches: List of raw AST-grep match dictionaries.
-            
+
         Returns:
             List of normalized match records with converted data types.
         """
@@ -61,15 +61,12 @@ class JsonHandler:
                 record[name] = self._integer_from_string(var.get("text"))
 
             # Parse positional variables, appends VAR prefix to each variable
-            for idx, cap in enumerate(
-                    meta.get("multi", {}).get("secondary", [])):
-                record[f"VAR{idx}"] = self._integer_from_string(
-                    cap.get("text"))
+            for idx, cap in enumerate(meta.get("multi", {}).get("secondary", [])):
+                record[f"VAR{idx}"] = self._integer_from_string(cap.get("text"))
 
             # Add useful metadata from the match
             record["file"] = match.get("file")
-            record["line"] = match.get("range", {}).get("start",
-                                                        {}).get("line")
+            record["line"] = match.get("range", {}).get("start", {}).get("line")
             record["text"] = match.get("text")
 
             normalized_records.append(record)

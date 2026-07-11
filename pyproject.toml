@@ -23,3 +23,10 @@ acpixm = "acpixm.cli:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/acpixm"]
+
+[dependency-groups]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts   = "--tb=short"

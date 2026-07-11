@@ -79,5 +79,5 @@ class LogicOps:
             "overlaps-any": LogicOps.overlaps_any,
             "make-range": LogicOps.make_range,
             "and": LogicOps.and_op,
-            "or": LogicOps.or_op
+            "or": LogicOps.or_op,
         }
