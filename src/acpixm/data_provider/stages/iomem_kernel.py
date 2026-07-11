@@ -8,7 +8,7 @@ import re
 import logging
 
 from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage
+from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
 logger = logging.getLogger(__name__)
 
@@ -45,6 +45,7 @@ class GrepIomemKernel(PipelineStage):
         entries = self._parse_lines(text)
         payload = self._vars_payload(entries)
         out_path = self._write_json(ctx.workdir, payload)
+        ctx.data[PipelineArtifact.IOMEM_KERNEL_JSON] = out_path
         logger.info(
             "Wrote %s with %d kernel ranges.",
             out_path.name,
