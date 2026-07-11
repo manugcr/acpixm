@@ -103,6 +103,7 @@ class AstGrepScan(PipelineStage):
                 ],
                 cwd=ctx.workdir,
                 capture_output=True,
+                allowed_return_codes=None,  # ponytail: exit 1 = no matches, other codes = grammar/parse errors; stdout is ground truth
             )
         )
 

@@ -185,7 +185,7 @@ def analyze(
         logger.debug(
             "Evaluating return rules for %d records from %s", len(records), target.name
         )
-        decisions = ReturnEvaluator(return_rule).evaluate(records)
+        decisions = ReturnEvaluator(return_rule, externals=external_vars).evaluate(records)
 
         kept_decisions = [d for d in decisions if d.found]
         total_matches += len(kept_decisions)
