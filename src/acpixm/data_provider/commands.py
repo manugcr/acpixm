@@ -19,6 +19,7 @@ class CommandSpec:
         sudo: Whether to run command with sudo privileges.
         capture_output: Whether to capture command output.
         quiet: Whether to suppress command stdout.
+        allowed_return_codes: Exit codes treated as success. None = allow any.
     """
 
     argv: Sequence[str]
@@ -26,6 +27,11 @@ class CommandSpec:
     sudo: bool = False
     capture_output: bool = False
     quiet: bool = False
+    allowed_return_codes: Optional[frozenset[int]] = frozenset({0})
+
+    def __post_init__(self) -> None:
+        if self.quiet and self.capture_output:
+            raise ValueError("quiet and capture_output are mutually exclusive")
 
 
 class SubprocessRunner:
@@ -45,7 +51,8 @@ class SubprocessRunner:
             The result of the executed command.
 
         Raises:
-            subprocess.CalledProcessError: If the command fails.
+            subprocess.CalledProcessError: If the command exits with a code
+                not in allowed_return_codes (when allowed_return_codes is not None).
         """
         argv = list(spec.argv)
         if spec.sudo and (not argv or argv[0] != "sudo"):
@@ -53,15 +60,22 @@ class SubprocessRunner:
 
         logger.info("Running: %s", " ".join(argv))
 
-        if spec.quiet:
-            stdout = subprocess.DEVNULL
-        else:
-            stdout = None
+        stdout = subprocess.DEVNULL if spec.quiet else None
 
-        return subprocess.run(
+        result = subprocess.run(
             argv,
             cwd=str(spec.cwd) if spec.cwd else None,
-            check=True,
+            check=False,
             capture_output=spec.capture_output,
             stdout=stdout,
         )
+
+        if (
+            spec.allowed_return_codes is not None
+            and result.returncode not in spec.allowed_return_codes
+        ):
+            raise subprocess.CalledProcessError(
+                result.returncode, argv, result.stdout, result.stderr
+            )
+
+        return result

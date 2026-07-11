@@ -29,14 +29,15 @@ class ReturnEvaluator:
     clauses with token resolution.
     """
 
-    def __init__(self, steps: list[dict]) -> None:
+    def __init__(self, steps: list[dict], externals: dict | None = None) -> None:
         """Initialize the return evaluator.
 
         Args:
             steps: List of return rule steps from YAML configuration.
+            externals: External variables (e.g. from systemdata.json).
         """
         self.steps = steps or []
-        self.resolver = TokenResolver()
+        self.resolver = TokenResolver(externals=externals)
         logger.debug("Initialized ReturnEvaluator with %d steps", len(self.steps))
 
     def evaluate(self, records: list[dict]) -> list[ReturnDecision]:
