@@ -9,7 +9,8 @@ def test_package_importable():
 def test_cli_app_exists():
     assert app is not None
 
-
-def test_fixtures_non_empty(dsl_files, rule_files):
-    assert len(dsl_files) > 0
+def test_rule_files_exist(rule_files):
     assert len(rule_files) > 0
+
+def test_rootkit_fixture_exists(rootkit_asl):
+    assert rootkit_asl.exists()
