@@ -26,6 +26,7 @@ _NAME_MAP = {
 @dataclass(frozen=True)
 class GrepIomemKernel(PipelineStage):
     """Pipeline stage for extracting kernel memory ranges from /proc/iomem."""
+
     pattern: str = r"System RAM"
     output_file: str = "systemdata.json"
 
@@ -35,7 +36,7 @@ class GrepIomemKernel(PipelineStage):
 
     def run(self, ctx: PipelineContext, runner: SubprocessRunner) -> None:
         """Execute the kernel memory range extraction stage.
-        
+
         Args:
             ctx: Pipeline context containing working directory and shared data.
             runner: Command runner for executing subprocess commands.
@@ -44,8 +45,11 @@ class GrepIomemKernel(PipelineStage):
         entries = self._parse_lines(text)
         payload = self._vars_payload(entries)
         out_path = self._write_json(ctx.workdir, payload)
-        logger.info("Wrote %s with %d kernel ranges.", out_path.name,
-                    len(payload.get('vars', {})))
+        logger.info(
+            "Wrote %s with %d kernel ranges.",
+            out_path.name,
+            len(payload.get("vars", {})),
+        )
 
     def _exec_grep(self, runner: SubprocessRunner) -> str:
         try:
@@ -54,7 +58,8 @@ class GrepIomemKernel(PipelineStage):
                     ["grep", "-i", "kernel", "/proc/iomem"],
                     sudo=True,
                     capture_output=True,
-                ))
+                )
+            )
             return (proc.stdout or b"").decode("utf-8", errors="ignore")
         except Exception as e:
             logger.warning('Failed to grep "/proc/iomem": %s', e)
@@ -87,7 +92,7 @@ class GrepIomemKernel(PipelineStage):
 
     def _write_json(self, workdir: Path, payload: dict[str, Any]) -> Path:
         """Write payload to JSON file in working directory.
-        
+
         This is going to be the external vars that can be used on the rule.
         """
         out_path = (workdir / self.output_file).resolve()

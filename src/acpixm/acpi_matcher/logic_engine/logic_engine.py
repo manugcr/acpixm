@@ -23,9 +23,7 @@ class LogicEngine:
     Only records where all steps succeed are kept.
     """
 
-    def __init__(self,
-                 steps: list[dict],
-                 externals: Optional[dict[str, Any]] = None):
+    def __init__(self, steps: list[dict], externals: Optional[dict[str, Any]] = None):
         self.steps = steps
         self.ops = LogicOps.registry()
         self.resolver = TokenResolver(externals)
@@ -55,8 +53,7 @@ class LogicEngine:
                 return None
         return logic_values
 
-    def _evaluate_step(self, record: dict, logic_values: dict,
-                       step: dict) -> bool:
+    def _evaluate_step(self, record: dict, logic_values: dict, step: dict) -> bool:
         step_id = self._read_step_id(step)
         if not step_id:
             return False
@@ -87,8 +84,7 @@ class LogicEngine:
     def _read_step_operation(self, step: dict):
         items = [(k, v) for k, v in step.items() if k != "id"]
         if len(items) != 1:
-            logger.debug("Logic step must have exactly one operation: %r",
-                         step)
+            logger.debug("Logic step must have exactly one operation: %r", step)
             return None, None
         return items[0]
 
@@ -101,6 +97,5 @@ class LogicEngine:
             logger.debug("Logic op raised: %s", exc)
             return None
 
-    def _store_result(self, logic_values: dict, step_id: str,
-                      result: Any) -> None:
+    def _store_result(self, logic_values: dict, step_id: str, result: Any) -> None:
         logic_values[step_id] = result

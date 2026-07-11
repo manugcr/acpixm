@@ -21,11 +21,12 @@ logger = logging.getLogger(__name__)
 @dataclass
 class AstGrepScan(PipelineStage):
     """Pipeline stage for running ast-grep on a single .dsl/.asl file.
-    
+
     Attributes:
         ast_rule: AST rule dictionary loaded from YAML.
         target: Path to a single .dsl/.asl file to scan.
     """
+
     ast_rule: dict  # rule dict (from YAML)
     target: Path  # ONE .dsl/.asl file
 
@@ -44,22 +45,20 @@ class AstGrepScan(PipelineStage):
                 }
             },
         }
-        with tempfile.NamedTemporaryFile(mode="w",
-                                         encoding="utf-8",
-                                         suffix=".yml",
-                                         delete=False) as f:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", suffix=".yml", delete=False
+        ) as f:
             yaml.safe_dump(cfg, f)
             return Path(f.name)
 
     def _make_rule_file(self) -> Path:
         """Write the AST rule (dict) to a temp file.
-        
+
         AST-Grep needs a file to run, i cannot give it a string or stdin.
         """
-        with tempfile.NamedTemporaryFile(mode="w",
-                                         encoding="utf-8",
-                                         suffix=".yml",
-                                         delete=False) as f:
+        with tempfile.NamedTemporaryFile(
+            mode="w", encoding="utf-8", suffix=".yml", delete=False
+        ) as f:
             f.write(json.dumps(self.ast_rule))
             return Path(f.name)
 
@@ -79,7 +78,7 @@ class AstGrepScan(PipelineStage):
 
     def run(self, ctx: PipelineContext, runner: SubprocessRunner) -> None:
         """Execute the AST-grep scanning stage.
-        
+
         Args:
             ctx: Pipeline context containing working directory and shared data.
             runner: Command runner for executing subprocess commands.
@@ -104,7 +103,8 @@ class AstGrepScan(PipelineStage):
                 ],
                 cwd=ctx.workdir,
                 capture_output=True,
-            ))
+            )
+        )
 
         # 3) parse matches
         stdout = proc.stdout.decode("utf-8", errors="ignore")

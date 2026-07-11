@@ -12,6 +12,7 @@ logger = logging.getLogger(__name__)
 
 class RuleSchema(BaseModel):
     """Pydantic schema for ACPI rule validation."""
+
     ast: dict
     logic: Optional[list[dict]] = Field(default=None, alias="logic")
     return_: list[dict] = Field(alias="return")
@@ -31,8 +32,7 @@ class YamlProcessor:
             with open(self.rule_path, "r", encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
-            raise ValueError(
-                f"failed to load YAML {self.rule_path}: {e}") from e
+            raise ValueError(f"failed to load YAML {self.rule_path}: {e}") from e
 
     @staticmethod
     def _validate(data: dict) -> RuleSchema:

@@ -15,6 +15,7 @@ logger = logging.getLogger(__name__)
 @dataclass(frozen=True)
 class ReturnDecision:
     """Decision result for a single analysis record."""
+
     record: dict
     found: bool
     reason: str | None = None
@@ -30,14 +31,13 @@ class ReturnEvaluator:
 
     def __init__(self, steps: list[dict]) -> None:
         """Initialize the return evaluator.
-        
+
         Args:
             steps: List of return rule steps from YAML configuration.
         """
         self.steps = steps or []
         self.resolver = TokenResolver()
-        logger.debug("Initialized ReturnEvaluator with %d steps",
-                     len(self.steps))
+        logger.debug("Initialized ReturnEvaluator with %d steps", len(self.steps))
 
     def evaluate(self, records: list[dict]) -> list[ReturnDecision]:
         """Evaluate return rules for all records."""
@@ -52,36 +52,49 @@ class ReturnEvaluator:
 
             if decision.found:
                 kept_count += 1
-                logger.debug("Record %d kept: %s (reason: %s)", i,
-                             record.get('file', 'unknown'), decision.reason)
+                logger.debug(
+                    "Record %d kept: %s (reason: %s)",
+                    i,
+                    record.get("file", "unknown"),
+                    decision.reason,
+                )
             else:
-                logger.debug("Record %d dropped: %s (reason: %s)", i,
-                             record.get('file', 'unknown'), decision.reason)
+                logger.debug(
+                    "Record %d dropped: %s (reason: %s)",
+                    i,
+                    record.get("file", "unknown"),
+                    decision.reason,
+                )
 
-        logger.info("Return evaluation completed: %d/%d records kept",
-                    kept_count, len(records))
+        logger.info(
+            "Return evaluation completed: %d/%d records kept", kept_count, len(records)
+        )
         return decisions
 
     def _decide_record(self, record: dict) -> ReturnDecision:
         """Make a decision for a single record."""
         logic_values = record.get("logic", {})
         has_otherwise = False
-        file_name = record.get('file', 'unknown')
+        file_name = record.get("file", "unknown")
 
         logger.debug("Evaluating return rules for record from %s", file_name)
 
         for clause in self.steps:
             if "found" in clause:
                 token = clause["found"]
-                val = True if token == "ast" else self.resolver.resolve(
-                    record, logic_values, token)
+                val = (
+                    True
+                    if token == "ast"
+                    else self.resolver.resolve(record, logic_values, token)
+                )
 
                 if self._as_bool(val):
-                    logger.debug("Record from %s matched 'found:%s' clause",
-                                 file_name, token)
-                    return ReturnDecision(record=record,
-                                          found=True,
-                                          reason=f"found:{token}")
+                    logger.debug(
+                        "Record from %s matched 'found:%s' clause", file_name, token
+                    )
+                    return ReturnDecision(
+                        record=record, found=True, reason=f"found:{token}"
+                    )
             elif clause.get("not-found") == "otherwise":
                 has_otherwise = True
 

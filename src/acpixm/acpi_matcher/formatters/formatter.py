@@ -15,11 +15,8 @@ class MatchEvent:
 
 
 class Formatter(ABC):
+    @abstractmethod
+    def feed(self, event: MatchEvent) -> None: ...
 
     @abstractmethod
-    def feed(self, event: MatchEvent) -> None:
-        ...
-
-    @abstractmethod
-    def finalize(self, total_files: int = 0) -> None:
-        ...
+    def finalize(self, total_files: int = 0) -> None: ...

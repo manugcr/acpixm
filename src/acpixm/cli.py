@@ -28,20 +28,18 @@ def collect_data(
         ...,
         "--output",
         "-o",
-        help="Output directory for provider artifacts (required)."),
+        help="Output directory for provider artifacts (required).",
+    ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logs."),
-    verbose: bool = typer.Option(False,
-                                 "--verbose",
-                                 "-v",
-                                 help="Enable info logs."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable info logs."),
 ) -> None:
     """Collect ACPI tables and system data.
-    
-    Collects ACPI tables (DSL) and system data JSON with variables that can be 
+
+    Collects ACPI tables (DSL) and system data JSON with variables that can be
     used for the logic evaluation. Requires sudo privileges for accessing system data.
     """
     _setup_logging(verbose, debug)
-    
+
     try:
         collect(workdir=output_path)
     except FileNotFoundError as e:
@@ -65,35 +63,36 @@ def analyze_cmd(
         "-r",
         exists=True,
         readable=True,
-        help="YAML rule to run over the files to scan."),
+        help="YAML rule to run over the files to scan.",
+    ),
     files: Path = typer.Option(
         ...,
         "--files",
         "-f",
-        help="Path to a file or directory containing .dsl/.asl files."),
+        help="Path to a file or directory containing .dsl/.asl files.",
+    ),
     vars_path: Optional[Path] = typer.Option(
         None,
         "--vars",
-        help="Path to provider JSON with system vars for the logic section."),
+        help="Path to provider JSON with system vars for the logic section.",
+    ),
     fmt: str = typer.Option(
         "console",
         "--format",
         "-F",
         help="Choose a method of getting the final veredict.",
-        case_sensitive=False),
+        case_sensitive=False,
+    ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logs."),
-    verbose: bool = typer.Option(False,
-                                 "--verbose",
-                                 "-v",
-                                 help="Enable info logs."),
+    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable info logs."),
 ) -> None:
     """Detect ACPI indicators by scanning DSL/ASL files.
-    
+
     Analyzes ACPI source files (.dsl/.asl) using specified YAML rules to detect
     potential indicators or patterns of interest.
     """
     _setup_logging(verbose, debug)
-    
+
     try:
         analyze(rule_path=rule_path, files=files, vars_path=vars_path, fmt=fmt)
     except FileNotFoundError as e:
