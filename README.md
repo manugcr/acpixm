@@ -21,7 +21,16 @@ This still work in progress, i am thinking about some ideas to improve the proje
 
 ### Prerequisites
 
-Before installing ACPIXM, you need to install the external dependencies:
+ACPIXM shells out to two external tools that `uv` does **not** install for you —
+you must install them separately:
+
+| Tool | Needed for | Install |
+|---|---|---|
+| `acpica-tools` (`acpidump`, `acpixtract`, `iasl`) | `acpixm collect` | `sudo apt install acpica-tools` |
+| `ast-grep` | `acpixm analyze` | see below |
+
+(A future release will bundle `ast-grep` as a Python dependency so `analyze`
+works out of the box — for now install it yourself.)
 
 #### 1. Install ACPICA Tools (for ACPI table manipulation)
 
@@ -52,13 +61,17 @@ source ~/.bashrc  # or restart your terminal
 
 ### Install ACPIXM
 
-#### Quick Installation
+`uv tool install` puts `acpixm` on your PATH in its own isolated environment —
+no virtualenv to create or activate.
+
 ```bash
+# Option A — install directly from GitHub
+uv tool install git+https://github.com/manugcr/acpixm
+
+# Option B — from a local clone
 git clone https://github.com/manugcr/acpixm.git
 cd acpixm
-python3 -m venv .venv
-source .venv/bin/activate
-./install.sh
+./install.sh          # wraps: uv tool install . --force
 ```
 
 ### Verify Installation

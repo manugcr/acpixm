@@ -13,7 +13,13 @@
 
 ### Added
 
-- CI: `ruff format --check` gate and end-to-end `acpixm analyze` job against committed fixture files.
+- Golden integration test (`tests/integration/test_golden.py`): the shipped `examples/OpRegionCritical.yml` must flag `rootkit1.asl` and nothing else — the end-to-end regression net for the whole pipeline. Runs in CI via `pytest`.
+- Self-contained test fixtures under `tests/fixtures/` (`rootkit1.asl`, `clean.dsl`, `systemdata.json`) so tests no longer depend on the gitignored `output/` dump.
+- `ast-grep-cli` added to the dev dependency group so `uv sync --group dev` provides the `ast-grep` binary locally and in CI.
+
+### Changed
+
+- README install docs: dropped the misleading virtualenv step (`uv tool install` is self-isolating); documented `ast-grep` and `acpica-tools` as separate runtime prerequisites and which command needs which.
 
 ---
 
