@@ -1,5 +1,20 @@
 # acpixm Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- FIX-005: `analyze()` no longer creates a hardcoded `./tmp` workdir; ast-grep now runs from the target file's own directory.
+- FIX-007: iomem artifact path now stored in pipeline context so downstream stages can access it without a `KeyError`.
+- FIX-006: `ReturnEvaluator` now receives external variables (e.g. `$KERNEL_CODE_RANGE`) so `return:` rules evaluate correctly instead of always returning not-found.
+- FIX-002: `analyze` no longer crashes when ast-grep exits with code 1 (no matches); fixed `quiet + capture_output` conflict in `CommandSpec`.
+
+### Added
+
+- CI: `ruff format --check` gate and end-to-end `acpixm analyze` job against committed fixture files.
+
+---
+
 ## [0.1.0]
 
 ### Added
