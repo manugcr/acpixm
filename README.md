@@ -13,10 +13,6 @@ A comprehensive tool for collecting and analyzing ACPI tables to detect potentia
 - **Extensible Rules**: YAML-based rule system with logic evaluation
 - **Pipeline Architecture**: Modular, extensible data processing pipeline
 
-### To do list:
-This still work in progress, i am thinking about some ideas to improve the project.
-- [TODO.md](./TODO.md)
-
 ## Installation
 
 ### Prerequisites

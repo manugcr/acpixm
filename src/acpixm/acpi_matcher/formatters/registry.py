@@ -9,4 +9,4 @@ def make_formatter(name: str) -> Formatter:
         return ConsoleFormatter()
     if n == "json":
         return JsonFormatter()
-    raise ValueError(f"Unknown format '{name}'. Valid: console|json|ndjson")
+    raise ValueError(f"Unknown format '{name}'. Valid: console|json")

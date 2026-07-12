@@ -14,7 +14,7 @@ class RuleSchema(BaseModel):
     """Pydantic schema for ACPI rule validation."""
 
     ast: dict
-    logic: Optional[list[dict]] = Field(default=None, alias="logic")
+    logic: Optional[list[dict]] = None
     return_: list[dict] = Field(alias="return")
 
 

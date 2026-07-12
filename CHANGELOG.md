@@ -4,6 +4,8 @@
 
 ### Fixed
 
+- FIX-011: filled in `__author__` / `__email__` placeholders; `__version__` now sourced via `importlib.metadata` (single source of truth); removed dead `PipelineData` TypedDict and `PipelineContext.require()`; deleted unused `pattern` field on `GrepIomemKernel`; replaced bare `print()` calls in `collect()` with `logger.info()`; fixed typo `veredict` → `verdict` in `cli.py`; removed phantom `ndjson` from formatter error message; dropped redundant `Field(alias="logic")` in `yaml_processor.py`.
+- FIX-019: removed grammar dev cruft from root `tree-sitter-asl/` (`grammar.js.bkp`, `grammar.no-space.js`, `Package.swift`, `go.mod`, `Cargo.toml`, `binding.gyp`).
 - FIX-004: grammar path now resolved via `importlib.resources` so the installed binary finds `asl.so` correctly; `asl.so` included in wheel via `artifacts` config.
 - FIX-003: temp files created by `AstGrepScan` are now deleted after each run; previously two `.yml` files were leaked into `/tmp` per analyzed file.
 - FIX-005: `analyze()` no longer creates a hardcoded `./tmp` workdir; ast-grep now runs from the target file's own directory.
