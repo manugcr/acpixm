@@ -6,6 +6,8 @@ from pathlib import Path
 from typing import Any
 import json
 import logging
+import shutil
+import sys
 import tempfile
 import yaml
 
@@ -13,6 +15,11 @@ from ..commands import SubprocessRunner, CommandSpec
 from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
 GRAMMAR_PATH = Path(str(files("acpixm").joinpath("tree-sitter-asl/asl.so")))
+
+# ponytail: resolve ast-grep from the same venv/tool env as this package before falling back to PATH
+def _ast_grep_bin() -> str:
+    candidate = Path(sys.executable).parent / "ast-grep"
+    return str(candidate) if candidate.exists() else (shutil.which("ast-grep") or "ast-grep")
 
 logger = logging.getLogger(__name__)
 
@@ -92,7 +99,7 @@ class AstGrepScan(PipelineStage):
             proc = runner.run(
                 CommandSpec(
                     [
-                        "ast-grep",
+                        _ast_grep_bin(),
                         "scan",
                         "--rule",
                         str(rule_file),
