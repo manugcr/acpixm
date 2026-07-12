@@ -23,6 +23,7 @@ acpixm = "acpixm.cli:app"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/acpixm"]
+artifacts = ["src/acpixm/**/*.so"]
 
 [dependency-groups]
 dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]

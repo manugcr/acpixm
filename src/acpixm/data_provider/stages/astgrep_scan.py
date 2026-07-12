@@ -1,6 +1,7 @@
 """AST-grep scanning stage for data collection pipeline."""
 
 from dataclasses import dataclass
+from importlib.resources import files
 from pathlib import Path
 from typing import Any
 import json
@@ -11,9 +12,7 @@ import yaml
 from ..commands import SubprocessRunner, CommandSpec
 from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
 
-# This may not be the best approach
-ROOT = Path(__file__).parents[4].resolve()
-GRAMMAR_PATH = (ROOT / "tree-sitter-asl" / "asl.so").resolve()
+GRAMMAR_PATH = Path(str(files("acpixm").joinpath("tree-sitter-asl/asl.so")))
 
 logger = logging.getLogger(__name__)
 
