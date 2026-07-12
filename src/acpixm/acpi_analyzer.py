@@ -117,8 +117,6 @@ def analyze(
         files: Path to files or directory containing .dsl/.asl files.
         vars_path: Optional path to JSON file with external variables.
     """
-    wd = _ensure_workdir(Path("./tmp"))
-
     # Resolve targets (either explicit files or a directory of .dsl/.asl)
     targets = _collect_targets(files)
     logger.info("Found %d target files to analyze", len(targets))
@@ -137,8 +135,6 @@ def analyze(
         external_vars = jsonh.read(vars_path).get("vars", {})
         logger.info("Loaded external vars from %s: %s", vars_path, external_vars)
 
-    # Set up runner
-    ctx = PipelineContext(workdir=wd)
     runner = SubprocessRunner()
     formatter = make_formatter(fmt)
 
@@ -146,6 +142,7 @@ def analyze(
     total_matches = 0
     for i, target in enumerate(targets, 1):
         logger.info("[%d/%d] Processing file: %s", i, len(targets), target.name)
+        ctx = PipelineContext(workdir=target.parent)
 
         # Stage 1: Run AST-grep pattern matching
         logger.debug("Running AST-grep scan on %s", target.name)
@@ -185,7 +182,9 @@ def analyze(
         logger.debug(
             "Evaluating return rules for %d records from %s", len(records), target.name
         )
-        decisions = ReturnEvaluator(return_rule, externals=external_vars).evaluate(records)
+        decisions = ReturnEvaluator(return_rule, externals=external_vars).evaluate(
+            records
+        )
 
         kept_decisions = [d for d in decisions if d.found]
         total_matches += len(kept_decisions)
