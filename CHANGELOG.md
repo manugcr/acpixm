@@ -4,6 +4,7 @@
 
 ### Fixed
 
+- FIX-003: temp files created by `AstGrepScan` are now deleted after each run; previously two `.yml` files were leaked into `/tmp` per analyzed file.
 - FIX-005: `analyze()` no longer creates a hardcoded `./tmp` workdir; ast-grep now runs from the target file's own directory.
 - FIX-007: iomem artifact path now stored in pipeline context so downstream stages can access it without a `KeyError`.
 - FIX-006: `ReturnEvaluator` now receives external variables (e.g. `$KERNEL_CODE_RANGE`) so `return:` rules evaluate correctly instead of always returning not-found.
