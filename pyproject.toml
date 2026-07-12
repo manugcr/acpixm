@@ -26,7 +26,7 @@ packages = ["src/acpixm"]
 artifacts = ["src/acpixm/**/*.so"]
 
 [dependency-groups]
-dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0", "ast-grep-cli>=0.38"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

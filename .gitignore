@@ -2,6 +2,10 @@
 output/
 output*
 notes.md
+# Personal dev docs — never pushed
+CLAUDE.md
+TESTING.md
+THESIS_EXTENSIONS.md
 .vscode/
 tmp/
 docs/output*
