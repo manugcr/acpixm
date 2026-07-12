@@ -13,6 +13,7 @@ dependencies = [
     "typer>=0.9.0",
     "pydantic>=2.0.0",
     "pyyaml>=6.0",
+    "ast-grep-cli>=0.38",
 ]
 
 [project.urls]
@@ -26,7 +27,7 @@ packages = ["src/acpixm"]
 artifacts = ["src/acpixm/**/*.so"]
 
 [dependency-groups]
-dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0", "ast-grep-cli>=0.38"]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

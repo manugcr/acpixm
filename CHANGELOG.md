@@ -16,6 +16,7 @@
 - Golden integration test (`tests/integration/test_golden.py`): the shipped `examples/OpRegionCritical.yml` must flag `rootkit1.asl` and nothing else — the end-to-end regression net for the whole pipeline. Runs in CI via `pytest`.
 - Self-contained test fixtures under `tests/fixtures/` (`rootkit1.asl`, `clean.dsl`, `systemdata.json`) so tests no longer depend on the gitignored `output/` dump.
 - `ast-grep-cli` added to the dev dependency group so `uv sync --group dev` provides the `ast-grep` binary locally and in CI.
+- FIX-017: `ast-grep-cli` promoted to a runtime dependency so `uv tool install acpixm` brings it automatically; users no longer need a separate `ast-grep` install to run `analyze`. README prerequisites updated accordingly.
 
 ### Changed
 

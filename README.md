@@ -21,18 +21,16 @@ This still work in progress, i am thinking about some ideas to improve the proje
 
 ### Prerequisites
 
-ACPIXM shells out to two external tools that `uv` does **not** install for you —
-you must install them separately:
+ACPIXM shells out to `acpica-tools` for the `collect` command — a C binary
+suite that is **not** on PyPI and must be installed separately. `ast-grep` is
+bundled automatically via `uv`.
 
 | Tool | Needed for | Install |
 |---|---|---|
 | `acpica-tools` (`acpidump`, `acpixtract`, `iasl`) | `acpixm collect` | `sudo apt install acpica-tools` |
-| `ast-grep` | `acpixm analyze` | see below |
+| `ast-grep` | `acpixm analyze` | installed automatically by `uv` |
 
-(A future release will bundle `ast-grep` as a Python dependency so `analyze`
-works out of the box — for now install it yourself.)
-
-#### 1. Install ACPICA Tools (for ACPI table manipulation)
+#### 1. Install ACPICA Tools (for ACPI table collection)
 
 **Ubuntu/Debian:**
 ```bash
@@ -40,17 +38,7 @@ sudo apt update
 sudo apt install acpica-tools
 ```
 
-#### 2. Install ast-grep (for AST pattern matching)
-
-Follow instructions from official repo: [ast-grep/ast-grep](https://github.com/ast-grep/ast-grep)
-
-```
-npm install --global @ast-grep/cli
-pip install ast-grep-cli
-brew install ast-grep
-```
-
-#### 3. Install uv (Python package manager)
+#### 2. Install uv (Python package manager)
 
 Follow instructions from official repo: [astra-sh/uv](https://github.com/astral-sh/uv)
 
@@ -80,9 +68,8 @@ cd acpixm
 # Check if acpixm is available
 acpixm --help
 
-# Verify external dependencies
-acpidump --help     # Should show ACPICA tools help
-ast-grep --version  # Should show ast-grep version
+# Verify acpica-tools (needed for collect)
+acpidump --help
 ```
 
 ## Usage
