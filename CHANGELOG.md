@@ -4,6 +4,7 @@
 
 ### Fixed
 
+- FIX-004: grammar path now resolved via `importlib.resources` so the installed binary finds `asl.so` correctly; `asl.so` included in wheel via `artifacts` config.
 - FIX-003: temp files created by `AstGrepScan` are now deleted after each run; previously two `.yml` files were leaked into `/tmp` per analyzed file.
 - FIX-005: `analyze()` no longer creates a hardcoded `./tmp` workdir; ast-grep now runs from the target file's own directory.
 - FIX-007: iomem artifact path now stored in pipeline context so downstream stages can access it without a `KeyError`.
