@@ -87,29 +87,33 @@ class AstGrepScan(PipelineStage):
         config_file = self._make_config_file()
         rule_file = self._make_rule_file()
 
-        # 2) run ast-grep
-        logger.info(f"Grammar: {GRAMMAR_PATH}")
-        proc = runner.run(
-            CommandSpec(
-                [
-                    "ast-grep",
-                    "scan",
-                    "--rule",
-                    str(rule_file),
-                    "--config",
-                    str(config_file),
-                    "--json=stream",
-                    str(self.target),
-                ],
-                cwd=ctx.workdir,
-                capture_output=True,
-                allowed_return_codes=None,  # ponytail: exit 1 = no matches, other codes = grammar/parse errors; stdout is ground truth
+        try:
+            # 2) run ast-grep
+            logger.info(f"Grammar: {GRAMMAR_PATH}")
+            proc = runner.run(
+                CommandSpec(
+                    [
+                        "ast-grep",
+                        "scan",
+                        "--rule",
+                        str(rule_file),
+                        "--config",
+                        str(config_file),
+                        "--json=stream",
+                        str(self.target),
+                    ],
+                    cwd=ctx.workdir,
+                    capture_output=True,
+                    allowed_return_codes=None,  # ponytail: exit 1 = no matches, other codes = grammar/parse errors; stdout is ground truth
+                )
             )
-        )
 
-        # 3) parse matches
-        stdout = proc.stdout.decode("utf-8", errors="ignore")
-        matches = self._parse_jsonl(stdout)
+            # 3) parse matches
+            stdout = proc.stdout.decode("utf-8", errors="ignore")
+            matches = self._parse_jsonl(stdout)
 
-        # 4) expose per-file matches for the analyzer to consume immediately
-        ctx.data[PipelineArtifact.AST_GREP_MATCHES] = matches
+            # 4) expose per-file matches for the analyzer to consume immediately
+            ctx.data[PipelineArtifact.AST_GREP_MATCHES] = matches
+        finally:
+            config_file.unlink(missing_ok=True)
+            rule_file.unlink(missing_ok=True)
