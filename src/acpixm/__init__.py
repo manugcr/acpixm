@@ -4,9 +4,11 @@ A comprehensive tool for collecting and analyzing ACPI tables to detect
 potential security indicators and rootkit activity.
 """
 
-__version__ = "0.1.0"
-__author__ = "Your Name"
-__email__ = "your.email@example.com"
+from importlib.metadata import version
+
+__version__ = version("acpixm")
+__author__ = "Manuel Gil Cernich"
+__email__ = "mgilcernich@gmail.com"
 
 # Export main functions for programmatic use
 from .acpi_analyzer import analyze, collect

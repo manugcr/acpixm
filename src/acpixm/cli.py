@@ -80,7 +80,7 @@ def analyze_cmd(
         "console",
         "--format",
         "-F",
-        help="Choose a method of getting the final veredict.",
+        help="Choose a method of getting the final verdict.",
         case_sensitive=False,
     ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logs."),

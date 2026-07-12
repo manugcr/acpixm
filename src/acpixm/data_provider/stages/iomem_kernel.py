@@ -27,7 +27,6 @@ _NAME_MAP = {
 class GrepIomemKernel(PipelineStage):
     """Pipeline stage for extracting kernel memory ranges from /proc/iomem."""
 
-    pattern: str = r"System RAM"
     output_file: str = "systemdata.json"
 
     def name(self) -> str:

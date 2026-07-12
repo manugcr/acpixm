@@ -5,7 +5,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 from enum import Enum
-from typing import MutableMapping, TypedDict
+from typing import MutableMapping
 
 from .commands import SubprocessRunner
 
@@ -22,16 +22,6 @@ class PipelineArtifact(str, Enum):
     AST_GREP_MATCHES = "ast_grep_matches"
 
 
-class PipelineData(TypedDict, total=False):
-    """Type definition for pipeline context data dictionary."""
-
-    dump_file: Path
-    table_files: list[Path]
-    dsl_files: list[Path]
-    iomem_kernel_json: Path
-    iomem_kernel_entries: list[dict[str, object]]
-
-
 @dataclass
 class PipelineContext:
     """Shared context for pipeline stages.
@@ -46,21 +36,6 @@ class PipelineContext:
 
     workdir: Path
     data: MutableMapping[str, object] = field(default_factory=dict)
-
-    def require(self, *keys: str) -> None:
-        """Ensure required keys exist in the context data.
-
-        Args:
-            *keys: Key names that must be present in context data.
-
-        Raises:
-            KeyError: If any required key is missing.
-        """
-        missing_keys = [key for key in keys if key not in self.data]
-        if missing_keys:
-            logger.error("Missing required context keys: %s", missing_keys)
-            raise KeyError(f"Missing context keys: {missing_keys}")
-        logger.debug("All required context keys present: %s", list(keys))
 
 
 class PipelineStage(ABC):

@@ -5,6 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "acpixm"
 version = "0.1.0"
+authors = [{name = "Manuel Gil Cernich", email = "mgilcernich@gmail.com"}]
 description = "ACPI Rootkit Detection Tool - Detects potential security indicators in ACPI tables"
 readme = "README.md"
 license = {text = "MIT"}
