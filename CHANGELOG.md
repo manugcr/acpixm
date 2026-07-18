@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- FIX-014: unit test suite for `json_handler` (`normalize()`, hex/multi captures) and a direct-API integration test for `match()` (FIX-013); 76 tests total, all green.
+
 ### Changed
 
 - FIX-010: `JsonHandler` class (static-only) replaced with module-level functions `read()` and `normalize()`; dead `write()` method removed; `normalize()` now correctly iterates `multi` metaVariables (was calling `.get("secondary", [])` on a `{VAR_NAME: [nodes]}` dict, silently dropping all multi-captures).
