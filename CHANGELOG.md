@@ -2,14 +2,13 @@
 
 ## [0.2.0] — 2026-07-18
 
-### Added
-
-- FIX-014: unit test suite for `json_handler` (`normalize()`, hex/multi captures) and a direct-API integration test for `match()` (FIX-013); 76 tests total, all green.
-
 ### Changed
 
 - FIX-010: `JsonHandler` class (static-only) replaced with module-level functions `read()` and `normalize()`; dead `write()` method removed; `normalize()` now correctly iterates `multi` metaVariables (was calling `.get("secondary", [])` on a `{VAR_NAME: [nodes]}` dict, silently dropping all multi-captures).
 - FIX-009: replaced hand-rolled `LogicEngine` + `TokenResolver` with `simpleeval`-backed expression evaluator; `token_resolver.py` deleted; rule `logic:` section is now a `dict[str, str]` (step-id → expression) instead of a list of op dicts; `$VARNAME` syntax preserved for researcher readability (stripped before eval); all arithmetic, comparison, and boolean operators now available in expressions for free; domain-specific ops (`make_range`, `overlaps`, `overlaps_any`, `in_range`, `in_any_range`) remain as named functions callable from rules; `OpRegionCritical.yml` updated to new format.
+- FIX-012: mypy strict mode enabled (`strict = true`, `python_version = "3.10"`); ruff lint extended with `UP`, `B`, `I`, `SIM` rules; all type errors fixed (bare generics annotated, `MutableMapping[str, object]` → `Any`, stale `# type: ignore` comments removed); `types-PyYAML` added to dev deps; mypy gate added to CI.
+- FIX-008: added empty `__init__.py` to all subpackages (`acpi_matcher/`, `data_provider/`, `logic_engine/`, `formatters/`, `stages/`) — converts implicit namespace packages to regular packages; prereq for mypy strict mode.
+- README install docs: dropped the misleading virtualenv step (`uv tool install` is self-isolating); documented `ast-grep` and `acpica-tools` as separate runtime prerequisites and which command needs which.
 
 ### Fixed
 
@@ -29,22 +28,15 @@
 - Self-contained test fixtures under `tests/fixtures/` (`rootkit1.asl`, `clean.dsl`, `systemdata.json`) so tests no longer depend on the gitignored `output/` dump.
 - `ast-grep-cli` added to the dev dependency group so `uv sync --group dev` provides the `ast-grep` binary locally and in CI.
 - FIX-017: `ast-grep-cli` promoted to a runtime dependency so `uv tool install acpixm` brings it automatically; users no longer need a separate `ast-grep` install to run `analyze`. README prerequisites updated accordingly.
-
-### Changed
-
-- FIX-012: mypy strict mode enabled (`strict = true`, `python_version = "3.10"`); ruff lint extended with `UP`, `B`, `I`, `SIM` rules; all type errors fixed (bare generics annotated, `MutableMapping[str, object]` → `Any`, stale `# type: ignore` comments removed); `types-PyYAML` added to dev deps; mypy gate added to CI.
-- FIX-008: added empty `__init__.py` to all subpackages (`acpi_matcher/`, `data_provider/`, `logic_engine/`, `formatters/`, `stages/`) — converts implicit namespace packages to regular packages; prereq for mypy strict mode.
-- README install docs: dropped the misleading virtualenv step (`uv tool install` is self-isolating); documented `ast-grep` and `acpica-tools` as separate runtime prerequisites and which command needs which.
+- FIX-014: unit test suite for `json_handler` (`normalize()`, hex/multi captures) and a direct-API integration test for `match()` (FIX-013); 76 tests total, all green.
 
 ---
 
 ## [0.1.0]
 
 ### Added
-
-    - TICKET-001: pytest dev dependency group and `[tool.pytest.ini_options]` config in `pyproject.toml`.
-    - TICKET-001: smoke test suite under `tests/unit/test_smoke.py` with fixtures for DSL and rule files.
+- TICKET-001: pytest dev dependency group and `[tool.pytest.ini_options]` config in `pyproject.toml`.
+- TICKET-001: smoke test suite under `tests/unit/test_smoke.py` with fixtures for DSL and rule files.
 
 ### Changed
-
-    - TICKET-001: simplified `install.sh` to use `uv tool install . --force` directly.
+- TICKET-001: simplified `install.sh` to use `uv tool install . --force` directly.

@@ -1,4 +1,4 @@
-# ACPIXM - ACPI Rootkit Detection Tool
+# ACPIxM - ACPI Rootkit Detection Tool
 
 **A**bsolutely **C**ritical **P**attern **I**dentifier for **M**alware
 
@@ -208,16 +208,12 @@ tree-sitter test
 cp asl.so ../src/acpixm/tree-sitter-asl/asl.so
 ```
 
-Commit both `asl.so` files together with the `grammar.js` change.
-
-The grammar intentionally excludes some ASL constructs (XOR precedence is a known gap — see the
-comment at the top of `grammar.js`). Extend it by adding rules in `grammar.js` and test cases in
-`tree-sitter-asl/test/corpus/`.
-
 ---
 
 ## Sources
 
-Thanks to John Heasman for the research over ACPI, and Michael Denzel for extending this research and developing a tool to catch some of this ideas, this was based over that.
+Thanks to my tutor Daniel Gutson for the idea, review and support.
+
+And thanks to John Heasman for the research over ACPI, and Michael Denzel for extending this research and developing a tool to catch some of this ideas, this was based over that.
 - [bh-eu-06-Heasman](https://www.blackhat.com/presentations/bh-europe-06/bh-eu-06-Heasman.pdf)
 - [ACPI-rootkit-scan](https://github.com/mdenzel/ACPI-rootkit-scan)
