@@ -1,3 +1,9 @@
+# tree-sitter-asl grammar — keep source, drop build artifacts and scratch
+tree-sitter-asl/bindings/
+tree-sitter-asl/snippets/
+tree-sitter-asl/rules/
+tree-sitter-asl/*.wasm
+
 # Do not track personal files
 output/
 output*
