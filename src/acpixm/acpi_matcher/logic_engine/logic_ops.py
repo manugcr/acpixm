@@ -1,83 +1,77 @@
-from typing import Callable
+"""Domain-specific ACPI logic operations and shared expression evaluator."""
+
+import logging
+import re
+from typing import Any
+
+from simpleeval import EvalWithCompoundTypes
+
+logger = logging.getLogger(__name__)
+
+# $IDENTIFIER → IDENTIFIER (strip dollar before eval)
+_DOLLAR_RE = re.compile(r"\$([A-Za-z_][A-Za-z0-9_]*)")
+# hyphen-in-identifier (no spaces) → underscore, so YAML keys with dashes work as references
+_HYPHEN_IDENT_RE = re.compile(r"(?<=[A-Za-z0-9_])-(?=[A-Za-z0-9_])")
 
 
-class LogicOps:
+# ---------- domain functions ----------
+
+
+def make_range(start: int, length: int) -> list[int]:
+    if length <= 0:
+        return [start, start - 1]  # empty range
+    end = start + length - 1
+    return [min(start, end), max(start, end)]
+
+
+def overlaps(a: list[int], b: list[int]) -> bool:
+    a0, a1 = min(a[0], a[1]), max(a[0], a[1])
+    b0, b1 = min(b[0], b[1]), max(b[0], b[1])
+    return max(a0, b0) <= min(a1, b1)
+
+
+def overlaps_any(a: list[int], ranges: list) -> bool:
+    return any(overlaps(a, list(r)) for r in ranges)
+
+
+def in_range(value: int, bounds: list[int]) -> bool:
+    low, high = min(bounds[0], bounds[1]), max(bounds[0], bounds[1])
+    return low <= value <= high
+
+
+def in_any_range(value: int, ranges: list) -> bool:
+    return any(in_range(value, list(r)) for r in ranges)
+
+
+_FUNCTIONS: dict[str, Any] = {
+    "make_range": make_range,
+    "overlaps": overlaps,
+    "overlaps_any": overlaps_any,
+    "in_range": in_range,
+    "in_any_range": in_any_range,
+}
+
+
+# ---------- shared evaluator ----------
+
+
+def evaluate(
+    expr: str,
+    record: dict,
+    logic_values: dict,
+    externals: dict,
+) -> Any:
+    """Evaluate a rule expression against the current record context.
+
+    $VARNAME in the expression is stripped to VARNAME before evaluation.
+    Name resolution order: logic_values > record > externals.
+    Returns None on any evaluation error (caller decides what to do).
     """
-    Stateless operations. Keep each op tiny and predictable.
-    """
-
-    @staticmethod
-    def add(*numbers: int) -> int:
-        return sum(numbers)
-
-    @staticmethod
-    def sub(*numbers: int) -> int:
-        if not numbers:
-            return 0
-        total = numbers[0]
-        for n in numbers[1:]:
-            total -= n
-        return total
-
-    @staticmethod
-    def gt(a: int, b: int) -> bool:
-        return a > b
-
-    @staticmethod
-    def in_range(value: int, bounds: list[int]) -> bool:
-        low, high = bounds
-        if low > high:
-            low, high = high, low
-        return low <= value <= high
-
-    @staticmethod
-    def in_any_range(value: int, ranges: list[tuple]) -> bool:
-        for start, end in ranges:
-            if start <= value <= end:
-                return True
-        return False
-
-    @staticmethod
-    def overlaps(a: list[int], b: list[int]) -> bool:
-        a0, a1 = (min(a[0], a[1]), max(a[0], a[1]))
-        b0, b1 = (min(b[0], b[1]), max(b[0], b[1]))
-        return max(a0, b0) <= min(a1, b1)
-
-    @staticmethod
-    def overlaps_any(a: list[int], ranges: list[list[int] | tuple]) -> bool:
-        for r in ranges:
-            r0, r1 = (min(r[0], r[1]), max(r[0], r[1]))
-            a0, a1 = (min(a[0], a[1]), max(a[0], a[1]))
-            if max(a0, r0) <= min(a1, r1):
-                return True
-        return False
-
-    @staticmethod
-    def make_range(start: int, length: int) -> list[int]:
-        if length <= 0:
-            return [start, start - 1]  # empty range
-        end = start + length - 1
-        return [min(start, end), max(start, end)]
-
-    @staticmethod
-    def and_op(*args: bool) -> bool:
-        return all(args)
-
-    @staticmethod
-    def or_op(*args: bool) -> bool:
-        return any(args)
-
-    @staticmethod
-    def registry() -> dict[str, Callable]:
-        return {
-            "add": LogicOps.add,
-            "sub": LogicOps.sub,
-            "gt": LogicOps.gt,
-            "in-range": LogicOps.in_range,
-            "in-any-range": LogicOps.in_any_range,
-            "overlaps": LogicOps.overlaps,
-            "overlaps-any": LogicOps.overlaps_any,
-            "make-range": LogicOps.make_range,
-            "and": LogicOps.and_op,
-            "or": LogicOps.or_op,
-        }
+    processed = _DOLLAR_RE.sub(r"\1", expr)
+    processed = _HYPHEN_IDENT_RE.sub("_", processed)
+    names: dict[str, Any] = {**externals, **record, **logic_values}
+    try:
+        return EvalWithCompoundTypes(names=names, functions=_FUNCTIONS).eval(processed)
+    except Exception as exc:
+        logger.debug("Expression eval failed %r: %s", expr, exc)
+        return None

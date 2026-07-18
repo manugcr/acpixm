@@ -9,10 +9,9 @@ ast:
     pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
 
 logic:
-  - id: operating-region
-    make-range: [$OFFSET, $LENGTH]
-  - id: kern-code
-    overlaps: [operating-region, $KERNEL_CODE_RANGE]
+  operating-region: "make_range($OFFSET, $LENGTH)"
+  kern-code: "overlaps(operating-region, $KERNEL_CODE_RANGE)"
+
 return:
   - found: kern-code
   - not-found: otherwise

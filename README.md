@@ -102,7 +102,6 @@ acpixm analyze --rule examples/OpRegionCritical.yml --files ./data --vars ./data
 Rules are defined in YAML format:
 
 ```yaml
-
 # AST pattern matching
 ast:
   id: opregion-kernel-space
@@ -112,25 +111,29 @@ ast:
   rule:
     pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
 
-# Optional logic evaluation
+# Optional logic evaluation — Python expressions, $VARNAME = ast-grep capture
+# or external variable from systemdata.json. Step ids can reference prior steps.
 logic:
-  - id: operating-region
-    make-range: [$OFFSET, $LENGTH]
-  - id: kern-code
-    overlaps: [operating-region, $KERNEL_CODE_RANGE]
+  operating-region: "make_range($OFFSET, $LENGTH)"
+  kern-code: "overlaps(operating-region, $KERNEL_CODE_RANGE)"
+
 # Return conditions
 return:
   - found: kern-code
   - not-found: otherwise
-
 ```
+
+**Built-in functions** available in logic expressions:
+`make_range(offset, length)`, `overlaps(a, b)`, `overlaps_any(a, ranges)`,
+`in_range(value, bounds)`, `in_any_range(value, ranges)`.
+Standard Python operators (`+`, `-`, `>`, `<`, `==`, `and`, `or`, `not`, …) also work.
 
 ## Rule Examples
 
 The `examples/` directory contains several detection rules:
 
-- `OpRegionCritical.yml`: Detects suspicious operations over kernel memory regions
-- `OpRegionSuspicious.yml`: Detects suspicious operations over other memory regions.
+- `OpRegionCritical.yml`: Detects OperationRegions overlapping kernel memory (uses `make_range` + `overlaps`)
+- `OpRegionSuspicious.yml`: Detects OperationRegions in suspicious spaces (GeneralPurposeIO, IPMI, SystemCMOS)
 - `LoadStore.yml`: Identifies dynamic code loading patterns
 - `StoreCode.yml`: Finds code modification attempts
 

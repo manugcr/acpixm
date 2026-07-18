@@ -1,0 +1,21 @@
+---
+ast:
+  id: opregion-low-memory
+  language: asl
+  message: OperationRegion mapping a low physical memory address
+  severity: info
+
+  rule:
+    pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
+
+# Logic expressions use Python syntax. $VARNAME refers to ast-grep captures
+# or external variables from systemdata.json. Step ids can be referenced by
+# later steps and in the return clause.
+logic:
+  in-low-mem: "in_range($OFFSET, [0x0, 0xFFFF])"
+  has-size: "$LENGTH > 0"
+  suspicious: "in-low-mem and has-size"
+
+return:
+  - found: suspicious
+  - not-found: otherwise
