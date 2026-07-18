@@ -86,11 +86,13 @@ class TestLogicEngineDomainFunctions:
 
     def test_in_range_with_comparison(self):
         # Compound: range check + size check (mirrors OpRegionLowMem.yml pattern)
-        engine = LogicEngine({
-            "in_low_mem": "in_range($OFFSET, [0x0, 0xFFFF])",
-            "has_size": "$LENGTH > 0",
-            "suspicious": "in_low_mem and has_size",
-        })
+        engine = LogicEngine(
+            {
+                "in_low_mem": "in_range($OFFSET, [0x0, 0xFFFF])",
+                "has_size": "$LENGTH > 0",
+                "suspicious": "in_low_mem and has_size",
+            }
+        )
         kept = engine.evaluate([_record(OFFSET=0x5000, LENGTH=0x100)])
         assert kept[0]["logic"]["in_low_mem"] is True
         assert kept[0]["logic"]["has_size"] is True

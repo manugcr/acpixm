@@ -40,7 +40,11 @@ class LogicEngine:
         for step_id, expr in self.steps.items():
             result = evaluate(expr, record, logic_values, self.externals)
             if result is None:
-                logger.debug("Step %r failed; dropping record from %s", step_id, record.get("file"))
+                logger.debug(
+                    "Step %r failed; dropping record from %s",
+                    step_id,
+                    record.get("file"),
+                )
                 return None
             logic_values[step_id] = result
         return logic_values

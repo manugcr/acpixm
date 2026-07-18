@@ -17,10 +17,16 @@ from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 GRAMMAR_PATH = Path(str(files("acpixm").joinpath("tree-sitter-asl/asl.so")))
 
+
 # ponytail: resolve ast-grep from the same venv/tool env as this package before falling back to PATH
 def _ast_grep_bin() -> str:
     candidate = Path(sys.executable).parent / "ast-grep"
-    return str(candidate) if candidate.exists() else (shutil.which("ast-grep") or "ast-grep")
+    return (
+        str(candidate)
+        if candidate.exists()
+        else (shutil.which("ast-grep") or "ast-grep")
+    )
+
 
 logger = logging.getLogger(__name__)
 

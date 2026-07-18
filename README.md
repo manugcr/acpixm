@@ -1,17 +1,27 @@
-# ACPIXM - ACPI Rootkit Detection Tool
+# ACPIxM - ACPI Rootkit Detection Tool
 
 **A**bsolutely **C**ritical **P**attern **I**dentifier for **M**alware
 
-A comprehensive tool for collecting and analyzing ACPI tables to detect potential security indicators and rootkit behavior in system firmware.
+A tool for collecting and analyzing ACPI tables to detect potential security indicators and rootkit behavior in system firmware.
+
+## How it works
+
+### Project Diagram
+
+![](./diagrams/basic_graph.png)
+
+The core is **ast-grep** running against a **custom tree-sitter grammar for ACPI ASL** (`asl.so`).
+Tree-sitter parses `.dsl` files into an AST; ast-grep then pattern-matches against that AST using
+rules from YAML files. Without the custom grammar, ast-grep cannot understand ACPI's DSL syntax.
 
 ## Features
 
-- **ACPI Table Collection**: Dumps and disassembles ACPI tables from the system
-- **Custom ASL Grammar**: Custom ASL tree-sitter grammar to parse over asl files
-- **Pattern Detection**: Uses AST-based pattern matching with custom rules
-- **Multiple Output Formats**: Console (pretty) and JSON output formats
-- **Extensible Rules**: YAML-based rule system with logic evaluation
-- **Pipeline Architecture**: Modular, extensible data processing pipeline
+- **ACPI Table Collection**: Dumps and disassembles ACPI tables using `acpica-tools`
+- **Custom ASL Grammar**: Vendored tree-sitter grammar (`tree-sitter-asl`) so ast-grep can parse ACPI DSL files
+- **AST Pattern Matching**: ast-grep rules match structural ASL patterns, not just text
+- **Logic Evaluation**: YAML `logic:` steps run Python expressions against captured AST values and external variables
+- **Multiple Output Formats**: Console (pretty) and JSON output
+- **Python API**: Import `match()` directly without the CLI
 
 ## Installation
 
@@ -128,6 +138,27 @@ return:
 `in_range(value, bounds)`, `in_any_range(value, ranges)`.
 Standard Python operators (`+`, `-`, `>`, `<`, `==`, `and`, `or`, `not`, …) also work.
 
+### Python API
+
+Skip the CLI and import the matcher directly — useful for scripting or embedding in another tool:
+
+```python
+from pathlib import Path
+from acpixm.acpi_matcher import match, MatchResult
+
+results: list[MatchResult] = match(
+    "examples/OpRegionCritical.yml",
+    [Path("output/dsdt.dsl"), Path("output/ssdt1.dsl")],
+    externals={"KERNEL_CODE_RANGE": [0xFFFFFFFF80000000, 0xFFFFFFFFFFFFFFFF]},
+)
+
+for r in results:
+    if r.found:
+        print(f"FOUND in {r.target}: {len(r.matches)} match(es)")
+```
+
+`MatchResult` fields: `target: Path`, `found: bool`, `matches: list[dict]`.
+
 ## Rule Examples
 
 The `examples/` directory contains several detection rules:
@@ -145,27 +176,44 @@ The `examples/` directory contains several detection rules:
 - **ast-grep**: AST-based pattern matching with custom grammar
 - **tree-sitter-asl**: Custom ASL grammar for ast-grep
 
-### Project Structure
+### Custom ASL Grammar
 
+The grammar lives in `tree-sitter-asl/grammar.js`. It defines ACPI ASL syntax as a tree-sitter
+grammar, which is compiled to a shared library (`asl.so`) that ast-grep loads at runtime.
+
+**Two copies of `asl.so` exist:**
+- `tree-sitter-asl/asl.so` — the build output / dev copy
+- `src/acpixm/tree-sitter-asl/asl.so` — committed into the package (what `acpixm analyze` uses)
+
+Both must be kept in sync. After editing the grammar, rebuild and copy:
+
+```bash
+# Prerequisites (one-time)
+npm install -g tree-sitter-cli      # or: cargo install tree-sitter-cli
+# Also needs a C compiler (gcc/clang)
+
+cd tree-sitter-asl
+
+# 1. Regenerate the C parser from grammar.js
+tree-sitter generate
+
+# 2. Build the shared library
+tree-sitter build
+# → produces tree-sitter-asl/asl.so
+
+# 3. Run grammar tests
+tree-sitter test
+
+# 4. Copy the artifact into the package
+cp asl.so ../src/acpixm/tree-sitter-asl/asl.so
 ```
-├── src/acpixm/                 # Main package
-│   ├── cli.py                  # Command-line interface
-│   ├── acpi_analyzer.py        # Main orchestrator
-│   ├── data_provider/          # Data collection pipeline
-│   ├── acpi_matcher/           # Pattern matching and logic
-│   └── formatters/             # Output formatting
-├── examples/                   # Example rules and snippets
-├── tree-sitter-asl/            # Custom ASL grammar
-```
-
-### Project Diagram
-
-![](./diagrams/basic_graph.png)
 
 ---
 
 ## Sources
 
-Thanks to John Heasman for the research over ACPI, and Michael Denzel for extending this research and developing a tool to catch some of this ideas, this was based over that.
+Thanks to my tutor Daniel Gutson for the idea, review and support.
+
+And thanks to John Heasman for the research over ACPI, and Michael Denzel for extending this research and developing a tool to catch some of this ideas, this was based over that.
 - [bh-eu-06-Heasman](https://www.blackhat.com/presentations/bh-europe-06/bh-eu-06-Heasman.pdf)
 - [ACPI-rootkit-scan](https://github.com/mdenzel/ACPI-rootkit-scan)

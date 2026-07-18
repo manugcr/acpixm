@@ -1,0 +1,17 @@
+---
+ast:
+  id: opregion-kernel-space
+  language: asl
+  message: OperationRegion pointing to kernel space
+  severity: warning
+
+  rule:
+    pattern: OperationRegion ($REGNAME, SystemMemory, $OFFSET, $LENGTH)
+
+logic:
+  operating-region: "make_range($OFFSET, $LENGTH)"
+  kern-code: "overlaps(operating-region, $KERNEL_CODE_RANGE)"
+
+return:
+  - found: kern-code
+  - not-found: otherwise
