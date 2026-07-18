@@ -1,11 +1,11 @@
 @startuml ACPI Toolkit
 
 package "ACPIAnalyzer" {
-  class "<<module>>" {
+  class "<<module>>" as ACPIAnalyzer {
     + collect(workdir: Path): None
     + analyze(rule_path: Path, files: Path, vars_path?: Path, fmt: str): None
-    + _collect_targets(path: Path): list[Path]
-    + _ensure_workdir(path: Path): Path
+    - _collect_targets(path: Path): list[Path]
+    - _ensure_workdir(path: Path): Path
   }
 }
 
@@ -16,65 +16,62 @@ package "DataProvider" {
     + sudo: bool
     + capture_output: bool
     + quiet: bool
+    + allowed_return_codes: set[int]
   }
-  
+
   class SubprocessRunner {
     + run(spec: CommandSpec): CompletedProcess
   }
-  
+
   class PipelineContext {
     + workdir: Path
     + data: MutableMapping[str, object]
-    + require(*keys: str): None
   }
-  
+
   abstract class PipelineStage {
     + {abstract} name(): str
     + {abstract} run(ctx: PipelineContext, runner: SubprocessRunner): None
   }
-  
+
   class PipelineRunner {
     - runner: SubprocessRunner
     - _stages: list[PipelineStage]
     + register(stage: PipelineStage): PipelineRunner
     + run(ctx: PipelineContext): None
   }
-  
+
   package "Stages" {
     class DumpACPI {
       + output_file: str
       + name(): str
-      + run(ctx: PipelineContext, runner: SubprocessRunner): None
+      + run(ctx, runner): None
     }
-    
+
     class ExtractTables {
-      + pattern: str
       + name(): str
-      + run(ctx: PipelineContext, runner: SubprocessRunner): None
+      + run(ctx, runner): None
     }
-    
+
     class DisassembleTables {
       + dsl_ext: str
       + name(): str
-      + run(ctx: PipelineContext, runner: SubprocessRunner): None
+      + run(ctx, runner): None
     }
-    
+
     class GrepIomemKernel {
-      + pattern: str
       + output_file: str
       + name(): str
-      + run(ctx: PipelineContext, runner: SubprocessRunner): None
-      - _exec_grep(runner: SubprocessRunner): str
+      + run(ctx, runner): None
+      - _exec_grep(runner): str
       - _parse_lines(text: str): list[dict]
-      - _vars_payload(entries: list[dict]): dict
       - _write_json(workdir: Path, payload: dict): Path
     }
-    
+
     class AstGrepScan {
       + ast_rule: dict
       + target: Path
       + name(): str
-      + run(ctx: PipelineContext, runner: SubprocessRunner): None
+      + run(ctx, runner): None
       - _make_config_file(): Path
       - _make_rule_file(): Path
       - _parse_jsonl(raw: str): list[dict]
@@ -85,61 +82,61 @@ package "DataProvider" {
 package "ACPIMatcher" {
   class RuleSchema {
     + ast: dict
-    + logic: Optional[list[dict]]
+    + logic: Optional[dict[str, str]]
     + return_: list[dict]
   }
-  
+
   class YamlProcessor {
     + rule_path: Path
     + ast_section: dict
-    + logic_section: Optional[list[dict]]
+    + logic_section: Optional[dict[str, str]]
     + return_section: list[dict]
     + get_rule_info(): dict
-    - _load_yaml(): dict
-    - _validate(data: dict): RuleSchema
   }
-  
-  class JsonHandler {
-    + write(data: Any, out_path: Path): Path
+
+  class "<<module>> json_handler" as JsonHandler {
     + read(in_path: Path): Any
     + normalize(matches: list[dict]): list[dict]
-    - _integer_from_string(value: Optional[str]): Any
+    - _integer_from_string(value: str | None): Any
   }
-  
-  class TokenResolver {
-    + resolve(record: dict, logic_values: dict, value: Any): Any
-    - _resolve_string(record: dict, logic_values: dict, value: str): Any
-    - _resolve_list(record: dict, logic_values: dict, value: list): list
+
+  class "<<module>> logic_ops" as LogicOps {
+    + make_range(start: int, length: int): list[int]
+    + overlaps(a: list[int], b: list[int]): bool
+    + overlaps_any(a: list[int], ranges: list): bool
+    + in_range(value: int, bounds: list[int]): bool
+    + in_any_range(value: int, ranges: list): bool
+    + evaluate(expr: str, record: dict, logic_values: dict, externals: dict): Any
   }
-  
+
+  class LogicEngine {
+    + steps: dict[str, str]
+    + externals: dict[str, Any]
+    + evaluate(records: list[dict]): list[dict]
+    - _evaluate_record(record: dict): dict | None
+  }
+
   class ReturnDecision {
     + record: dict
     + found: bool
     + reason: Optional[str]
   }
-  
+
   class ReturnEvaluator {
     + steps: list[dict]
-    + resolver: TokenResolver
+    + externals: dict[str, Any]
     + evaluate(records: list[dict]): list[ReturnDecision]
     - _decide_record(record: dict): ReturnDecision
-    - {static} _as_bool(value): bool
   }
-  
-  class LogicOps {
-    + {static} resolve_arg(context: dict, arg: Any): Any
-    + {static} add(context: dict, a: Any, b: Any): Any
-    + {static} gt(context: dict, a: Any, b: Any): Any
-    + {static} in_range(context: dict, value: Any, range_vals: list): Any
-    + {static} get_ops(): dict
+
+  class MatchResult {
+    + target: Path
+    + found: bool
+    + matches: list[dict]
   }
-  
-  class LogicEngine {
-    + logic_block: list[dict]
-    + ops: dict[str, Callable]
-    + evaluate(match: dict): bool
-    + {static} _load_logic_file(rule_file: str): list[dict]
-    - _eval_entry(context: dict, entry: dict): Any
+
+  class "<<function>> match()" as MatchAPI {
+    match(rule_path: Path, files: list[Path], *, externals: dict): list[MatchResult]
   }
 }
 
@@ -149,35 +146,28 @@ package "Formatters" {
     + target: Path
     + decision: ReturnDecision
   }
-  
+
   abstract class Formatter {
     + {abstract} feed(event: MatchEvent): None
     + {abstract} finalize(total_files: int): None
   }
-  
+
   class ConsoleFormatter {
-    - state: _PrettyState
     + feed(event: MatchEvent): None
     + finalize(total_files: int): None
-    - {static} _truncate(s: str, maxlen: int): str
-    - {static} _pad(s: str, n: int): str
-    - _print_header(): None
-    - _print_rule_box(rule: dict, n_targets: int, n_matches: int): None
-    - _print_matches_table(matches: list[dict]): None
   }
-  
+
   class JsonFormatter {
-    - _items: list[dict]
     + feed(event: MatchEvent): None
     + finalize(total_files: int): None
   }
-  
-  class FormatterRegistry {
-    + {static} make_formatter(name: str): Formatter
+
+  class "<<function>> make_formatter()" as FormatterFactory {
+    make_formatter(name: str): Formatter
   }
 }
 
-' Inheritance relationships
+' Inheritance
 PipelineStage <|-- DumpACPI
 PipelineStage <|-- ExtractTables
 PipelineStage <|-- DisassembleTables
@@ -186,28 +176,33 @@ PipelineStage <|-- AstGrepScan
 Formatter <|-- ConsoleFormatter
 Formatter <|-- JsonFormatter
 
-' Composition relationships
+' Composition
 PipelineRunner *-- SubprocessRunner
 PipelineRunner o-- PipelineStage
 YamlProcessor *-- RuleSchema
-LogicEngine *-- LogicOps
-ReturnEvaluator *-- TokenResolver
-ReturnEvaluator *-- ReturnDecision
 MatchEvent *-- ReturnDecision
 
-' Usage relationships
-"ACPIAnalyzer" --> PipelineRunner
-"ACPIAnalyzer" --> YamlProcessor
-"ACPIAnalyzer" --> JsonHandler
-"ACPIAnalyzer" --> ReturnEvaluator
-"ACPIAnalyzer" --> LogicEngine
-"ACPIAnalyzer" --> FormatterRegistry
-"ACPIAnalyzer" --> Formatter
+' Usage
+ACPIAnalyzer --> PipelineRunner
+ACPIAnalyzer --> YamlProcessor
+ACPIAnalyzer --> JsonHandler
+ACPIAnalyzer --> ReturnEvaluator
+ACPIAnalyzer --> LogicEngine
+ACPIAnalyzer --> FormatterFactory
+ACPIAnalyzer --> Formatter
+MatchAPI --> YamlProcessor
+MatchAPI --> AstGrepScan
+MatchAPI --> JsonHandler
+MatchAPI --> LogicEngine
+MatchAPI --> ReturnEvaluator
+MatchAPI ..> MatchResult
 PipelineRunner --> PipelineContext
 PipelineStage --> PipelineContext
 PipelineStage --> SubprocessRunner
 SubprocessRunner --> CommandSpec
-FormatterRegistry --> Formatter
+FormatterFactory --> Formatter
 Formatter --> MatchEvent
+LogicEngine --> LogicOps
+ReturnEvaluator --> LogicOps
 
 @enduml
