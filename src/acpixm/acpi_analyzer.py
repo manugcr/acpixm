@@ -92,8 +92,8 @@ def collect(workdir: Path) -> None:
 
     try:
         pipeline.run(ctx)
+        print(f"[*] Collection complete. Artifacts in: {wd}", flush=True)
         logger.info("ACPI data collection completed successfully")
-        logger.info("Artifacts stored in: %s", wd)
     except Exception as e:
         logger.error("ACPI data collection failed: %s", e)
         raise
