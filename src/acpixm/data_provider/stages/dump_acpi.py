@@ -2,8 +2,9 @@
 
 import logging
 from dataclasses import dataclass
-from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
+
+from ..commands import CommandSpec, SubprocessRunner
+from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 logger = logging.getLogger(__name__)
 

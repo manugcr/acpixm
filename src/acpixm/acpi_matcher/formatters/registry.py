@@ -1,6 +1,6 @@
 from .console import ConsoleFormatter
-from .jsonfmt import JsonFormatter
 from .formatter import Formatter
+from .jsonfmt import JsonFormatter
 
 
 def make_formatter(name: str) -> Formatter:

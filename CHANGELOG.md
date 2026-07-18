@@ -27,6 +27,7 @@
 
 ### Changed
 
+- FIX-012: mypy strict mode enabled (`strict = true`, `python_version = "3.10"`); ruff lint extended with `UP`, `B`, `I`, `SIM` rules; all type errors fixed (bare generics annotated, `MutableMapping[str, object]` → `Any`, stale `# type: ignore` comments removed); `types-PyYAML` added to dev deps; mypy gate added to CI.
 - FIX-008: added empty `__init__.py` to all subpackages (`acpi_matcher/`, `data_provider/`, `logic_engine/`, `formatters/`, `stages/`) — converts implicit namespace packages to regular packages; prereq for mypy strict mode.
 - README install docs: dropped the misleading virtualenv step (`uv tool install` is self-isolating); documented `ast-grep` and `acpica-tools` as separate runtime prerequisites and which command needs which.
 

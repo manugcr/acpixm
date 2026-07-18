@@ -1,14 +1,14 @@
 """Kernel memory range extraction stage for data collection pipeline."""
 
+import json
+import logging
+import re
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
-import json
-import re
-import logging
 
-from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
+from ..commands import CommandSpec, SubprocessRunner
+from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 logger = logging.getLogger(__name__)
 

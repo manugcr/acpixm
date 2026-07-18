@@ -29,8 +29,20 @@ packages = ["src/acpixm"]
 artifacts = ["src/acpixm/**/*.so"]
 
 [dependency-groups]
-dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0"]
+dev = ["pytest>=8.0", "ruff>=0.4", "mypy>=1.0", "types-PyYAML>=6.0"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts   = "--tb=short"
+
+[tool.mypy]
+strict = true
+python_version = "3.10"
+
+[[tool.mypy.overrides]]
+module = "simpleeval"
+ignore_missing_imports = true
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501", "B008"]

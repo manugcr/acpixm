@@ -2,13 +2,13 @@
 
 import json
 import logging
-from typing import Optional, Any
 from pathlib import Path
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 
-def _integer_from_string(value: Optional[str]) -> Any:
+def _integer_from_string(value: str | None) -> Any:
     if not isinstance(value, str):
         return value
     try:
@@ -24,12 +24,12 @@ def read(in_path: Path) -> Any:
         return json.load(f)
 
 
-def normalize(matches: list[dict]) -> list[dict]:
+def normalize(matches: list[dict[str, Any]]) -> list[dict[str, Any]]:
     """Parse and normalize ast-grep metaVariables to a flat record dict."""
-    normalized_records: list[dict] = []
+    normalized_records: list[dict[str, Any]] = []
 
     for match in matches:
-        record: dict = {}
+        record: dict[str, Any] = {}
         meta = match.get("metaVariables", {})
 
         for name, var in meta.get("single", {}).items():

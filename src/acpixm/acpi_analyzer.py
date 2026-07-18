@@ -2,23 +2,21 @@
 
 import logging
 from pathlib import Path
-from typing import Optional
 
-from .data_provider.commands import SubprocessRunner
-from .data_provider.pipeline import PipelineContext, PipelineRunner, PipelineArtifact
-
-from .data_provider.stages.dump_acpi import DumpACPI
-from .data_provider.stages.extract_tables import ExtractTables
-from .data_provider.stages.disassemble_tables import DisassembleTables
-from .data_provider.stages.iomem_kernel import GrepIomemKernel
-from .data_provider.stages.astgrep_scan import AstGrepScan
-
-from .acpi_matcher.yaml_processor import YamlProcessor
-from .acpi_matcher.json_handler import read as json_read, normalize as json_normalize
-from .acpi_matcher.logic_engine.logic_engine import LogicEngine
-from .acpi_matcher.return_evaluator import ReturnEvaluator
 from .acpi_matcher.formatters.formatter import MatchEvent
 from .acpi_matcher.formatters.registry import make_formatter
+from .acpi_matcher.json_handler import normalize as json_normalize
+from .acpi_matcher.json_handler import read as json_read
+from .acpi_matcher.logic_engine.logic_engine import LogicEngine
+from .acpi_matcher.return_evaluator import ReturnEvaluator
+from .acpi_matcher.yaml_processor import YamlProcessor
+from .data_provider.commands import SubprocessRunner
+from .data_provider.pipeline import PipelineArtifact, PipelineContext, PipelineRunner
+from .data_provider.stages.astgrep_scan import AstGrepScan
+from .data_provider.stages.disassemble_tables import DisassembleTables
+from .data_provider.stages.dump_acpi import DumpACPI
+from .data_provider.stages.extract_tables import ExtractTables
+from .data_provider.stages.iomem_kernel import GrepIomemKernel
 
 logger = logging.getLogger(__name__)
 
@@ -105,7 +103,7 @@ def analyze(
     rule_path: Path,
     *,
     files: Path,
-    vars_path: Optional[Path] = None,
+    vars_path: Path | None = None,
     fmt: str = "console",
 ) -> None:
     """Analyze ACPI files using specified rules.

@@ -2,10 +2,11 @@
 
 import logging
 from abc import ABC, abstractmethod
+from collections.abc import MutableMapping
 from dataclasses import dataclass, field
-from pathlib import Path
 from enum import Enum
-from typing import MutableMapping
+from pathlib import Path
+from typing import Any
 
 from .commands import SubprocessRunner
 
@@ -35,7 +36,7 @@ class PipelineContext:
     """
 
     workdir: Path
-    data: MutableMapping[str, object] = field(default_factory=dict)
+    data: MutableMapping[str, Any] = field(default_factory=dict)
 
 
 class PipelineStage(ABC):

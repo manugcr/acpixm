@@ -1,10 +1,11 @@
 """ACPI table disassembly stage for data collection pipeline."""
 
-from dataclasses import dataclass
 import logging
+from dataclasses import dataclass
 from pathlib import Path
-from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
+
+from ..commands import CommandSpec, SubprocessRunner
+from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ class DisassembleTables(PipelineStage):
             ctx: Pipeline context containing working directory and shared data.
             runner: Command runner for executing subprocess commands.
         """
-        tables: list[Path] = list(ctx.data.get(PipelineArtifact.ACPI_TABLE_FILES, []))  # type: ignore
+        tables: list[Path] = list(ctx.data.get(PipelineArtifact.ACPI_TABLE_FILES, []))
         dsl_files: list[Path] = []
         for tbl in tables:
             logger.debug("Disassembling table: %s", tbl)
