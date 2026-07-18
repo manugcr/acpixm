@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- FIX-009: replaced hand-rolled `LogicEngine` + `TokenResolver` with `simpleeval`-backed expression evaluator; `token_resolver.py` deleted; rule `logic:` section is now a `dict[str, str]` (step-id → expression) instead of a list of op dicts; `$VARNAME` syntax preserved for researcher readability (stripped before eval); all arithmetic, comparison, and boolean operators now available in expressions for free; domain-specific ops (`make_range`, `overlaps`, `overlaps_any`, `in_range`, `in_any_range`) remain as named functions callable from rules; `OpRegionCritical.yml` updated to new format.
+
 ### Fixed
 
 - FIX-011: filled in `__author__` / `__email__` placeholders; `__version__` now sourced via `importlib.metadata` (single source of truth); removed dead `PipelineData` TypedDict and `PipelineContext.require()`; deleted unused `pattern` field on `GrepIomemKernel`; replaced bare `print()` calls in `collect()` with `logger.info()`; fixed typo `veredict` → `verdict` in `cli.py`; removed phantom `ndjson` from formatter error message; dropped redundant `Field(alias="logic")` in `yaml_processor.py`.
@@ -22,6 +26,7 @@
 
 ### Changed
 
+- FIX-008: added empty `__init__.py` to all subpackages (`acpi_matcher/`, `data_provider/`, `logic_engine/`, `formatters/`, `stages/`) — converts implicit namespace packages to regular packages; prereq for mypy strict mode.
 - README install docs: dropped the misleading virtualenv step (`uv tool install` is self-isolating); documented `ast-grep` and `acpica-tools` as separate runtime prerequisites and which command needs which.
 
 ---

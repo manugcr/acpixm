@@ -14,7 +14,7 @@ class RuleSchema(BaseModel):
     """Pydantic schema for ACPI rule validation."""
 
     ast: dict
-    logic: Optional[list[dict]] = None
+    logic: Optional[dict[str, str]] = None
     return_: list[dict] = Field(alias="return")
 
 
@@ -48,7 +48,7 @@ class YamlProcessor:
         return self._rule.ast
 
     @property
-    def logic_section(self) -> Optional[list[dict]]:
+    def logic_section(self) -> Optional[dict[str, str]]:
         """Return logic section if present."""
         return self._rule.logic
 
