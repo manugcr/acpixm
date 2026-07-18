@@ -14,7 +14,7 @@ from .data_provider.stages.iomem_kernel import GrepIomemKernel
 from .data_provider.stages.astgrep_scan import AstGrepScan
 
 from .acpi_matcher.yaml_processor import YamlProcessor
-from .acpi_matcher.json_handler import JsonHandler
+from .acpi_matcher.json_handler import read as json_read, normalize as json_normalize
 from .acpi_matcher.logic_engine.logic_engine import LogicEngine
 from .acpi_matcher.return_evaluator import ReturnEvaluator
 from .acpi_matcher.formatters.formatter import MatchEvent
@@ -127,10 +127,9 @@ def analyze(
     rule_info = yp.get_rule_info()
     logger.info("Loaded rule: %s", rule_path)
 
-    jsonh = JsonHandler()
     external_vars = {}
     if vars_path:
-        external_vars = jsonh.read(vars_path).get("vars", {})
+        external_vars = json_read(vars_path).get("vars", {})
         logger.info("Loaded external vars from %s: %s", vars_path, external_vars)
 
     runner = SubprocessRunner()
@@ -150,7 +149,7 @@ def analyze(
 
         # Stage 2: Normalize AST-grep results
         logger.debug("Normalizing AST-grep results for %s", target.name)
-        normalized_matches = jsonh.normalize(raw_matches)
+        normalized_matches = json_normalize(raw_matches)
         logger.debug(
             "Normalization resulted in %d records for %s",
             len(normalized_matches),
