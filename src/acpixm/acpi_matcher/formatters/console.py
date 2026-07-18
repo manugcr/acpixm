@@ -5,9 +5,10 @@ analysis results including rule information and matched patterns.
 """
 
 from __future__ import annotations
+
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Set
+from typing import Any
 
 from .formatter import Formatter, MatchEvent
 
@@ -15,7 +16,7 @@ from .formatter import Formatter, MatchEvent
 @dataclass
 class _PrettyState:
     rule: dict[str, Any] | None = None
-    targets: Set[str] = field(default_factory=set)
+    targets: set[str] = field(default_factory=set)
     kept_matches: list[dict[str, Any]] = field(default_factory=list)
 
 

@@ -30,7 +30,7 @@ def overlaps(a: list[int], b: list[int]) -> bool:
     return max(a0, b0) <= min(a1, b1)
 
 
-def overlaps_any(a: list[int], ranges: list) -> bool:
+def overlaps_any(a: list[int], ranges: list[Any]) -> bool:
     return any(overlaps(a, list(r)) for r in ranges)
 
 
@@ -39,7 +39,7 @@ def in_range(value: int, bounds: list[int]) -> bool:
     return low <= value <= high
 
 
-def in_any_range(value: int, ranges: list) -> bool:
+def in_any_range(value: int, ranges: list[Any]) -> bool:
     return any(in_range(value, list(r)) for r in ranges)
 
 
@@ -57,9 +57,9 @@ _FUNCTIONS: dict[str, Any] = {
 
 def evaluate(
     expr: str,
-    record: dict,
-    logic_values: dict,
-    externals: dict,
+    record: dict[str, Any],
+    logic_values: dict[str, Any],
+    externals: dict[str, Any],
 ) -> Any:
     """Evaluate a rule expression against the current record context.
 

@@ -1,18 +1,19 @@
 """AST-grep scanning stage for data collection pipeline."""
 
-from dataclasses import dataclass
-from importlib.resources import files
-from pathlib import Path
-from typing import Any
 import json
 import logging
 import shutil
 import sys
 import tempfile
+from dataclasses import dataclass
+from importlib.resources import files
+from pathlib import Path
+from typing import Any
+
 import yaml
 
-from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
+from ..commands import CommandSpec, SubprocessRunner
+from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 GRAMMAR_PATH = Path(str(files("acpixm").joinpath("tree-sitter-asl/asl.so")))
 
@@ -33,7 +34,7 @@ class AstGrepScan(PipelineStage):
         target: Path to a single .dsl/.asl file to scan.
     """
 
-    ast_rule: dict  # rule dict (from YAML)
+    ast_rule: dict[str, Any]  # rule dict (from YAML)
     target: Path  # ONE .dsl/.asl file
 
     def name(self) -> str:

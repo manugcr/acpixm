@@ -2,11 +2,10 @@
 
 import logging
 from pathlib import Path
-from typing import Optional
 
 import typer
 
-from .acpi_analyzer import collect, analyze
+from .acpi_analyzer import analyze, collect
 
 app = typer.Typer(add_completion=True, help="ACPI Rootkit Detection Tool")
 
@@ -44,15 +43,15 @@ def collect_data(
         collect(workdir=output_path)
     except FileNotFoundError as e:
         typer.echo(f"[!] Error: {e}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except PermissionError as e:
         typer.echo(f"[!] Permission denied: {e}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except Exception as e:
         typer.echo(f"[!] Unexpected error: {e}", err=True)
         if debug:
             raise  # Show full traceback in debug mode
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
 
 @app.command("analyze")
@@ -71,7 +70,7 @@ def analyze_cmd(
         "-f",
         help="Path to a file or directory containing .dsl/.asl files.",
     ),
-    vars_path: Optional[Path] = typer.Option(
+    vars_path: Path | None = typer.Option(
         None,
         "--vars",
         help="Path to provider JSON with system vars for the logic section.",
@@ -97,18 +96,18 @@ def analyze_cmd(
         analyze(rule_path=rule_path, files=files, vars_path=vars_path, fmt=fmt)
     except FileNotFoundError as e:
         typer.echo(f"[!] File not found: {e}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except ValueError as e:
         typer.echo(f"[!] Invalid input: {e}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except PermissionError as e:
         typer.echo(f"[!] Permission denied: {e}", err=True)
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
     except Exception as e:
         typer.echo(f"[!] Unexpected error: {e}", err=True)
         if debug:
             raise  # Show full traceback in debug mode
-        raise typer.Exit(1)
+        raise typer.Exit(1) from None
 
 
 if __name__ == "__main__":

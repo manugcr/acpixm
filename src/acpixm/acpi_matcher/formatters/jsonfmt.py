@@ -1,5 +1,6 @@
 # src/acpi_matcher/formatters/jsonfmt.py
 from __future__ import annotations
+
 import json
 import sys
 from typing import Any

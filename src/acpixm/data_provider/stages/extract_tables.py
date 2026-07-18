@@ -3,8 +3,9 @@
 import logging
 from dataclasses import dataclass
 from pathlib import Path
-from ..commands import SubprocessRunner, CommandSpec
-from ..pipeline import PipelineContext, PipelineStage, PipelineArtifact
+
+from ..commands import CommandSpec, SubprocessRunner
+from ..pipeline import PipelineArtifact, PipelineContext, PipelineStage
 
 logger = logging.getLogger(__name__)
 
@@ -26,7 +27,7 @@ class ExtractTables(PipelineStage):
             ctx: Pipeline context containing working directory and shared data.
             runner: Command runner for executing subprocess commands.
         """
-        dump: Path = Path(ctx.data[PipelineArtifact.ACPI_DUMP_FILE]).resolve()  # type: ignore
+        dump: Path = Path(ctx.data[PipelineArtifact.ACPI_DUMP_FILE]).resolve()
         runner.run(
             CommandSpec(
                 ["acpixtract", "-a", str(dump)], sudo=True, cwd=ctx.workdir, quiet=True

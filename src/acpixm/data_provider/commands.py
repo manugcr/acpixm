@@ -1,10 +1,10 @@
 """Command execution utilities for data provider pipeline stages."""
 
-import subprocess
 import logging
+import subprocess
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Sequence, Optional
 
 logger = logging.getLogger(__name__)
 
@@ -23,11 +23,11 @@ class CommandSpec:
     """
 
     argv: Sequence[str]
-    cwd: Optional[Path] = None
+    cwd: Path | None = None
     sudo: bool = False
     capture_output: bool = False
     quiet: bool = False
-    allowed_return_codes: Optional[frozenset[int]] = frozenset({0})
+    allowed_return_codes: frozenset[int] | None = frozenset({0})
 
     def __post_init__(self) -> None:
         if self.quiet and self.capture_output:
@@ -41,7 +41,7 @@ class SubprocessRunner:
     the actual execution with proper logging and error handling.
     """
 
-    def run(self, spec: CommandSpec) -> subprocess.CompletedProcess:
+    def run(self, spec: CommandSpec) -> "subprocess.CompletedProcess[bytes]":
         """Execute a command described by the given CommandSpec.
 
         Args:

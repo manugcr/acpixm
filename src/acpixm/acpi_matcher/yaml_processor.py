@@ -2,7 +2,7 @@
 
 import logging
 from pathlib import Path
-from typing import Optional
+from typing import Any
 
 import yaml
 from pydantic import BaseModel, Field, ValidationError
@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 class RuleSchema(BaseModel):
     """Pydantic schema for ACPI rule validation."""
 
-    ast: dict
-    logic: Optional[dict[str, str]] = None
-    return_: list[dict] = Field(alias="return")
+    ast: dict[str, Any]
+    logic: dict[str, str] | None = None
+    return_: list[dict[str, Any]] = Field(alias="return")
 
 
 class YamlProcessor:
@@ -26,16 +26,16 @@ class YamlProcessor:
         self._rule_data = self._load_yaml()
         self._rule = self._validate(self._rule_data)
 
-    def _load_yaml(self) -> dict:
+    def _load_yaml(self) -> dict[str, Any]:
         """Load YAML content from disk."""
         try:
-            with open(self.rule_path, "r", encoding="utf-8") as f:
+            with open(self.rule_path, encoding="utf-8") as f:
                 return yaml.safe_load(f) or {}
         except Exception as e:
             raise ValueError(f"failed to load YAML {self.rule_path}: {e}") from e
 
     @staticmethod
-    def _validate(data: dict) -> RuleSchema:
+    def _validate(data: dict[str, Any]) -> RuleSchema:
         """Validate raw YAML against minimal schema."""
         try:
             return RuleSchema.model_validate(data)
@@ -43,21 +43,21 @@ class YamlProcessor:
             raise ValueError(f"invalid rule schema: {e}") from e
 
     @property
-    def ast_section(self) -> dict:
+    def ast_section(self) -> dict[str, Any]:
         """Return AST section (consumed by the matcher)."""
         return self._rule.ast
 
     @property
-    def logic_section(self) -> Optional[dict[str, str]]:
+    def logic_section(self) -> dict[str, str] | None:
         """Return logic section if present."""
         return self._rule.logic
 
     @property
-    def return_section(self) -> list[dict]:
+    def return_section(self) -> list[dict[str, Any]]:
         """Return return section."""
         return self._rule.return_
 
-    def get_rule_info(self) -> dict:
+    def get_rule_info(self) -> dict[str, Any]:
         """Return minimal header for output JSON."""
         ast = self.ast_section
         return {

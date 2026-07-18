@@ -2,6 +2,7 @@
 
 import logging
 from dataclasses import dataclass
+from typing import Any
 
 from .logic_engine.logic_ops import evaluate
 
@@ -10,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 @dataclass(frozen=True)
 class ReturnDecision:
-    record: dict
+    record: dict[str, Any]
     found: bool
     reason: str | None = None
 
@@ -23,19 +24,19 @@ class ReturnEvaluator:
     The first truthy 'found:' clause wins; 'not-found: otherwise' is the fallback.
     """
 
-    def __init__(self, steps: list[dict], externals: dict | None = None) -> None:
+    def __init__(self, steps: list[dict[str, Any]], externals: dict[str, Any] | None = None) -> None:
         self.steps = steps or []
         self.externals = externals or {}
         logger.debug("Initialized ReturnEvaluator with %d steps", len(self.steps))
 
-    def evaluate(self, records: list[dict]) -> list[ReturnDecision]:
+    def evaluate(self, records: list[dict[str, Any]]) -> list[ReturnDecision]:
         logger.debug("Evaluating return rules for %d records", len(records))
         decisions = [self._decide_record(r) for r in records]
         kept = sum(1 for d in decisions if d.found)
         logger.info("Return evaluation: %d/%d records kept", kept, len(records))
         return decisions
 
-    def _decide_record(self, record: dict) -> ReturnDecision:
+    def _decide_record(self, record: dict[str, Any]) -> ReturnDecision:
         logic_values = record.get("logic", {})
         has_otherwise = False
 

@@ -25,7 +25,7 @@ class LogicEngine:
         self.steps = {k.replace("-", "_"): v for k, v in steps.items()}
         self.externals = externals or {}
 
-    def evaluate(self, records: list[dict]) -> list[dict]:
+    def evaluate(self, records: list[dict[str, Any]]) -> list[dict[str, Any]]:
         kept = []
         for record in records:
             logic_values = self._evaluate_record(record)
@@ -35,7 +35,7 @@ class LogicEngine:
             kept.append(record)
         return kept
 
-    def _evaluate_record(self, record: dict) -> dict[str, Any] | None:
+    def _evaluate_record(self, record: dict[str, Any]) -> dict[str, Any] | None:
         logic_values: dict[str, Any] = {}
         for step_id, expr in self.steps.items():
             result = evaluate(expr, record, logic_values, self.externals)
