@@ -18,7 +18,7 @@ def _setup_logging(verbose: bool, debug: bool) -> None:
         level = logging.INFO
     else:
         level = logging.WARNING
-    logging.basicConfig(level=level, format="[*] %(message)s")
+    logging.basicConfig(level=level, format="[*] %(message)s", force=True)
 
 
 @app.command("collect")
@@ -30,7 +30,7 @@ def collect_data(
         help="Output directory for provider artifacts (required).",
     ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logs."),
-    verbose: bool = typer.Option(False, "--verbose", "-v", help="Enable info logs."),
+    verbose: bool = typer.Option(True, "--verbose/--no-verbose", "-v", help="Show stage progress (default: on)."),
 ) -> None:
     """Collect ACPI tables and system data.
 

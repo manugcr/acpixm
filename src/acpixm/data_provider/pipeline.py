@@ -80,6 +80,7 @@ class PipelineRunner:
 
         successful_stages = 0
         for i, stage in enumerate(self._stages, 1):
+            print(f"[{i}/{len(self._stages)}] {stage.name()}", flush=True)
             logger.info("[%d/%d] %s", i, len(self._stages), stage.name())
 
             try:

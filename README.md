@@ -133,10 +133,58 @@ return:
   - not-found: otherwise
 ```
 
-**Built-in functions** available in logic expressions:
-`make_range(offset, length)`, `overlaps(a, b)`, `overlaps_any(a, ranges)`,
-`in_range(value, bounds)`, `in_any_range(value, ranges)`.
-Standard Python operators (`+`, `-`, `>`, `<`, `==`, `and`, `or`, `not`, …) also work.
+#### Logic expression reference
+
+Expressions are evaluated by [simpleeval](https://github.com/danthedeckie/simpleeval) — a safe
+Python expression evaluator. Standard Python operators (`+`, `-`, `*`, `>`, `<`, `==`, `!=`,
+`and`, `or`, `not`, `in`, …) and list/dict literals work. Full `exec`/`import`/arbitrary
+calls are blocked by design.
+
+**Variable resolution order:** `logic:` step results → ast-grep captures → `--vars` externals.
+Reference a capture or external with `$NAME`; reference a prior logic step by its id (hyphens
+become underscores internally, so `kern-code` is also valid).
+
+**Built-in domain functions:**
+
+| Function | Signature | Returns | Description |
+|---|---|---|---|
+| `make_range` | `(start: int, length: int)` | `[low, high]` | Converts an `(offset, length)` pair to an inclusive `[start, end]` range. Length ≤ 0 → empty range. |
+| `overlaps` | `(a: [int,int], b: [int,int])` | `bool` | True if two `[low, high]` ranges share at least one address. |
+| `overlaps_any` | `(a: [int,int], ranges: list)` | `bool` | True if `a` overlaps any range in a list of `[low, high]` pairs. |
+| `in_range` | `(value: int, bounds: [int,int])` | `bool` | True if `value` falls within the inclusive `[low, high]` bounds. |
+| `in_any_range` | `(value: int, ranges: list)` | `bool` | True if `value` falls within any range in a list of `[low, high]` pairs. |
+
+**Expression examples:**
+
+```yaml
+logic:
+  # Arithmetic and hex literals — compute the end address of a region
+  end-addr: "int($OFFSET, 16) + int($LENGTH, 16)"
+
+  # Boolean logic — combine two prior steps
+  suspicious: "kern-code and not smm-region"
+
+  # Comparison — flag regions larger than 4 KB
+  big-region: "int($LENGTH, 16) > 0x1000"
+
+  # Membership — check space type is one of several known bad values
+  bad-space: "$SPACE_TYPE in ['SystemMemory', 'SystemIO']"
+
+  # Ternary — normalize a value before further evaluation
+  normalized-offset: "int($OFFSET, 16) if $OFFSET else 0"
+
+  # Chained steps — reference a prior step result by its id
+  region: "make_range(int($OFFSET, 16), int($LENGTH, 16))"
+  hits-kernel: "overlaps(region, $KERNEL_CODE_RANGE)"
+
+  # overlaps_any — check against multiple known sensitive ranges at once
+  hits-sensitive: "overlaps_any(region, $SENSITIVE_RANGES)"
+  # where systemdata.json provides:
+  #   "SENSITIVE_RANGES": [[0xfed00000, 0xfed00fff], [0xfee00000, 0xfee00fff]]
+```
+
+**Available builtins in expressions:** `int()`, `float()`, `str()`.
+Bitwise operators (`&`, `|`, `^`, `<<`, `>>`) also work and are useful for masking addresses.
 
 ### Python API
 
