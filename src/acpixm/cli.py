@@ -30,7 +30,9 @@ def collect_data(
         help="Output directory for provider artifacts (required).",
     ),
     debug: bool = typer.Option(False, "--debug", help="Enable debug logs."),
-    verbose: bool = typer.Option(True, "--verbose/--no-verbose", "-v", help="Show stage progress (default: on)."),
+    verbose: bool = typer.Option(
+        True, "--verbose/--no-verbose", "-v", help="Show stage progress (default: on)."
+    ),
 ) -> None:
     """Collect ACPI tables and system data.
 
