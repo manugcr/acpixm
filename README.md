@@ -265,3 +265,5 @@ Thanks to my tutor Daniel Gutson for the idea, review and support.
 And thanks to John Heasman for the research over ACPI, and Michael Denzel for extending this research and developing a tool to catch some of this ideas, this was based over that.
 - [bh-eu-06-Heasman](https://www.blackhat.com/presentations/bh-europe-06/bh-eu-06-Heasman.pdf)
 - [ACPI-rootkit-scan](https://github.com/mdenzel/ACPI-rootkit-scan)
+- [ACPIxM - Ekoparty 2025](https://www.youtube.com/watch?v=SIo_Q1jKhaE)
+
