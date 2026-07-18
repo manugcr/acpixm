@@ -17,7 +17,6 @@ from pathlib import Path
 
 import pytest
 
-REPO_ROOT = Path(__file__).parents[2]
 FIXTURES = Path(__file__).parents[1] / "fixtures"
 VARS = FIXTURES / "systemdata.json"
 
@@ -51,9 +50,9 @@ def _analyze_json(rule: Path, files: Path, vars_path: Path | None = None) -> dic
 
 def test_opregion_critical_flags_only_the_rootkit():
     """rootkit1.asl is flagged (kernel overlap), clean.dsl and low_mmio.asl are not."""
-    findings = _analyze_json(
-        REPO_ROOT / "examples" / "OpRegionCritical.yml", FIXTURES, VARS
-    )["findings"]
+    findings = _analyze_json(FIXTURES / "OpRegionCritical.yml", FIXTURES, VARS)[
+        "findings"
+    ]
     assert len(findings) == 1, f"expected exactly 1 finding, got {len(findings)}"
     assert findings[0]["target"].endswith("rootkit1.asl")
     assert findings[0]["record"]["logic"]["kern_code"] is True  # stored as _ internally

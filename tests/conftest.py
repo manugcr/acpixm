@@ -2,7 +2,6 @@ from pathlib import Path
 
 import pytest
 
-REPO_ROOT = Path(__file__).parents[1]
 FIXTURES_DIR = Path(__file__).parent / "fixtures"
 
 
@@ -13,8 +12,7 @@ def fixtures_dir():
 
 @pytest.fixture
 def rule_files():
-    # The shipped example rules — these are product artifacts under test.
-    return sorted((REPO_ROOT / "examples").glob("*.yml"))
+    return sorted(FIXTURES_DIR.glob("*.yml"))
 
 
 @pytest.fixture

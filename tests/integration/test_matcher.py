@@ -13,7 +13,6 @@ import pytest
 from acpixm.acpi_matcher import match
 
 FIXTURES = Path(__file__).parents[1] / "fixtures"
-EXAMPLES = Path(__file__).parents[2] / "examples"
 
 if shutil.which("ast-grep") is None:
     pytest.skip(
@@ -28,7 +27,7 @@ def _vars():
 class TestMatchCriticalRule:
     def test_rootkit_flagged(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "rootkit1.asl"],
             externals=_vars(),
         )
@@ -36,7 +35,7 @@ class TestMatchCriticalRule:
 
     def test_clean_not_flagged(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "clean.dsl"],
             externals=_vars(),
         )
@@ -44,7 +43,7 @@ class TestMatchCriticalRule:
 
     def test_target_path_preserved(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "rootkit1.asl"],
             externals=_vars(),
         )
@@ -52,7 +51,7 @@ class TestMatchCriticalRule:
 
     def test_multiple_files_one_result_each(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "rootkit1.asl", FIXTURES / "clean.dsl"],
             externals=_vars(),
         )
@@ -63,12 +62,12 @@ class TestMatchCriticalRule:
 
     def test_no_externals_returns_not_found(self):
         # KERNEL_CODE_RANGE missing → overlaps() can't resolve → not found
-        results = match(EXAMPLES / "OpRegionCritical.yml", [FIXTURES / "rootkit1.asl"])
+        results = match(FIXTURES / "OpRegionCritical.yml", [FIXTURES / "rootkit1.asl"])
         assert results[0].found is False
 
     def test_found_record_contains_capture_data(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "rootkit1.asl"],
             externals=_vars(),
         )
@@ -77,7 +76,7 @@ class TestMatchCriticalRule:
 
     def test_not_found_has_empty_matches(self):
         results = match(
-            EXAMPLES / "OpRegionCritical.yml",
+            FIXTURES / "OpRegionCritical.yml",
             [FIXTURES / "clean.dsl"],
             externals=_vars(),
         )
