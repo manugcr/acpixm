@@ -96,7 +96,9 @@ class TestEvaluate:
         assert evaluate("X", {"X": 1}, {"X": 99}, {}) == 99
 
     def test_domain_function_make_range(self):
-        result = evaluate("make_range($OFFSET, $LENGTH)", {"OFFSET": 100, "LENGTH": 50}, {}, {})
+        result = evaluate(
+            "make_range($OFFSET, $LENGTH)", {"OFFSET": 100, "LENGTH": 50}, {}, {}
+        )
         assert result == [100, 149]
 
     def test_domain_function_overlaps(self):
@@ -120,7 +122,14 @@ class TestEvaluate:
 
     def test_chained_steps(self):
         # Simulate two-step logic: make_range then overlaps.
-        region = evaluate("make_range($OFFSET, $LENGTH)", {"OFFSET": 0x41AA00000, "LENGTH": 0x80}, {}, {})
+        region = evaluate(
+            "make_range($OFFSET, $LENGTH)",
+            {"OFFSET": 0x41AA00000, "LENGTH": 0x80},
+            {},
+            {},
+        )
         kern = [17626562560, 17648528332]
-        result = evaluate("overlaps(region, $KERN)", {}, {"region": region}, {"KERN": kern})
+        result = evaluate(
+            "overlaps(region, $KERN)", {}, {"region": region}, {"KERN": kern}
+        )
         assert result is True

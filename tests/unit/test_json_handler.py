@@ -3,7 +3,9 @@
 from acpixm.acpi_matcher.json_handler import normalize
 
 
-def _match(file: str = "test.dsl", line: int = 1, text: str = "", single=None, multi=None):
+def _match(
+    file: str = "test.dsl", line: int = 1, text: str = "", single=None, multi=None
+):
     return {
         "file": file,
         "text": text,
@@ -33,17 +35,25 @@ class TestNormalizeSingle:
         assert record["REGNAME"] == "KMEM"
 
     def test_file_line_text_extracted(self):
-        record = normalize([_match(file="foo.dsl", line=9, text="OperationRegion ...")])[0]
+        record = normalize(
+            [_match(file="foo.dsl", line=9, text="OperationRegion ...")]
+        )[0]
         assert record["file"] == "foo.dsl"
         assert record["line"] == 9
         assert record["text"] == "OperationRegion ..."
 
     def test_all_three_captures(self):
-        record = normalize([_match(single={
-            "REGNAME": {"text": "KMEM"},
-            "OFFSET": {"text": "0x41AA00000"},
-            "LENGTH": {"text": "0x80"},
-        })])[0]
+        record = normalize(
+            [
+                _match(
+                    single={
+                        "REGNAME": {"text": "KMEM"},
+                        "OFFSET": {"text": "0x41AA00000"},
+                        "LENGTH": {"text": "0x80"},
+                    }
+                )
+            ]
+        )[0]
         assert record["REGNAME"] == "KMEM"
         assert record["OFFSET"] == 0x41AA00000
         assert record["LENGTH"] == 0x80
@@ -51,7 +61,9 @@ class TestNormalizeSingle:
 
 class TestNormalizeMulti:
     def test_multi_capture_indexed(self):
-        record = normalize([_match(multi={"ARGS": [{"text": "0x1"}, {"text": "0x2"}]})])[0]
+        record = normalize(
+            [_match(multi={"ARGS": [{"text": "0x1"}, {"text": "0x2"}]})]
+        )[0]
         assert record["ARGS_0"] == 1
         assert record["ARGS_1"] == 2
 
@@ -60,7 +72,9 @@ class TestNormalizeMulti:
         assert "ARGS_0" not in record
 
     def test_multi_string_value(self):
-        record = normalize([_match(multi={"NAMES": [{"text": "foo"}, {"text": "bar"}]})])[0]
+        record = normalize(
+            [_match(multi={"NAMES": [{"text": "foo"}, {"text": "bar"}]})]
+        )[0]
         assert record["NAMES_0"] == "foo"
         assert record["NAMES_1"] == "bar"
 
@@ -70,7 +84,12 @@ class TestNormalizeEdgeCases:
         assert normalize([]) == []
 
     def test_no_single_or_multi_section(self):
-        m = {"file": "test.dsl", "text": "", "range": {"start": {"line": 0}}, "metaVariables": {}}
+        m = {
+            "file": "test.dsl",
+            "text": "",
+            "range": {"start": {"line": 0}},
+            "metaVariables": {},
+        }
         record = normalize([m])[0]
         assert record["file"] == "test.dsl"
 

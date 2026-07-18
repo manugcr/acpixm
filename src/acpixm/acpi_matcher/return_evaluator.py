@@ -24,7 +24,9 @@ class ReturnEvaluator:
     The first truthy 'found:' clause wins; 'not-found: otherwise' is the fallback.
     """
 
-    def __init__(self, steps: list[dict[str, Any]], externals: dict[str, Any] | None = None) -> None:
+    def __init__(
+        self, steps: list[dict[str, Any]], externals: dict[str, Any] | None = None
+    ) -> None:
         self.steps = steps or []
         self.externals = externals or {}
         logger.debug("Initialized ReturnEvaluator with %d steps", len(self.steps))
@@ -49,8 +51,12 @@ class ReturnEvaluator:
                     val = evaluate(str(token), record, logic_values, self.externals)
 
                 if _as_bool(val):
-                    logger.debug("Record %s matched found:%s", record.get("file"), token)
-                    return ReturnDecision(record=record, found=True, reason=f"found:{token}")
+                    logger.debug(
+                        "Record %s matched found:%s", record.get("file"), token
+                    )
+                    return ReturnDecision(
+                        record=record, found=True, reason=f"found:{token}"
+                    )
 
             elif clause.get("not-found") == "otherwise":
                 has_otherwise = True

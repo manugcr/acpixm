@@ -39,5 +39,7 @@ def match(
             records = LogicEngine(yp.logic_section, ext).evaluate(records)
         decisions = ReturnEvaluator(yp.return_section, externals=ext).evaluate(records)
         found_records = [d.record for d in decisions if d.found]
-        results.append(MatchResult(target=target, found=bool(found_records), matches=found_records))
+        results.append(
+            MatchResult(target=target, found=bool(found_records), matches=found_records)
+        )
     return results

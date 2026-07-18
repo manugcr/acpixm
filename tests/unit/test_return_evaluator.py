@@ -8,13 +8,17 @@ def _record(logic_val):
 
 
 def test_found_when_logic_value_true():
-    evaluator = ReturnEvaluator(STEPS, externals={"KERNEL_CODE_RANGE": [0x1000, 0x2000]})
+    evaluator = ReturnEvaluator(
+        STEPS, externals={"KERNEL_CODE_RANGE": [0x1000, 0x2000]}
+    )
     decisions = evaluator.evaluate([_record(True)])
     assert decisions[0].found is True
 
 
 def test_not_found_when_logic_value_false():
-    evaluator = ReturnEvaluator(STEPS, externals={"KERNEL_CODE_RANGE": [0x1000, 0x2000]})
+    evaluator = ReturnEvaluator(
+        STEPS, externals={"KERNEL_CODE_RANGE": [0x1000, 0x2000]}
+    )
     decisions = evaluator.evaluate([_record(False)])
     assert decisions[0].found is False
 
