@@ -4,6 +4,7 @@
 
 ### Changed
 
+- FIX-010: `JsonHandler` class (static-only) replaced with module-level functions `read()` and `normalize()`; dead `write()` method removed; `normalize()` now correctly iterates `multi` metaVariables (was calling `.get("secondary", [])` on a `{VAR_NAME: [nodes]}` dict, silently dropping all multi-captures).
 - FIX-009: replaced hand-rolled `LogicEngine` + `TokenResolver` with `simpleeval`-backed expression evaluator; `token_resolver.py` deleted; rule `logic:` section is now a `dict[str, str]` (step-id → expression) instead of a list of op dicts; `$VARNAME` syntax preserved for researcher readability (stripped before eval); all arithmetic, comparison, and boolean operators now available in expressions for free; domain-specific ops (`make_range`, `overlaps`, `overlaps_any`, `in_range`, `in_any_range`) remain as named functions callable from rules; `OpRegionCritical.yml` updated to new format.
 
 ### Fixed
